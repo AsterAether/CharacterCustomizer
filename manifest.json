@@ -1,0 +1,10 @@
+{
+  "name": "CharacterCustomizer",
+  "version_number": "0.0.1",
+  "website_url": "https://github.com/AsterAether/CharacterCustomizer",
+  "description": "Customize your Survivors by simply changing a value in a config file!",
+  "dependencies": [
+    "bbepis-BepInExPack-1.3.1",
+    "AsterAether-AetherLib-0.1.0"
+  ]
+}
