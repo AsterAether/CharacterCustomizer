@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterCustomizer", "CharacterCustomizer\CharacterCustomizer.csproj", "{E16109F7-E0EA-4436-99A4-160C51D71AC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherLib", "..\AetherLib\AetherLib\AetherLib.csproj", "{B9B930F7-5B73-4BAD-A5C7-C7C3B7EBCF6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{E16109F7-E0EA-4436-99A4-160C51D71AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E16109F7-E0EA-4436-99A4-160C51D71AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E16109F7-E0EA-4436-99A4-160C51D71AC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9B930F7-5B73-4BAD-A5C7-C7C3B7EBCF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9B930F7-5B73-4BAD-A5C7-C7C3B7EBCF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9B930F7-5B73-4BAD-A5C7-C7C3B7EBCF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9B930F7-5B73-4BAD-A5C7-C7C3B7EBCF6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
