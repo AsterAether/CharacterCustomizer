@@ -16,13 +16,12 @@ before_script:
 script:
 - chmod +x CharacterCustomizer/after_build.sh
 - dotnet build
-- curl -L "https://drive.google.com/uc?id=1Ej8VgsW5RgK66Btb9p74tSdHMH3p4UNb&export=download"
-  > gdrive
+after_success:
+- curl -L "https://drive.google.com/uc?id=1Ej8VgsW5RgK66Btb9p74tSdHMH3p4UNb&export=download" > gdrive
 - ls -al
 - chmod +x ./gdrive
 - mv ./CharacterCustomizer/build/build.zip "./${TRAVIS_BRANCH}-build-${TRAVIS_BUILD_NUMBER}.zip"
-- ./gdrive -c . --service-account auth.json upload -p 1l1JiFC6RP8Z6NHly-8yUilUjzPNXEiiR
-  "./${TRAVIS_BRANCH}-build-${TRAVIS_BUILD_NUMBER}.zip"
+- ./gdrive -c . --service-account auth.json upload -p 1l1JiFC6RP8Z6NHly-8yUilUjzPNXEiiR" ./${TRAVIS_BRANCH}-build-${TRAVIS_BUILD_NUMBER}.zip"
 env:
   global:
     secure: AusY+rstgr3z59YUwvjSOh1UyBB5gXvMfZv5eXcdxdngg/8NyxUwRxMABbHfagfRUn1jZdTxssOnIqBUW4uGng+mKrXVctP44vFlzLGc0wLcutP3Wopoib5peAOKXRy9P/QpM9bHSGB45s+H2dFwPhoavEOmCiF926n5+0upLISBanhMSJKUMlRZ4rpU1spNup3ZX8Q+ZwSYBk9GIIA5Ta6zhtYo0qTxemeXcMcF2j8uCoWt3wPRT4XkJftaEkswHmKQ3fuAO6ZxqDlkSjZzxhw0mkDdf3WX/t1ggyANt7E4yXuJm/5fo+L68wHgOY3TL3q78cvRhQUB9hegwx8asjBk8zxkD8zqjGHakii3+CAFAYiuhO+eFrxdGNqxcZvAOljFI1LENKK9HFikgBiRs4sXrsynz8R92rV3vrc3zsJEVvQt9imyVDmSESs/VuQDy4cMBy3M88BASoQlM6FDPM/5P5jnpGG/bdvvC+mz7f+fzqTiadzYFCuycEWXowCZCldyqSlUS86VMdhspuzA+gSj4xEfDQfbA9KiH8600kQ1Kb1zBPzaG+5Cmw0DUqkQ3WPmj+0bNGDnm781L22b1NmTRHRX8+wgqNU0QK9Qpo2Y1KSVNxFA3PteDnWW6chJvbl/hZUjhEYoUNl8qTbhl+JM50Qc1rr2UPnwLjobBMY=
