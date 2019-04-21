@@ -5,3 +5,5 @@ CharacterCustomizer/build
 *DotSettings.user
 
 .idea
+.vs
+auth.json

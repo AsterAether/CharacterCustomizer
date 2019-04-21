@@ -1,0 +1,25 @@
+language: csharp
+dist: xenial
+solution: CharacterCustomizer.sln
+mono: none
+dotnet: 2.2
+before_install:
+- openssl aes-256-cbc -k "$auth_pass" -in auth.json.enc -out auth.json -d
+before_script:
+- cd ..
+- git clone --depth=50 --branch=master "https://github.com/AsterAether/RiskOfRainDLLs.git"
+- git clone --depth=50 --branch=master "https://github.com/AsterAether/AetherLib.git"
+- cd AetherLib
+- dotnet build AetherLib.sln
+- cd ./CharacterCustomizer
+script:
+- chmod +x CharacterCustomizer/after_build.sh
+- dotnet build
+- curl -L "https://drive.google.com/uc?id=1Ej8VgsW5RgK66Btb9p74tSdHMH3p4UNb&export=download" > gdrive
+- ls -al
+- chmod +x ./gdrive
+- mv ./CharacterCustomizer/build/build.zip "./${TRAVIS_BRANCH}-build-${TRAVIS_BUILD_NUMBER}.zip"
+- ./gdrive -c . --service-account auth.json upload -p 1l1JiFC6RP8Z6NHly-8yUilUjzPNXEiiR "./${TRAVIS_BRANCH}-build-${TRAVIS_BUILD_NUMBER}.zip"
+env:
+  global:
+    secure: p2Fp2NZiFk27s+Ae2jJdHXuWhUqkvTzAhetq/IJyGE+huAL7OTUaq/JnELMEttxVADmfZ0UfVRGwFCRvRME9jaPlazjgf0Rq5Q8Qc+UTH8F8ZJ+LVJHHlbBrDX+UWPy43Y5+wQIz4cQ+w8o4hv6iY9cxlo0dfJ6A45vEscvAfvx2uelPFedTK6+eoX4k+gHmAK0tTwRaamMErvaHerxIaKO2MqWfpgiQM1hyAX5VEm0MDrAR+iFXcP3FTPGXSAiTpqXA07UnA/8bfs/JaiFISN3w0m6nHbVsE74FmD7MtI5U09ULZlnJlaCaX82nmQoQLJoVoTz0jte9LkcPcdlP8q17P1eFlKX5DpdIpo1IWByUzmpKrZ+GJuhAzJhI1NQSYuWLSdvNvk6Rp44rllzluGLPIwtaUl35ccrkokmpzojMV6rH3lP7ALYY9d47/t4ltviPSLq0aifDZT0uE+wh+l5Q3viPDOjetsZsOFIjqMi8h/mixfKMPgfQcxyufRFl44l9mR4GTRoo6fiBisPS1uXDVKqqSreFxFVN/3u4537XDhtGcUkXiZUWjX1oA615dPDDnXzZcUxdEqFG+DiVOSAEU8HEWczlvq6n90uarchYBytQwH8IZlK4vLO+Ib4W/N5C0Gxg0PkaSGe5q8wDr2P5aylXNCxBZyssrrYQ2FQ=

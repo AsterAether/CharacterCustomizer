@@ -8,6 +8,8 @@ using CharacterCustomizer.CustomSurvivors;
 using CharacterCustomizer.CustomSurvivors.Artificer;
 using CharacterCustomizer.CustomSurvivors.Commando;
 using CharacterCustomizer.CustomSurvivors.Engineer;
+using CharacterCustomizer.CustomSurvivors.Huntress;
+using CharacterCustomizer.CustomSurvivors.Mercenary;
 using CharacterCustomizer.CustomSurvivors.MultT;
 
 namespace CharacterCustomizer
@@ -33,7 +35,9 @@ namespace CharacterCustomizer
                 new CustomEngineer(),
                 new CustomCommando(),
                 new CustomArtificer(),
-                new CustomMultT()
+                new CustomMultT(),
+                new CustomHuntress(),
+                new CustomMercenary()
             };
 
             StringBuilder markdown = new StringBuilder();
