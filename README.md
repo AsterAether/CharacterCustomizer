@@ -1,4 +1,4 @@
-# CharacterCustomizer
+# CharacterCustomizer [![Build Status](https://travis-ci.com/AsterAether/CharacterCustomizer.svg?branch=master)](https://travis-ci.com/AsterAether/CharacterCustomizer)
 #### by Aster
 Customize your Survivors by simply changing a value in a config file!
 
@@ -75,3 +75,8 @@ with the real values.
 ### MultT
 * **NailgunSpreadPitch:** Pitch spread of the nailgun, in percent
 * **NailgunSpreadYaw:** Yaw spread of the nailgun, in percent
+
+
+## Changelog
+
+* v0.0.3 - 
