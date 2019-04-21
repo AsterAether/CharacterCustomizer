@@ -94,6 +94,7 @@ with the real values.
 
 ## Changelog
 
+* **v0.0.5** - 
 * **v0.0.4** - Fixed up Artificer and Engineer IL patches to be more
   efficient, and documentation pass.
 * **v0.0.3** - Added Mercenary and Huntress back to be configured.
