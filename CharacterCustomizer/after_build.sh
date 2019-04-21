@@ -19,5 +19,5 @@ zip -r -j "$1$2/build/build.zip" "$1$2/build/" -x "$1$2/build/build.zip"
 
 while read -r line; do declare "$line"; done < version.txt
 
-sed -i 's/<version>/$Build/g' manifest.json
-sed -i 's/<version>/$Build/g' "$2.cs"
+sed -i 's/$Build/<version>/g' manifest.json
+sed -i 's/$Build/<version>/g' "$2.cs"

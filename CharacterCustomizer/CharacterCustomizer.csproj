@@ -281,7 +281,7 @@
         </Reference>
     </ItemGroup>
 
-    <Target Name="RunScriptsBef" BeforeTargets="Build">
+    <Target Name="RunScriptsBef" BeforeTargets="BeforeCompile">
         <Exec Command="$(SolutionDir)$(ProjectName)\before_build.bat &quot;$(SolutionDir)&quot; $(ProjectName) $(AssemblyName)" Condition=" '$(OS)' == 'Windows_NT' " />
         <Exec Command="$(SolutionDir)$(ProjectName)/before_build.sh &quot;$(SolutionDir)&quot; $(ProjectName) $(AssemblyName)" Condition=" '$(OS)' != 'Windows_NT' " />
     </Target>

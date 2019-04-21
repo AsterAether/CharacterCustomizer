@@ -16,7 +16,7 @@ namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("at.aster.aetherlib")]
-    [BepInPlugin("at.aster.charactercustomiser", "CharacterCustomizer", "0.0.3")]
+    [BepInPlugin("at.aster.charactercustomiser", "CharacterCustomizer", "<version>")]
     public class CharacterCustomizer : BaseUnityPlugin
     {
         private List<CustomSurvivor> CustomSurvivors { get; set; }

@@ -4,7 +4,7 @@ for /f "delims== tokens=1,2" %%G in (./version.txt) do set %%G=%%H
 
 call :FindReplace "<version>" "%Build%" ./manifest.json
 
-call :FindReplace "<version>" "%Build%" ./AetherLib.csf
+call :FindReplace "<version>" "%Build%" ./CharacterCustomizer.cs
 
 exit /b 
 
