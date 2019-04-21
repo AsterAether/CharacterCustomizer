@@ -28,7 +28,7 @@ deploy:
   provider: releases
   api_key:
     secure: kdevVJ7aNM3cEmdcX0TfwMpovafOBvCNtHGBaVxglgkVJgyJI705CfTBfeJBhtCUAUkAv+sSKbvT0tD4lcTsfhbHwLDtbqcOsR/Vn5+YLTE/38JmkotrMZPJqINgh7fl4ZwaVnF2KZ5ZyrNpo5wUHnufHpgBpD9QCaJhq71yGM2QCWUIFeJ4hHuV2AjTtu4EDWDDWlXakEF8bu9f+MgoTtyuR/4UB4mb4C2lYwc8txtSE3tqpCGUr+sy6ZJmr4CmZZUPwKZMc3jyCxtJVlZ0LXwcYK7NsArHnySOMSgK71mFmT1MwjdNu6b9sflff1xlalc5L08nR4NlZqBns3zhlOXzDPSRYGKd2ZKNOeHQ0Y6F9wUAcc/Tj01Eknmg+d5rlr0JFrZZfU8prtKmA7ymlhQfpQddynWZQR3oR6MC92D0VKs26GW/0Yrm6Am2M6+AK5D8wuVqWi01JSFeI4B1Fv8sXWuY8wHStx5mQ4ewVg5pYcZ8QuZv7kyFSck9q+GCRysvJeSJ9eEGyQKE/KmGjnqvM8e93AEYagEZ/waGh+Rc4jOP9sAk6JklQnVED6ISnn+kBD7F9sLc46qdjvbzsa9qrcGA+6COTkfim0NWcMue4mi40Pj+ODwb7sYb93ml8YHccf+UxnC6CV3jpQHXRpNpxeXsDmCCMWIJ/MZoKEg=
-  file: "./${TRAVIS_BRANCH}.zip"
+  file: "./CharacterCustomizer-${TRAVIS_BRANCH}.zip"
   skip_cleanup: true
   on:
     tags: true

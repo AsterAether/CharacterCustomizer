@@ -15,4 +15,9 @@ cp -f "$1README.md" "$1$2/build/README.md";
 
 cp -f "$1LICENSE.txt" "$1$2/build/LICENSE.txt";
 
-zip -r "$1$2/build/build.zip" "$1$2/build/" -x "$1$2/build/build.zip"
+zip -r -j "$1$2/build/build.zip" "$1$2/build/" -x "$1$2/build/build.zip"
+
+while read -r line; do declare "$line"; done < version.txt
+
+sed -i 's/<version>/$Build/g' manifest.json
+sed -i 's/<version>/$Build/g' "$2.cs"
