@@ -21,11 +21,11 @@ namespace CharacterCustomizer.CustomSurvivors
             public override void InitConfigValues()
             {
                 TrackingMaxDistance = WrapConfigFloat("TrackingMaxDistance",
-                    "The maximum distance the tracking of the huntress works. Value is divided by 100, so the last two digits are comma digits.");
+                    "The maximum distance the tracking of the huntress works.");
 
 
                 TrackingMaxAngle = WrapConfigFloat("TrackingMaxAngle",
-                    "The maximum angle the tracking of the huntress works. Value is divided by 100, so the last two digits are comma digits.");
+                    "The maximum angle the tracking of the huntress works.");
             }
 
             public override void OverrideGameValues()

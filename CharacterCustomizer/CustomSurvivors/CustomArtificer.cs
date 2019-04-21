@@ -9,6 +9,8 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
 using RoR2;
+using RoR2.UI;
+using UnityEngine;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -43,20 +45,20 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 FireboltAttackSpeedStockScaling =
                     WrapConfigBool("FireboltAttackSpeedStockScaling",
-                        "If the charge count of the FireBolt Skill should scale with AttackSpeed.");
+                        "If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.");
 
 
                 FireboltAttackSpeedStockScalingCoefficent =
                     WrapConfigFloat("FireboltAttackSpeedStockScalingCoefficent",
-                        "Coeefiecent for charge AttackSpeed scaling, in percent.");
+                        "Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * ATKSP * Coeff.");
 
                 FireboltAttackSpeedCooldownScaling = WrapConfigBool("FireboltAttackSpeedCooldownScaling",
-                    "If the cooldown of the Firebolt Skill should scale with AttackSpeed.");
+                    "If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.");
 
 
                 FireboltAttackSpeedCooldownScalingCoefficent = WrapConfigFloat(
                     "FireboltAttackSpeedCooldownScalingCoefficent",
-                    "Coefficient for cooldown AttackSpeed scaling, in percent.");
+                    "Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (ATKSP * Coeff)).");
             }
 
 
@@ -112,35 +114,33 @@ namespace CharacterCustomizer.CustomSurvivors
                 float cooldownCoeff = FireboltAttackSpeedCooldownScalingCoefficent.FloatValue;
                 float stockCoeff = FireboltAttackSpeedStockScalingCoefficent.FloatValue;
 
-                FieldInfo skillLocatorField =
-                    typeof(CharacterBody).GetField("skillLocator", BindingFlags.NonPublic | BindingFlags.Instance);
-
-
                 if (runStockScaling || runCooldownScaling)
                 {
                     IL.RoR2.CharacterBody.RecalculateStats += il =>
                     {
                         ILCursor c = new ILCursor(il);
-                        c.GotoNext(x => x.MatchRet());
+                        c.GotoNext(x =>
+                            x.MatchRet()
+                        );
 
+                        c.Emit(OpCodes.Ldarg_0);
+                        c.Emit<CharacterBody>(OpCodes.Ldfld, "skillLocator");
                         c.Emit(OpCodes.Ldloc_S, (byte) 45);
                         c.Emit(OpCodes.Ldloc_S, (byte) 42);
-                        c.Emit(OpCodes.Ldarg_0);
-                        c.EmitDelegate<Action<float, float, CharacterBody>>(
-                            (cooldownScale, attackSpeed, characterBody) =>
+                        c.EmitDelegate<Action<SkillLocator, float, float>>(
+                            (skillLocator, cooldownScale, attackSpeed) =>
                             {
-                                SkillLocator skillLocator = (SkillLocator) skillLocatorField?.GetValue(characterBody);
                                 GenericSkill primary = skillLocator != null ? skillLocator.primary : null;
                                 if (primary != null && primary.skillName == "FireFirebolt")
                                 {
-                                    if (runStockScaling)
-                                    {
-                                        primary.SetBonusStockFromBody((int) (attackSpeed * stockCoeff));
-                                    }
-
                                     if (runCooldownScaling)
                                     {
                                         primary.cooldownScale = cooldownScale * (1 / (cooldownCoeff * attackSpeed));
+                                    }
+
+                                    if (runStockScaling)
+                                    {
+                                        primary.SetBonusStockFromBody((int) (attackSpeed * stockCoeff));
                                     }
                                 }
                             });

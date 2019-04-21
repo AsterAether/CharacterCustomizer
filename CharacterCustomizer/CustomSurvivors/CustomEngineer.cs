@@ -81,7 +81,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
 
                 GrenadeSetChargeCountToFireAmount = WrapConfigBool("GrenadeSetChargeCountToFireAmount",
-                    "Set the steps when charging (animation) to the same amount as FireAmount.");
+                    "Set the number of \"clicks\" you hear in the charging animation to the maximum grenade count.");
 
 
                 GrenadeMaxChargeTime =
@@ -96,71 +96,59 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public override void OverrideGameValues()
             {
-                // Count for: Turret, Mines, Shield
-                IL.RoR2.CharacterMaster.AddDeployable += il =>
+                MineMaxDeployCount.SetDefaultValue(10);
+                TurretMaxDeployCount.SetDefaultValue(2);
+                ShieldMaxDeployCount.SetDefaultValue(1);
+
+                if (MineMaxDeployCount.IsNotDefault() || TurretMaxDeployCount.IsNotDefault() ||
+                    ShieldMaxDeployCount.IsNotDefault())
                 {
-                    ILCursor c = new ILCursor(il);
-
-                    // MineCount:
-                    // Double .Next because GotoNext sets the pointer to before the ldf.i4.s 10
-                    while (c.Next.Next.OpCode != OpCodes.Stloc_1)
+                    IL.RoR2.CharacterMaster.AddDeployable += il =>
                     {
-                        c.GotoNext(x => x.MatchLdcI4(10));
-                    }
+                        var c = new ILCursor(il).Goto(0);
 
-                    // Step over ldf.i4.s 10
-                    c.GotoNext();
+                        c.GotoNext(x => x.MatchStloc(1) && x.Next.MatchLdarg(0));
+                        c.Index += 1;
+                        c.Next.OpCode = OpCodes.Nop;
+                        c.Index += 1;
+                        c.Emit(OpCodes.Ldloc_1);
+                        c.Emit(OpCodes.Ldarg_0);
+                        c.Emit(OpCodes.Ldarg_2);
 
-                    MineMaxDeployCount.SetDefaultValue(10);
-                    MineMaxDeployCount.RunIfNotDefault(count =>
-                    {
-                        // Pop the 10 from stack
+
+                        c.EmitDelegate<Func<int, CharacterMaster, DeployableSlot, int>>((maxDeploy, self, slot) =>
+                        {
+                            switch (slot)
+                            {
+                                case DeployableSlot.EngiMine:
+                                    if (MineMaxDeployCount.IsNotDefault())
+                                    {
+                                        maxDeploy = MineMaxDeployCount.Value;
+                                    }
+
+                                    break;
+                                case DeployableSlot.EngiTurret:
+                                    if (TurretMaxDeployCount.IsNotDefault())
+                                    {
+                                        maxDeploy = TurretMaxDeployCount.Value;
+                                    }
+
+                                    break;
+                                case DeployableSlot.EngiBubbleShield:
+                                    if (ShieldMaxDeployCount.IsNotDefault())
+                                    {
+                                        maxDeploy = ShieldMaxDeployCount.Value;
+                                    }
+
+                                    break;
+                            }
+
+                            return maxDeploy;
+                        });
                         c.Emit(OpCodes.Stloc_1);
-
-                        // Push custom value on stack
-                        c.Emit(OpCodes.Ldc_I4, (int) count);
-                    });
-
-
-                    // TurretCount:
-                    // Double .Next because GotoNext sets the pointer to before the ldf.i4.2
-                    while (c.Next.Next.OpCode != OpCodes.Stloc_1)
-                    {
-                        c.GotoNext(x => x.MatchLdcI4(2));
-                    }
-
-                    c.GotoNext();
-
-                    TurretMaxDeployCount.SetDefaultValue(2);
-                    TurretMaxDeployCount.RunIfNotDefault(count =>
-                    {
-                        // Pop the 2 from stack
-                        c.Emit(OpCodes.Stloc_1);
-
-                        // Push custom value on stack
-                        c.Emit(OpCodes.Ldc_I4, (int) count);
-                    });
-
-                    // ShieldCount:
-                    // Double .Next because GotoNext sets the pointer to before the ldf.i4.1
-                    while (c.Next.Next.OpCode != OpCodes.Stloc_1)
-                    {
-                        c.GotoNext(x => x.MatchLdcI4(1));
-                    }
-
-                    //Step over
-                    c.GotoNext();
-
-                    ShieldMaxDeployCount.SetDefaultValue(1);
-                    ShieldMaxDeployCount.RunIfNotDefault(count =>
-                    {
-                        // Pop the 1 from stack
-                        c.Emit(OpCodes.Stloc_1);
-
-                        // Push custom value on stack
-                        c.Emit(OpCodes.Ldc_I4, (int) count);
-                    });
-                };
+                        c.Emit(OpCodes.Ldarg_0);
+                    };
+                }
 
                 SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
                 {
@@ -203,6 +191,23 @@ namespace CharacterCustomizer.CustomSurvivors
                     SurvivorAPI.ReconstructSurvivors();
                 };
 
+
+                // Workaround for more than 8 max grenades
+                if (GrenadeMinFireAmount.Value >= 8 || GrenadeMaxFireAmount.Value >= 8)
+                {
+                    On.EntityStates.Engi.EngiWeapon.FireGrenades.OnEnter += (orig, self) =>
+                    {
+                        Assembly assembly = self.GetType().Assembly;
+                        Type fireGrenades = assembly.GetClass("EntityStates.Engi.EngiWeapon", "FireGrenades");
+
+                        orig(self);
+                        self.SetFieldValue("duration",
+                            fireGrenades.GetFieldValue<float>("baseDuration")
+                            * self.GetFieldValue<int>("grenadeCountMax") / 8f
+                                                                         / self.GetFieldValue<float>("attackSpeedStat")
+                        );
+                    };
+                }
 
                 // typeof(RoR2Application).Assembly doesn't seem to work
                 On.RoR2.Run.Awake += (orig, self) =>

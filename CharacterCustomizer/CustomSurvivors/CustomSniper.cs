@@ -1,8 +1,8 @@
 namespace CharacterCustomizer.CustomSurvivors
 {
-    public class CustomBandit : CustomSurvivor
+    public class CustomSniper : CustomSurvivor
     {
-        public CustomBandit() : base("Bandit")
+        public CustomSniper() : base("Sniper")
         {
         }
 

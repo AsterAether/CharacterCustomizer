@@ -59,14 +59,14 @@ namespace CharacterCustomizer.CustomSurvivors
             public override void InitConfigValues()
             {
                 PistolDamageCoefficient = WrapConfigFloat("PistolDamageCoefficient",
-                    "Damage coefficient for the pistol in percent.");
+                    "Damage coefficient for the pistol, in percent.");
 
                 LaserDamageCoefficient = WrapConfigFloat("LaserDamageCoefficient",
-                    "Damage coefficient for the secondary laser in percent.");
+                    "Damage coefficient for the secondary laser, in percent.");
 
                 PistolBaseDuration =
                     WrapConfigFloat("PistolBaseDuration",
-                        "Base duration for the pistol shot in percent. (Attack Speed)");
+                        "Base duration for the pistol shot, in percent. (Attack Speed)");
 
 
                 DashResetsSecondCooldown =
@@ -76,18 +76,17 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 DashStockCount = WrapConfigInt("DashStockCount", "How many stocks the dash ability has.");
 
-
                 DashCooldown = WrapConfigFloat("DashCooldown", "Cooldown of the dash, in seconds");
 
                 LaserCooldown = WrapConfigFloat("LaserCooldown", "Cooldown of the secondary laser, in seconds");
 
                 PistolHitLowerBarrageCooldownPercent = WrapConfigFloat("PistolHitLowerBarrageCooldownPercent",
-                    "The amount in percent of the current maximum cooldown the Barrage Skill should be lowered by. Needs to have PistolHitLowerBarrageCooldownPercent set.");
+                    "The amount in percent that the current cooldown of the Barrage Skill should be lowered by. Needs to have PistolHitLowerBarrageCooldownPercent set.");
 
 
                 PistolHitLowerBarrageCooldown =
                     WrapConfigBool("PistolHitLowerBarrageCooldown",
-                        "If the pistol hit should lower the Barrage Skill cooldown.");
+                        "If the pistol hit should lower the Barrage Skill cooldown. Needs to have PistolHitLowerBarrageCooldownPercent set to work");
 
 
                 BarrageCooldown = WrapConfigFloat("BarrageCooldown", "Cooldown of the Barrage Skill, in seconds");
@@ -97,8 +96,8 @@ namespace CharacterCustomizer.CustomSurvivors
                     "If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.");
 
 
-                BarrageScaleModifier = WrapConfigFloat("BarrageScaleModifier",
-                    "Modifier for the attackspeed scale, in percent.");
+                BarrageScaleModifier = WrapConfigFloat("BarrageScaleCoefficient",
+                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * ATKSP * Coeff");
 
 
                 BarrageBaseShotAmount =
