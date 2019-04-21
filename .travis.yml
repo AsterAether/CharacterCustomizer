@@ -10,6 +10,7 @@ before_script:
 - git clone --depth=50 --branch=master "https://github.com/AsterAether/RiskOfRainDLLs.git"
 - git clone --depth=50 --branch=master "https://github.com/AsterAether/AetherLib.git"
 - cd AetherLib
+- chmod +x AetherLib/after_build.sh
 - dotnet build AetherLib.sln
 - cd ./CharacterCustomizer
 script:

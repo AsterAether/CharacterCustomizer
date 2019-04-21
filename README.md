@@ -79,4 +79,4 @@ with the real values.
 
 ## Changelog
 
-* v0.0.3 - 
+* v0.0.3 - Added Mercenary and Huntress back to be configured.
