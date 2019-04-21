@@ -11,10 +11,12 @@ before_script:
 - git clone --depth=50 --branch=master "https://github.com/AsterAether/AetherLib.git"
 - cd AetherLib
 - chmod +x AetherLib/after_build.sh
+- chmod +x AetherLib/before_build.sh
 - dotnet build AetherLib.sln
 - cd ../CharacterCustomizer
 script:
 - chmod +x CharacterCustomizer/after_build.sh
+- chmod +x CharacterCustomizer/before_build.sh
 - dotnet build
 after_success:
 - curl -L "https://drive.google.com/uc?id=1Ej8VgsW5RgK66Btb9p74tSdHMH3p4UNb&export=download" > gdrive
