@@ -12,7 +12,7 @@ before_script:
 - cd AetherLib
 - chmod +x AetherLib/after_build.sh
 - dotnet build AetherLib.sln
-- cd ./CharacterCustomizer
+- cd ../CharacterCustomizer
 script:
 - chmod +x CharacterCustomizer/after_build.sh
 - dotnet build
