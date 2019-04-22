@@ -40,11 +40,13 @@ with the real values.
 
 ## Available Config Values
 
-**See:** 
+**See:**
+[Config Values](https://github.com/AsterAether/CharacterCustomizer/blob/master/config_values.md)
 
 ## Changelog
 
-* **v0.0.5** - 
+* **v0.1.0** - Added cooldown and stock manipulation config values to
+  every character
 * **v0.0.4** - Fixed up Artificer and Engineer IL patches to be more
   efficient, and documentation pass.
 * **v0.0.3** - Added Mercenary and Huntress back to be configured.
