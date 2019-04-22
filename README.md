@@ -45,6 +45,7 @@ with the real values.
 
 ## Changelog
 
+* **v0.1.1** - Added Artificer Firebolt scaling and Flamethrower scaling options
 * **v0.1.0** - Added cooldown and stock manipulation config values to
   every character
 * **v0.0.4** - Fixed up Artificer and Engineer IL patches to be more

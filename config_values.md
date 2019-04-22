@@ -143,14 +143,23 @@
 * **FlamethrowerBaseRechargeInterval:** Flamethrower: How long it takes for this skill to recharge after being used.
 * **FlamethrowerBeginSkillCooldownOnSkillEnd:** Flamethrower: Whether or not the cooldown waits until it leaves the set state
 * **FlamethrowerCanceledFromSprinting:** Flamethrower: Sprinting will actively cancel this ability.
+* **FlamethrowerDuration:** The duration of the flamethrower
+* **FlamethrowerIgnitePercentChance:** The change to ignite per proc in percent.
 * **FlamethrowerIsBullets:** Flamethrower: Whether or not it has bullet reload behavior
 * **FlamethrowerIsCombatSkill:** Flamethrower: Whether or not this is considered a combat skill.
+* **FlamethrowerMaxDistance:** The max distance of the Flamethrower
 * **FlamethrowerMustKeyPress:** Flamethrower: The skill can't be activated if the key is held.
 * **FlamethrowerNoSprint:** Flamethrower: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FlamethrowerProcCoefficientPerTick:** The coefficient for items per proc of the flamethrower.
+* **FlamethrowerRadius:** The radius of the Flamethrower
 * **FlamethrowerRechargeStock:** Flamethrower: How much stock to restore on a recharge.
 * **FlamethrowerRequiredStock:** Flamethrower: How much stock is required to activate this skill.
 * **FlamethrowerShootDelay:** Flamethrower: Time between bullets for bullet-style weapons
 * **FlamethrowerStockToConsume:** Flamethrower: How much stock to deduct when the skill is activated.
+* **FlamethrowerTickFrequency:** The tick frequency of the flamethrower
+* **FlamethrowerTickFrequencyScaleCoefficient:** The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * ATKSP * TickFreq
+* **FlamethrowerTickFrequencyScaleWithAttackSpeed:** If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.
+* **FlamethrowerTotalDamageCoefficient:** The total damage coefficient for the flamethrower
 * **NovaBombBaseChargeDuration:** Base max charging duration of the NovaBomb
 * **NovaBombBaseMaxStock:** NovaBomb: Maximum number of charges this skill can carry.
 * **NovaBombBaseRechargeInterval:** NovaBomb: How long it takes for this skill to recharge after being used.
