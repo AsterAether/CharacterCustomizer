@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AetherLib.Util.Config;
 using BepInEx;
@@ -13,28 +14,30 @@ using CharacterCustomizer.CustomSurvivors.Mercenary;
 using CharacterCustomizer.CustomSurvivors.MultT;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using R2API;
 using RoR2;
 using RoR2.UI;
 using UnityEngine;
+using Console = System.Console;
 
 namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("at.aster.aetherlib")]
-    [BepInPlugin("at.aster.charactercustomiser", "CharacterCustomizer", "<version>")]
+    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "<version>")]
     public class CharacterCustomizer : BaseUnityPlugin
     {
         private List<CustomSurvivor> CustomSurvivors { get; set; }
 
-        private ConfigWrapper<bool> CreateReadme;
-        private ConfigWrapper<bool> FixSkillIconCooldownScaling;
+        public ConfigWrapper<bool> CreateReadme;
+        public ConfigWrapper<bool> FixSkillIconCooldownScaling;
 
         public void InitConfig()
         {
             CreateReadme = Config.Wrap(
                 "General",
                 "PrintReadme",
-                "Outputs a file called \"README.md\" to the working directory, containing all config values formatted as Markdown.",
+                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown.",
                 false);
 
             FixSkillIconCooldownScaling = Config.Wrap(
@@ -48,7 +51,7 @@ namespace CharacterCustomizer
         {
             InitConfig();
             ApplyFixes();
-            
+
             CustomSurvivors = new List<CustomSurvivor>
             {
                 new CustomEngineer(),
@@ -57,23 +60,26 @@ namespace CharacterCustomizer
                 new CustomMultT(),
                 new CustomHuntress(),
                 new CustomMercenary(),
-                new CustomHandD(),
-                new CustomBandit(),
-                new CustomSniper()
+                new CustomBandit()
             };
 
-            StringBuilder markdown = new StringBuilder();
+            StringBuilder markdown = new StringBuilder("# Config Values\n");
+
+            markdown.AppendLine("## General");
+            markdown.AppendLine(CreateReadme.Definition.ToMarkdownString());
+
+            markdown.AppendLine("## Fixes");
+            markdown.AppendLine(FixSkillIconCooldownScaling.Definition.ToMarkdownString());
 
             foreach (var customSurvivor in CustomSurvivors)
             {
                 customSurvivor.InitVariables(Config, Logger);
-                customSurvivor.InitConfigValues();
-                customSurvivor.OverrideGameValues();
-                customSurvivor.WriteNewHooks();
+
+                customSurvivor.Patch();
 
                 if (CreateReadme.Value)
                 {
-                    markdown.AppendLine("### " + customSurvivor.CharacterName);
+                    markdown.AppendLine("# " + customSurvivor.CharacterName);
                     List<string> markdownLines = new List<string>();
 
                     foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigDefinitions)
@@ -95,15 +101,28 @@ namespace CharacterCustomizer
                 }
             }
 
-            markdown.AppendLine("### General");
-            markdown.AppendLine(CreateReadme.Definition.ToMarkdownString());
+            SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
+            {
+                foreach (SurvivorDef survivorDef in SurvivorAPI.SurvivorDefinitions)
+                {
+                    try
+                    {
+                        CustomSurvivor cSurv = CustomSurvivors.First(s => s.SurvivorIndex == survivorDef.survivorIndex);
+                        cSurv.OverrideSkills(survivorDef);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
+                    }
+                }
 
-            markdown.AppendLine("### Fixes");
-            markdown.AppendLine(FixSkillIconCooldownScaling.Definition.ToMarkdownString());
+                SurvivorAPI.ReconstructSurvivors();
+            };
 
             if (CreateReadme.Value)
             {
-                System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\README.md", markdown.ToString());
+                System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",
+                    markdown.ToString());
             }
         }
 

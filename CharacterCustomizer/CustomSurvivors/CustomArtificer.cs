@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using AetherLib.Util;
 using AetherLib.Util.Config;
+using AetherLib.Util.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using Mono.Cecil.Cil;
@@ -18,101 +19,92 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public class CustomArtificer : CustomSurvivor
         {
-            public ValueConfigWrapper<int> FireboltChargeCount;
-
-            public ValueConfigWrapper<string> FireboltCooldown;
-
             public ConfigWrapper<bool> FireboltAttackSpeedStockScaling;
 
-            public ValueConfigWrapper<string> FireboltAttackSpeedStockScalingCoefficent;
+            public ValueConfigWrapper<string> FireboltAttackSpeedStockScalingCoefficient;
 
             public ConfigWrapper<bool> FireboltAttackSpeedCooldownScaling;
 
-            public ValueConfigWrapper<string> FireboltAttackSpeedCooldownScalingCoefficent;
+            public ValueConfigWrapper<string> FireboltAttackSpeedCooldownScalingCoefficient;
+
+            public ValueConfigWrapper<string> NovaBombMaxChargeDuration;
+
+            public ValueConfigWrapper<string> NovaBombMaxDamageCoefficient;
 
 
-            public CustomArtificer() : base("Artificer")
+            public CustomArtificer() : base(SurvivorIndex.Mage, "Artificer",
+                "FireFirebolt",
+                "NovaBomb",
+                "Wall",
+                "Flamethrower")
             {
             }
 
             public override void InitConfigValues()
             {
-                FireboltChargeCount =
-                    WrapConfigInt("FireBoltChargeCount", "Charge count of the Firebolt skill.");
-
-                FireboltCooldown =
-                    WrapConfigFloat("FireboltCooldown", "Cooldown of the Firebolt skill, in seconds");
-
+                // Firebolt
                 FireboltAttackSpeedStockScaling =
                     WrapConfigBool("FireboltAttackSpeedStockScaling",
                         "If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.");
 
 
-                FireboltAttackSpeedStockScalingCoefficent =
-                    WrapConfigFloat("FireboltAttackSpeedStockScalingCoefficent",
+                FireboltAttackSpeedStockScalingCoefficient =
+                    WrapConfigFloat("FireboltAttackSpeedStockScalingCoefficient",
                         "Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * ATKSP * Coeff.");
 
                 FireboltAttackSpeedCooldownScaling = WrapConfigBool("FireboltAttackSpeedCooldownScaling",
                     "If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.");
 
 
-                FireboltAttackSpeedCooldownScalingCoefficent = WrapConfigFloat(
-                    "FireboltAttackSpeedCooldownScalingCoefficent",
+                FireboltAttackSpeedCooldownScalingCoefficient = WrapConfigFloat(
+                    "FireboltAttackSpeedCooldownScalingCoefficient",
                     "Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (ATKSP * Coeff)).");
+
+                // NovaBomb
+                NovaBombMaxChargeDuration = WrapConfigFloat("NovaBombBaseChargeDuration",
+                    "Base max charging duration of the NovaBomb");
+
+                NovaBombMaxDamageCoefficient = WrapConfigFloat("NovaBombMaxDamageCoefficient",
+                    "Max damage coefficient of the NovaBomb");
             }
 
 
             public override void OverrideGameValues()
             {
-                SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
+                On.RoR2.Run.Awake += (orig, self) =>
                 {
-                    SurvivorDef mage =
-                        SurvivorAPI.SurvivorDefinitions.First(def => def.survivorIndex == SurvivorIndex.Mage);
-                    GenericSkill[] skills = mage.bodyPrefab.GetComponents<GenericSkill>();
-                    foreach (GenericSkill genericSkill in skills)
+                    orig(self);
+
+                    Assembly assembly = self.GetType().Assembly;
+
+                    Type chargeNovaBomb = assembly.GetClass("EntityStates.Mage.Weapon", "ChargeNovabomb");
+
+                    NovaBombMaxChargeDuration.SetDefaultValue(
+                        chargeNovaBomb.GetFieldValue<float>("baseChargeDuration"));
+                    if (NovaBombMaxChargeDuration.IsNotDefault())
                     {
-                        switch (genericSkill.skillName)
-                        {
-                            case "FireFirebolt":
-
-                                FireboltCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-
-                                if (FireboltCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = FireboltCooldown.FloatValue;
-                                }
-
-                                FireboltChargeCount.SetDefaultValue(genericSkill.baseMaxStock);
-
-                                if (FireboltChargeCount.IsNotDefault())
-                                {
-                                    genericSkill.baseMaxStock = FireboltChargeCount.Value;
-                                }
-
-                                break;
-                            case "NovaBomb":
-                                break;
-                            case "Wall":
-                                break;
-                            case "Flamethrower":
-                                break;
-                        }
+                        chargeNovaBomb.SetFieldValue("baseChargeDuration", NovaBombMaxChargeDuration.FloatValue);
                     }
 
-                    SurvivorAPI.ReconstructSurvivors();
+                    NovaBombMaxDamageCoefficient.SetDefaultValue(
+                        chargeNovaBomb.GetFieldValue<float>("maxDamageCoefficient"));
+                    if (NovaBombMaxDamageCoefficient.IsNotDefault())
+                    {
+                        chargeNovaBomb.SetFieldValue("maxDamageCoefficient", NovaBombMaxDamageCoefficient.FloatValue);
+                    }
                 };
             }
 
             public override void WriteNewHooks()
             {
                 bool runStockScaling = FireboltAttackSpeedStockScaling.Value &&
-                                       FireboltAttackSpeedStockScalingCoefficent.IsNotDefault();
+                                       FireboltAttackSpeedStockScalingCoefficient.IsNotDefault();
 
                 bool runCooldownScaling = FireboltAttackSpeedCooldownScaling.Value &&
-                                          FireboltAttackSpeedCooldownScalingCoefficent.IsNotDefault();
+                                          FireboltAttackSpeedCooldownScalingCoefficient.IsNotDefault();
 
-                float cooldownCoeff = FireboltAttackSpeedCooldownScalingCoefficent.FloatValue;
-                float stockCoeff = FireboltAttackSpeedStockScalingCoefficent.FloatValue;
+                float cooldownCoeff = FireboltAttackSpeedCooldownScalingCoefficient.FloatValue;
+                float stockCoeff = FireboltAttackSpeedStockScalingCoefficient.FloatValue;
 
                 if (runStockScaling || runCooldownScaling)
                 {

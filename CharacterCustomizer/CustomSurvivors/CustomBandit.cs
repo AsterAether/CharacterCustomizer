@@ -1,8 +1,14 @@
+using RoR2;
+
 namespace CharacterCustomizer.CustomSurvivors
 {
     public class CustomBandit : CustomSurvivor
     {
-        public CustomBandit() : base("Bandit")
+        public CustomBandit() : base(SurvivorIndex.Bandit,"Bandit", 
+            "", 
+            "", 
+            "", 
+            "")
         {
         }
 

@@ -4,6 +4,7 @@ using AetherLib.Util;
 using AetherLib.Util.Config;
 using BepInEx;
 using BepInEx.Configuration;
+using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -15,8 +16,13 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ValueConfigWrapper<string> NailgunSpreadPitch;
 
-            public CustomMultT() : base("MultT")
+            public CustomMultT() : base(SurvivorIndex.Toolbot, "MultT",
+                "FireNailgun",
+                "StunDrone",
+                "ToolbotDash",
+                "Swap")
             {
+                ExtraSkillNames.Add("FireSpear");
             }
 
             public override void InitConfigValues()

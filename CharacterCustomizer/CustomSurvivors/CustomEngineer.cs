@@ -20,20 +20,21 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public class CustomEngineer : CustomSurvivor
         {
-            public CustomEngineer() : base("Engineer")
+            public CustomEngineer() : base(RoR2.SurvivorIndex.Engineer,"Engineer",
+                "FireGrenade",
+                "PlaceMine",
+                "PlaceBubbleShield",
+                "PlaceTurret")
             {
             }
 
             public ValueConfigWrapper<int> TurretMaxDeployCount;
-            public ValueConfigWrapper<string> TurretCooldown;
 
 
             public ValueConfigWrapper<int> MineMaxDeployCount;
-            public ValueConfigWrapper<string> MineCooldown;
 
 
             public ValueConfigWrapper<int> ShieldMaxDeployCount;
-            public ValueConfigWrapper<string> ShieldCooldown;
 
             public ValueConfigWrapper<string> ShieldDuration;
             public ConfigWrapper<bool> ShieldEndlessDuration;
@@ -51,14 +52,10 @@ namespace CharacterCustomizer.CustomSurvivors
                 TurretMaxDeployCount = WrapConfigInt("TurretMaxDeployCount",
                     "The maximum number of turrets the Engineer can place.");
 
-                TurretCooldown = WrapConfigFloat("TurretCooldown", "Cooldown of the Turret skill, in seconds");
-
 
                 MineMaxDeployCount = WrapConfigInt("MineMaxDeployCount",
                     "The maximum number of mines the Engineer can place.");
 
-
-                MineCooldown = WrapConfigFloat("MineCooldown", "Cooldown of the Mine skill, in seconds");
 
                 ShieldMaxDeployCount = WrapConfigInt("ShieldMaxDeployCount",
                     "The maximum number of shields the Engineer can place.");
@@ -67,9 +64,6 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 ShieldEndlessDuration = WrapConfigBool("ShieldEndlessDuration",
                     "If the duration of the shield should be endless.");
-
-
-                ShieldCooldown = WrapConfigFloat("ShieldCooldown", "Cooldown of the Shield skill, in seconds");
 
 
                 GrenadeMaxFireAmount = WrapConfigInt("GrenadeMaxFireAmount",
@@ -149,47 +143,6 @@ namespace CharacterCustomizer.CustomSurvivors
                         c.Emit(OpCodes.Ldarg_0);
                     };
                 }
-
-                SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
-                {
-                    SurvivorDef engi =
-                        SurvivorAPI.SurvivorDefinitions.First(def => def.survivorIndex == SurvivorIndex.Engineer);
-                    GenericSkill[] skills = engi.bodyPrefab.GetComponents<GenericSkill>();
-                    foreach (GenericSkill genericSkill in skills)
-                    {
-                        switch (genericSkill.skillName)
-                        {
-                            case "PlaceMine":
-                                MineCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (MineCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = MineCooldown.FloatValue;
-                                }
-
-                                break;
-                            case "PlaceTurret":
-                                TurretCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (TurretCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = TurretCooldown.FloatValue;
-                                }
-
-                                break;
-                            case "FireGrenades":
-                                break;
-                            case "PlaceBubbleShield":
-                                ShieldCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (ShieldCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = ShieldCooldown.FloatValue;
-                                }
-
-                                break;
-                        }
-                    }
-
-                    SurvivorAPI.ReconstructSurvivors();
-                };
 
 
                 // Workaround for more than 8 max grenades

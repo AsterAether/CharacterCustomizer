@@ -20,7 +20,11 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public class CustomCommando : CustomSurvivor
         {
-            public CustomCommando() : base("Commando")
+            public CustomCommando() : base(SurvivorIndex.Commando,"Commando", 
+                "FirePistol", 
+                "FireFMJ", 
+                "Roll", 
+                "Barrage")
             {
             }
 
@@ -30,19 +34,12 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ValueConfigWrapper<string> LaserDamageCoefficient;
 
-            public ValueConfigWrapper<string> LaserCooldown;
-
             public ConfigWrapper<bool> DashResetsSecondCooldown;
 
             public ValueConfigWrapper<int> DashStockCount;
 
-            public ValueConfigWrapper<string> DashCooldown;
-
             public ConfigWrapper<bool> PistolHitLowerBarrageCooldown;
             public ValueConfigWrapper<string> PistolHitLowerBarrageCooldownPercent;
-
-            public ValueConfigWrapper<string> BarrageCooldown;
-
 
             public ConfigWrapper<bool> BarrageScalesWithAttackSpeed;
 
@@ -76,10 +73,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 DashStockCount = WrapConfigInt("DashStockCount", "How many stocks the dash ability has.");
 
-                DashCooldown = WrapConfigFloat("DashCooldown", "Cooldown of the dash, in seconds");
-
-                LaserCooldown = WrapConfigFloat("LaserCooldown", "Cooldown of the secondary laser, in seconds");
-
+          
                 PistolHitLowerBarrageCooldownPercent = WrapConfigFloat("PistolHitLowerBarrageCooldownPercent",
                     "The amount in percent that the current cooldown of the Barrage Skill should be lowered by. Needs to have PistolHitLowerBarrageCooldownPercent set.");
 
@@ -87,9 +81,6 @@ namespace CharacterCustomizer.CustomSurvivors
                 PistolHitLowerBarrageCooldown =
                     WrapConfigBool("PistolHitLowerBarrageCooldown",
                         "If the pistol hit should lower the Barrage Skill cooldown. Needs to have PistolHitLowerBarrageCooldownPercent set to work");
-
-
-                BarrageCooldown = WrapConfigFloat("BarrageCooldown", "Cooldown of the Barrage Skill, in seconds");
 
 
                 BarrageScalesWithAttackSpeed = WrapConfigBool("BarrageScalesWithAttackSpeed",
@@ -156,56 +147,6 @@ namespace CharacterCustomizer.CustomSurvivors
                     }
 
                     BarrageBaseShotAmount.RunIfNotDefault(count => { fireBarr.SetFieldValue("bulletCount", count); });
-                };
-
-                SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
-                {
-                    SurvivorDef commando =
-                        SurvivorAPI.SurvivorDefinitions.First(def => def.survivorIndex == SurvivorIndex.Commando);
-                    GenericSkill[] skills = commando.bodyPrefab.GetComponents<GenericSkill>();
-                    foreach (GenericSkill genericSkill in skills)
-                    {
-                        switch (genericSkill.skillName)
-                        {
-                            case "Barrage":
-                                BarrageCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (BarrageCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = BarrageCooldown.FloatValue;
-                                }
-
-                                break;
-                            case "FirePistol":
-                                break;
-                            case "FireFMJ":
-                                LaserCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (LaserCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = LaserCooldown.FloatValue;
-                                }
-
-                                break;
-                            case "Roll":
-                                DashStockCount.SetDefaultValue(genericSkill.baseMaxStock);
-                                DashStockCount.RunIfNotDefault(stock =>
-                                {
-                                    
-                                    genericSkill.stockToConsume = 1;
-                                    genericSkill.requiredStock = 1;
-                                    genericSkill.rechargeStock = 1;
-                                    genericSkill.baseMaxStock = stock;
-                                });
-                                DashCooldown.SetDefaultValue(genericSkill.baseRechargeInterval);
-                                if (DashCooldown.IsNotDefault())
-                                {
-                                    genericSkill.baseRechargeInterval = DashCooldown.FloatValue;
-                                }
-
-                                break;
-                        }
-                    }
-
-                    SurvivorAPI.ReconstructSurvivors();
                 };
             }
 

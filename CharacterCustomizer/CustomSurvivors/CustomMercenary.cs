@@ -23,7 +23,11 @@ namespace CharacterCustomizer.CustomSurvivors
                     "Maximum timeout between dashes, in seconds");
             }
 
-            public CustomMercenary() : base("Mercenary")
+            public CustomMercenary() : base(SurvivorIndex.Merc, "Mercenary",
+                "GroundLight",
+                "Whirlwind",
+                "Dash",
+                "Evis")
             {
             }
 

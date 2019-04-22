@@ -3,6 +3,7 @@ using AetherLib.Util;
 using AetherLib.Util.Config;
 using BepInEx;
 using BepInEx.Configuration;
+using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -14,7 +15,11 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ValueConfigWrapper<string> TrackingMaxAngle;
 
-            public CustomHuntress() : base("Huntress")
+            public CustomHuntress() : base(SurvivorIndex.Huntress,"Huntress",
+                "FireSeekingArrow",
+                "Glaive",
+                "Blink",
+                "ArrowRain")
             {
             }
 
