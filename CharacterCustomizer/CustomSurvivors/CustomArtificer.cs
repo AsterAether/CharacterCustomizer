@@ -6,6 +6,7 @@ using AetherLib.Util.Config;
 using AetherLib.Util.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
+using EntityStates;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
@@ -31,6 +32,25 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ValueConfigWrapper<string> NovaBombMaxDamageCoefficient;
 
+            public ValueConfigWrapper<string> FlamethrowerDuration;
+
+            public ValueConfigWrapper<string> FlamethrowerTickFrequency;
+
+            public ConfigWrapper<bool> FlamethrowerTickFrequencyScaleWithAttackSpeed;
+
+            public float VanillaTickFrequency;
+
+            public ValueConfigWrapper<string> FlamethrowerTickFrequencyScaleCoefficient;
+
+            public ValueConfigWrapper<string> FlamethrowerProcCoefficientPerTick;
+
+            public ValueConfigWrapper<string> FlamethrowerMaxDistance;
+
+            public ValueConfigWrapper<string> FlamethrowerRadius;
+
+            public ValueConfigWrapper<string> FlamethrowerTotalDamageCoefficient;
+
+            public ValueConfigWrapper<string> FlamethrowerIgnitePercentChance;
 
             public CustomArtificer() : base(SurvivorIndex.Mage, "Artificer",
                 "FireFirebolt",
@@ -66,6 +86,36 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 NovaBombMaxDamageCoefficient = WrapConfigFloat("NovaBombMaxDamageCoefficient",
                     "Max damage coefficient of the NovaBomb");
+
+                // Flamethrower
+
+                FlamethrowerDuration = WrapConfigFloat("FlamethrowerDuration",
+                    "The duration of the flamethrower");
+
+                FlamethrowerTickFrequency = WrapConfigFloat("FlamethrowerTickFrequency",
+                    "The tick frequency of the flamethrower");
+
+                FlamethrowerTickFrequencyScaleWithAttackSpeed = WrapConfigBool(
+                    "FlamethrowerTickFrequencyScaleWithAttackSpeed",
+                    "If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.");
+
+                FlamethrowerTickFrequencyScaleCoefficient = WrapConfigFloat("FlamethrowerTickFrequencyScaleCoefficient",
+                    "The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * ATKSP * TickFreq");
+
+                FlamethrowerProcCoefficientPerTick = WrapConfigFloat("FlamethrowerProcCoefficientPerTick",
+                    "The coefficient for items per proc of the flamethrower.");
+
+                FlamethrowerMaxDistance = WrapConfigFloat("FlamethrowerMaxDistance",
+                    "The max distance of the Flamethrower");
+
+                FlamethrowerRadius = WrapConfigFloat("FlamethrowerRadius",
+                    "The radius of the Flamethrower");
+
+                FlamethrowerTotalDamageCoefficient = WrapConfigFloat("FlamethrowerTotalDamageCoefficient",
+                    "The total damage coefficient for the flamethrower");
+
+                FlamethrowerIgnitePercentChance = WrapConfigFloat("FlamethrowerIgnitePercentChance",
+                    "The change to ignite per proc in percent.");
             }
 
 
@@ -91,6 +141,56 @@ namespace CharacterCustomizer.CustomSurvivors
                     if (NovaBombMaxDamageCoefficient.IsNotDefault())
                     {
                         chargeNovaBomb.SetFieldValue("maxDamageCoefficient", NovaBombMaxDamageCoefficient.FloatValue);
+                    }
+
+                    Type flamethrower = assembly.GetClass("EntityStates.Mage.Weapon", "Flamethrower");
+
+                    FlamethrowerDuration.SetDefaultValue(flamethrower.GetFieldValue<float>("baseFlamethrowerDuration"));
+                    if (FlamethrowerDuration.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("baseFlamethrowerDuration", FlamethrowerDuration.FloatValue);
+                    }
+
+                    VanillaTickFrequency = flamethrower.GetFieldValue<float>("tickFrequency");
+                    FlamethrowerTickFrequency.SetDefaultValue(VanillaTickFrequency);
+                    if (FlamethrowerTickFrequency.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("tickFrequency", FlamethrowerTickFrequency.FloatValue);
+                    }
+
+                    FlamethrowerProcCoefficientPerTick.SetDefaultValue(
+                        flamethrower.GetFieldValue<float>("procCoefficientPerTick"));
+                    if (FlamethrowerProcCoefficientPerTick.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("procCoefficientPerTick",
+                            FlamethrowerProcCoefficientPerTick.FloatValue);
+                    }
+
+                    FlamethrowerMaxDistance.SetDefaultValue(flamethrower.GetFieldValue<float>("maxDistance"));
+                    if (FlamethrowerMaxDistance.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("maxDistance", FlamethrowerMaxDistance.FloatValue);
+                    }
+
+                    FlamethrowerRadius.SetDefaultValue(flamethrower.GetFieldValue<float>("radius"));
+                    if (FlamethrowerRadius.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("radius", FlamethrowerRadius.FloatValue);
+                    }
+
+                    FlamethrowerTotalDamageCoefficient.SetDefaultValue(
+                        flamethrower.GetFieldValue<float>("totalDamageCoefficient"));
+                    if (FlamethrowerTotalDamageCoefficient.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("totalDamageCoefficient",
+                            FlamethrowerTotalDamageCoefficient.FloatValue);
+                    }
+
+                    FlamethrowerIgnitePercentChance.SetDefaultValue(
+                        flamethrower.GetFieldValue<float>("ignitePercentChance"));
+                    if (FlamethrowerIgnitePercentChance.IsNotDefault())
+                    {
+                        flamethrower.SetFieldValue("ignitePercentChance", FlamethrowerIgnitePercentChance.FloatValue);
                     }
                 };
             }
@@ -136,6 +236,30 @@ namespace CharacterCustomizer.CustomSurvivors
                                     }
                                 }
                             });
+                    };
+                }
+
+                if (FlamethrowerTickFrequencyScaleWithAttackSpeed.Value &&
+                    FlamethrowerTickFrequencyScaleCoefficient.IsNotDefault())
+                {
+                    On.EntityStates.Mage.Weapon.Flamethrower.OnEnter += (orig, self) =>
+                    {
+//                        Type flamethrowerType = self.GetType();
+//                        GameObject obj = typeof(EntityState).GetField("gameObject").GetValue(self) as GameObject;
+//                        CharacterBody body = obj.GetComponent<CharacterBody>();
+//
+//                        float val = body.attackSpeed *
+//                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue *
+//                                    (FlamethrowerTickFrequency.IsNotDefault()
+//                                        ? FlamethrowerTickFrequency.FloatValue
+//                                        : VanillaTickFrequency);
+//
+//                        Chat.AddMessage("Val: " + val);
+//                        flamethrowerType.SetFieldValue("tickFrequency",
+//                            val
+//                        );
+
+                        orig(self);
                     };
                 }
             }
