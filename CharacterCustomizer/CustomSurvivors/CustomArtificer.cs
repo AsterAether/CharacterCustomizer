@@ -244,20 +244,23 @@ namespace CharacterCustomizer.CustomSurvivors
                 {
                     On.EntityStates.Mage.Weapon.Flamethrower.OnEnter += (orig, self) =>
                     {
-//                        Type flamethrowerType = self.GetType();
-//                        GameObject obj = typeof(EntityState).GetField("gameObject").GetValue(self) as GameObject;
-//                        CharacterBody body = obj.GetComponent<CharacterBody>();
-//
-//                        float val = body.attackSpeed *
-//                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue *
-//                                    (FlamethrowerTickFrequency.IsNotDefault()
-//                                        ? FlamethrowerTickFrequency.FloatValue
-//                                        : VanillaTickFrequency);
-//
-//                        Chat.AddMessage("Val: " + val);
-//                        flamethrowerType.SetFieldValue("tickFrequency",
-//                            val
-//                        );
+                        Type flamethrowerType = self.GetType();
+
+                        GameObject go = typeof(EntityState)
+                            .GetProperty("gameObject", BindingFlags.NonPublic | BindingFlags.Instance)
+                            ?.GetValue(self) as GameObject;
+
+                        CharacterBody body = go.GetComponent<CharacterBody>();
+
+                        float val = body.attackSpeed *
+                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue *
+                                    (FlamethrowerTickFrequency.IsNotDefault()
+                                        ? FlamethrowerTickFrequency.FloatValue
+                                        : VanillaTickFrequency);
+
+                        flamethrowerType.SetFieldValue("tickFrequency",
+                            val
+                        );
 
                         orig(self);
                     };
