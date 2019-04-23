@@ -119,6 +119,7 @@
 * **CommandoLevelMaxShield:** Commando: The max shield per level your survivor gets
 * **CommandoLevelMoveSpeed:** Commando: The move speed per level your survivor gets
 * **CommandoLevelRegen:** Commando: The regen per level your survivor gets.
+* **DashInvulnerability:** If Commando should be invulnerable while dashing.
 * **DashResetsSecondCooldown:** If the dash should reset the cooldown of the second ability.
 * **FireFMJBaseMaxStock:** FireFMJ: Maximum number of charges this skill can carry.
 * **FireFMJBaseRechargeInterval:** FireFMJ: How long it takes for this skill to recharge after being used.
