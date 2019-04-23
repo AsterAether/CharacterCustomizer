@@ -7,6 +7,7 @@ using BepInEx.Logging;
 using R2API;
 using RoR2;
 using UnityEngine;
+using ValueType = AetherLib.Util.Config.ValueType;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -44,6 +45,8 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public List<string> ExtraSkillNames = new List<string>();
 
+        public CustomBodyDefinition BodyDefinition { get; private set; }
+
         protected CustomSurvivor(SurvivorIndex index, string characterName, string primarySkillName,
             string secondarySkillName,
             string utilitySkillName, string specialSkillName)
@@ -73,9 +76,11 @@ namespace CharacterCustomizer.CustomSurvivors
             {
                 ExtraSkills.Add(new CustomSkillDefinition(this, skillName));
             }
+
+            BodyDefinition = new CustomBodyDefinition(this, CharacterName);
         }
 
-        public void OverrideSkills(SurvivorDef survivor)
+        public void OverrideSurvivorBase(SurvivorDef survivor)
         {
             List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>(ExtraSkills);
             skillDefs.AddRange(new[] {PrimarySkill, SecondarySkill, UtilitySkill, SpecialSkill});
@@ -87,88 +92,13 @@ namespace CharacterCustomizer.CustomSurvivors
                 {
                     if (genericSkill.skillName == skillDef.SkillName)
                     {
-                        skillDef.BaseRechargeInterval.SetDefaultValue(genericSkill.baseRechargeInterval);
-                        if (skillDef.BaseRechargeInterval.IsNotDefault())
-                        {
-                            genericSkill.baseRechargeInterval = skillDef.BaseRechargeInterval.FloatValue;
-                        }
-
-                        skillDef.ShootDelay.SetDefaultValue(genericSkill.shootDelay);
-                        if (skillDef.ShootDelay.IsNotDefault())
-                        {
-                            genericSkill.shootDelay = skillDef.ShootDelay.FloatValue;
-                        }
-
-                        skillDef.BaseMaxStock.SetDefaultValue(genericSkill.baseMaxStock);
-                        if (skillDef.BaseMaxStock.IsNotDefault())
-                        {
-                            genericSkill.baseMaxStock = skillDef.BaseMaxStock.Value;
-                        }
-
-                        skillDef.RechargeStock.SetDefaultValue(genericSkill.rechargeStock);
-                        if (skillDef.RechargeStock.IsNotDefault())
-                        {
-                            genericSkill.rechargeStock = skillDef.RechargeStock.Value;
-                        }
-
-                        skillDef.IsCombatSkill.SetDefaultValue(genericSkill.isCombatSkill);
-                        if (skillDef.IsCombatSkill.IsNotDefault())
-                        {
-                            genericSkill.isCombatSkill = skillDef.IsCombatSkill.BoolValue;
-                        }
-
-                        skillDef.NoSprint.SetDefaultValue(genericSkill.noSprint);
-                        if (skillDef.NoSprint.IsNotDefault())
-                        {
-                            genericSkill.noSprint = skillDef.NoSprint.BoolValue;
-                        }
-
-                        skillDef.RequiredStock.SetDefaultValue(genericSkill.requiredStock);
-                        if (skillDef.RequiredStock.IsNotDefault())
-                        {
-                            genericSkill.requiredStock = skillDef.RequiredStock.Value;
-                        }
-
-                        skillDef.StockToConsume.SetDefaultValue(genericSkill.stockToConsume);
-                        if (skillDef.StockToConsume.IsNotDefault())
-                        {
-                            genericSkill.stockToConsume = skillDef.StockToConsume.Value;
-                        }
-
-                        skillDef.BaseRechargeInterval.SetDefaultValue(genericSkill.baseRechargeInterval);
-                        if (skillDef.BaseRechargeInterval.IsNotDefault())
-                        {
-                            genericSkill.baseRechargeInterval = skillDef.BaseRechargeInterval.FloatValue;
-                        }
-
-                        skillDef.MustKeyPress.SetDefaultValue(genericSkill.mustKeyPress);
-                        if (skillDef.MustKeyPress.IsNotDefault())
-                        {
-                            genericSkill.mustKeyPress = skillDef.MustKeyPress.BoolValue;
-                        }
-
-                        skillDef.BeginSkillCooldownOnSkillEnd.SetDefaultValue(genericSkill
-                            .beginSkillCooldownOnSkillEnd);
-                        if (skillDef.BeginSkillCooldownOnSkillEnd.IsNotDefault())
-                        {
-                            genericSkill.beginSkillCooldownOnSkillEnd =
-                                skillDef.BeginSkillCooldownOnSkillEnd.BoolValue;
-                        }
-
-                        skillDef.CanceledFromSprinting.SetDefaultValue(genericSkill.canceledFromSprinting);
-                        if (skillDef.CanceledFromSprinting.IsNotDefault())
-                        {
-                            genericSkill.canceledFromSprinting = skillDef.CanceledFromSprinting.BoolValue;
-                        }
-
-                        skillDef.IsBullets.SetDefaultValue(genericSkill.isBullets);
-                        if (skillDef.IsBullets.IsNotDefault())
-                        {
-                            genericSkill.isBullets = skillDef.IsBullets.BoolValue;
-                        }
+                        skillDef.AllFields.ForEach(changer => { changer.Apply(genericSkill); });
                     }
                 }
             }
+
+            CharacterBody body = survivor.bodyPrefab.GetComponent<CharacterBody>();
+            BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
         }
 
         public void Patch()
@@ -195,19 +125,26 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public ValueConfigWrapper<string> WrapConfigString(string key, string description)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, false, description);
+            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.String, description);
+            MarkdownConfigDefinitions.Add(conf);
+            return conf;
+        }
+
+        public ValueConfigWrapper<string> WrapConfigBool(string key, string description)
+        {
+            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Bool, description);
             MarkdownConfigDefinitions.Add(conf);
             return conf;
         }
 
         public ValueConfigWrapper<string> WrapConfigFloat(string key, string description)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, true, description);
+            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Float, description);
             MarkdownConfigDefinitions.Add(conf);
             return conf;
         }
 
-        public ConfigWrapper<bool> WrapConfigBool(string key, string description)
+        public ConfigWrapper<bool> WrapConfigStandardBool(string key, string description)
         {
             ConfigWrapper<bool> conf = Config.Wrap(CharacterName, key, description, false);
             NonMarkDownConfigDefinitions.Add(conf.Definition);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AetherLib.Util;
 using AetherLib.Util.Config;
 using BepInEx;
@@ -11,16 +12,24 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public class CustomMercenary : CustomSurvivor
         {
-            public ValueConfigWrapper<int> DashMaxCount;
+            public FieldConfigWrapper<int> DashMaxCount;
 
-            public ValueConfigWrapper<string> DashTimeoutDuration;
+            public FieldConfigWrapper<string> DashTimeoutDuration;
+
+            public List<IFieldChanger> DashFields;
 
             public override void InitConfigValues()
             {
-                DashMaxCount = WrapConfigInt("DashMaxCount", "Maximum amount of dashes Mercenary can perform.");
+                DashMaxCount = new FieldConfigWrapper<int>(WrapConfigInt("DashMaxCount",
+                    "Maximum amount of dashes Mercenary can perform."), "maxDashes");
 
-                DashTimeoutDuration = WrapConfigFloat("DashTimeoutDuration",
-                    "Maximum timeout between dashes, in seconds");
+                DashTimeoutDuration = new FieldConfigWrapper<string>(WrapConfigFloat("DashTimeoutDuration",
+                    "Maximum timeout between dashes, in seconds"), "timeoutDuration");
+
+                DashFields = new List<IFieldChanger>
+                {
+                    DashMaxCount, DashTimeoutDuration
+                };
             }
 
             public CustomMercenary() : base(SurvivorIndex.Merc, "Mercenary",
@@ -36,14 +45,7 @@ namespace CharacterCustomizer.CustomSurvivors
             {
                 On.RoR2.MercDashSkill.OnExecute += (orig, self) =>
                 {
-                    DashMaxCount.SetDefaultValue(self.maxDashes);
-                    DashMaxCount.RunIfNotDefault(count => { self.maxDashes = count; });
-
-                    DashTimeoutDuration.SetDefaultValue(self.timeoutDuration);
-                    if (DashTimeoutDuration.IsNotDefault())
-                    {
-                        self.timeoutDuration = DashTimeoutDuration.FloatValue;
-                    }
+                    DashFields.ForEach(changer => changer.Apply(self));
 
                     orig(self);
                 };

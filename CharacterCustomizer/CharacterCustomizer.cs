@@ -11,7 +11,7 @@ using CharacterCustomizer.CustomSurvivors.Commando;
 using CharacterCustomizer.CustomSurvivors.Engineer;
 using CharacterCustomizer.CustomSurvivors.Huntress;
 using CharacterCustomizer.CustomSurvivors.Mercenary;
-using CharacterCustomizer.CustomSurvivors.MultT;
+using CharacterCustomizer.CustomSurvivors.MulT;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
@@ -57,7 +57,7 @@ namespace CharacterCustomizer
                 new CustomEngineer(),
                 new CustomCommando(),
                 new CustomArtificer(),
-                new CustomMultT(),
+                new CustomMulT(),
                 new CustomHuntress(),
                 new CustomMercenary(),
                 new CustomBandit()
@@ -108,7 +108,7 @@ namespace CharacterCustomizer
                     try
                     {
                         CustomSurvivor cSurv = CustomSurvivors.First(s => s.SurvivorIndex == survivorDef.survivorIndex);
-                        cSurv.OverrideSkills(survivorDef);
+                        cSurv.OverrideSurvivorBase(survivorDef);
                     }
                     catch (InvalidOperationException)
                     {

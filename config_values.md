@@ -4,6 +4,26 @@
 ## Fixes
 * **FixSkillIconCooldownScaling:** Fix the display of cooldowns when cooldown scaling is applied
 # Engineer
+* **EngineerBaseAcceleration:** Engineer: The base acceleration of your survivor
+* **EngineerBaseArmor:** Engineer: The base armor of your survivor
+* **EngineerBaseAttackSpeed:** Engineer: The base attack speed of your survivor
+* **EngineerBaseCrit:** Engineer: The base crit chance of your survivor
+* **EngineerBaseDamage:** Engineer: The base damage of your survivor
+* **EngineerBaseJumpCount:** Engineer: The base jump count of your survivor
+* **EngineerBaseJumpPower:** Engineer: The base jump power of your survivor
+* **EngineerBaseMaxHealth:** Engineer: The base health of your survivor
+* **EngineerBaseMaxShield:** Engineer: the base max shield of you survivor
+* **EngineerBaseMoveSpeed:** Engineer: The base move speed of your survivor
+* **EngineerBaseRegen:** Engineer: The base regen of your survivor
+* **EngineerLevelArmor:** Engineer: The armor per level your survivor gets
+* **EngineerLevelAttackSpeed:** Engineer: The attack speed per level your survivor gets
+* **EngineerLevelCrit:** Engineer: The crit chance per level your survivor gets
+* **EngineerLevelDamage:** Engineer: The damage per level your survivor gets
+* **EngineerLevelJumpPower:** Engineer: The jump power per level your survivor gets
+* **EngineerLevelMaxHealth:** Engineer: The max health per level your survivor gets.
+* **EngineerLevelMaxShield:** Engineer: The max shield per level your survivor gets
+* **EngineerLevelMoveSpeed:** Engineer: The move speed per level your survivor gets
+* **EngineerLevelRegen:** Engineer: The regen per level your survivor gets.
 * **FireGrenadeBaseMaxStock:** FireGrenade: Maximum number of charges this skill can carry.
 * **FireGrenadeBaseRechargeInterval:** FireGrenade: How long it takes for this skill to recharge after being used.
 * **FireGrenadeBeginSkillCooldownOnSkillEnd:** FireGrenade: Whether or not the cooldown waits until it leaves the set state
@@ -79,8 +99,27 @@
 * **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
 * **BarrageShootDelay:** Barrage: Time between bullets for bullet-style weapons
 * **BarrageStockToConsume:** Barrage: How much stock to deduct when the skill is activated.
+* **CommandoBaseAcceleration:** Commando: The base acceleration of your survivor
+* **CommandoBaseArmor:** Commando: The base armor of your survivor
+* **CommandoBaseAttackSpeed:** Commando: The base attack speed of your survivor
+* **CommandoBaseCrit:** Commando: The base crit chance of your survivor
+* **CommandoBaseDamage:** Commando: The base damage of your survivor
+* **CommandoBaseJumpCount:** Commando: The base jump count of your survivor
+* **CommandoBaseJumpPower:** Commando: The base jump power of your survivor
+* **CommandoBaseMaxHealth:** Commando: The base health of your survivor
+* **CommandoBaseMaxShield:** Commando: the base max shield of you survivor
+* **CommandoBaseMoveSpeed:** Commando: The base move speed of your survivor
+* **CommandoBaseRegen:** Commando: The base regen of your survivor
+* **CommandoLevelArmor:** Commando: The armor per level your survivor gets
+* **CommandoLevelAttackSpeed:** Commando: The attack speed per level your survivor gets
+* **CommandoLevelCrit:** Commando: The crit chance per level your survivor gets
+* **CommandoLevelDamage:** Commando: The damage per level your survivor gets
+* **CommandoLevelJumpPower:** Commando: The jump power per level your survivor gets
+* **CommandoLevelMaxHealth:** Commando: The max health per level your survivor gets.
+* **CommandoLevelMaxShield:** Commando: The max shield per level your survivor gets
+* **CommandoLevelMoveSpeed:** Commando: The move speed per level your survivor gets
+* **CommandoLevelRegen:** Commando: The regen per level your survivor gets.
 * **DashResetsSecondCooldown:** If the dash should reset the cooldown of the second ability.
-* **DashStockCount:** How many stocks the dash ability has.
 * **FireFMJBaseMaxStock:** FireFMJ: Maximum number of charges this skill can carry.
 * **FireFMJBaseRechargeInterval:** FireFMJ: How long it takes for this skill to recharge after being used.
 * **FireFMJBeginSkillCooldownOnSkillEnd:** FireFMJ: Whether or not the cooldown waits until it leaves the set state
@@ -123,6 +162,26 @@
 * **RollShootDelay:** Roll: Time between bullets for bullet-style weapons
 * **RollStockToConsume:** Roll: How much stock to deduct when the skill is activated.
 # Artificer
+* **ArtificerBaseAcceleration:** Artificer: The base acceleration of your survivor
+* **ArtificerBaseArmor:** Artificer: The base armor of your survivor
+* **ArtificerBaseAttackSpeed:** Artificer: The base attack speed of your survivor
+* **ArtificerBaseCrit:** Artificer: The base crit chance of your survivor
+* **ArtificerBaseDamage:** Artificer: The base damage of your survivor
+* **ArtificerBaseJumpCount:** Artificer: The base jump count of your survivor
+* **ArtificerBaseJumpPower:** Artificer: The base jump power of your survivor
+* **ArtificerBaseMaxHealth:** Artificer: The base health of your survivor
+* **ArtificerBaseMaxShield:** Artificer: the base max shield of you survivor
+* **ArtificerBaseMoveSpeed:** Artificer: The base move speed of your survivor
+* **ArtificerBaseRegen:** Artificer: The base regen of your survivor
+* **ArtificerLevelArmor:** Artificer: The armor per level your survivor gets
+* **ArtificerLevelAttackSpeed:** Artificer: The attack speed per level your survivor gets
+* **ArtificerLevelCrit:** Artificer: The crit chance per level your survivor gets
+* **ArtificerLevelDamage:** Artificer: The damage per level your survivor gets
+* **ArtificerLevelJumpPower:** Artificer: The jump power per level your survivor gets
+* **ArtificerLevelMaxHealth:** Artificer: The max health per level your survivor gets.
+* **ArtificerLevelMaxShield:** Artificer: The max shield per level your survivor gets
+* **ArtificerLevelMoveSpeed:** Artificer: The move speed per level your survivor gets
+* **ArtificerLevelRegen:** Artificer: The regen per level your survivor gets.
 * **FireboltAttackSpeedCooldownScaling:** If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.
 * **FireboltAttackSpeedCooldownScalingCoefficient:** Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (ATKSP * Coeff)).
 * **FireboltAttackSpeedStockScaling:** If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.
@@ -186,7 +245,7 @@
 * **WallRequiredStock:** Wall: How much stock is required to activate this skill.
 * **WallShootDelay:** Wall: Time between bullets for bullet-style weapons
 * **WallStockToConsume:** Wall: How much stock to deduct when the skill is activated.
-# MultT
+# MulT
 * **FireNailgunBaseMaxStock:** FireNailgun: Maximum number of charges this skill can carry.
 * **FireNailgunBaseRechargeInterval:** FireNailgun: How long it takes for this skill to recharge after being used.
 * **FireNailgunBeginSkillCooldownOnSkillEnd:** FireNailgun: Whether or not the cooldown waits until it leaves the set state
@@ -211,6 +270,26 @@
 * **FireSpearRequiredStock:** FireSpear: How much stock is required to activate this skill.
 * **FireSpearShootDelay:** FireSpear: Time between bullets for bullet-style weapons
 * **FireSpearStockToConsume:** FireSpear: How much stock to deduct when the skill is activated.
+* **MulTBaseAcceleration:** MulT: The base acceleration of your survivor
+* **MulTBaseArmor:** MulT: The base armor of your survivor
+* **MulTBaseAttackSpeed:** MulT: The base attack speed of your survivor
+* **MulTBaseCrit:** MulT: The base crit chance of your survivor
+* **MulTBaseDamage:** MulT: The base damage of your survivor
+* **MulTBaseJumpCount:** MulT: The base jump count of your survivor
+* **MulTBaseJumpPower:** MulT: The base jump power of your survivor
+* **MulTBaseMaxHealth:** MulT: The base health of your survivor
+* **MulTBaseMaxShield:** MulT: the base max shield of you survivor
+* **MulTBaseMoveSpeed:** MulT: The base move speed of your survivor
+* **MulTBaseRegen:** MulT: The base regen of your survivor
+* **MulTLevelArmor:** MulT: The armor per level your survivor gets
+* **MulTLevelAttackSpeed:** MulT: The attack speed per level your survivor gets
+* **MulTLevelCrit:** MulT: The crit chance per level your survivor gets
+* **MulTLevelDamage:** MulT: The damage per level your survivor gets
+* **MulTLevelJumpPower:** MulT: The jump power per level your survivor gets
+* **MulTLevelMaxHealth:** MulT: The max health per level your survivor gets.
+* **MulTLevelMaxShield:** MulT: The max shield per level your survivor gets
+* **MulTLevelMoveSpeed:** MulT: The move speed per level your survivor gets
+* **MulTLevelRegen:** MulT: The regen per level your survivor gets.
 * **NailgunSpreadPitch:** Pitch spread of the nailgun, in percent
 * **NailgunSpreadYaw:** Yaw spread of the nailgun, in percent
 * **StunDroneBaseMaxStock:** StunDrone: Maximum number of charges this skill can carry.
@@ -298,6 +377,26 @@
 * **GlaiveRequiredStock:** Glaive: How much stock is required to activate this skill.
 * **GlaiveShootDelay:** Glaive: Time between bullets for bullet-style weapons
 * **GlaiveStockToConsume:** Glaive: How much stock to deduct when the skill is activated.
+* **HuntressBaseAcceleration:** Huntress: The base acceleration of your survivor
+* **HuntressBaseArmor:** Huntress: The base armor of your survivor
+* **HuntressBaseAttackSpeed:** Huntress: The base attack speed of your survivor
+* **HuntressBaseCrit:** Huntress: The base crit chance of your survivor
+* **HuntressBaseDamage:** Huntress: The base damage of your survivor
+* **HuntressBaseJumpCount:** Huntress: The base jump count of your survivor
+* **HuntressBaseJumpPower:** Huntress: The base jump power of your survivor
+* **HuntressBaseMaxHealth:** Huntress: The base health of your survivor
+* **HuntressBaseMaxShield:** Huntress: the base max shield of you survivor
+* **HuntressBaseMoveSpeed:** Huntress: The base move speed of your survivor
+* **HuntressBaseRegen:** Huntress: The base regen of your survivor
+* **HuntressLevelArmor:** Huntress: The armor per level your survivor gets
+* **HuntressLevelAttackSpeed:** Huntress: The attack speed per level your survivor gets
+* **HuntressLevelCrit:** Huntress: The crit chance per level your survivor gets
+* **HuntressLevelDamage:** Huntress: The damage per level your survivor gets
+* **HuntressLevelJumpPower:** Huntress: The jump power per level your survivor gets
+* **HuntressLevelMaxHealth:** Huntress: The max health per level your survivor gets.
+* **HuntressLevelMaxShield:** Huntress: The max shield per level your survivor gets
+* **HuntressLevelMoveSpeed:** Huntress: The move speed per level your survivor gets
+* **HuntressLevelRegen:** Huntress: The regen per level your survivor gets.
 * **TrackingMaxAngle:** The maximum angle the tracking of the huntress works.
 * **TrackingMaxDistance:** The maximum distance the tracking of the huntress works.
 # Mercenary
@@ -339,6 +438,26 @@
 * **GroundLightRequiredStock:** GroundLight: How much stock is required to activate this skill.
 * **GroundLightShootDelay:** GroundLight: Time between bullets for bullet-style weapons
 * **GroundLightStockToConsume:** GroundLight: How much stock to deduct when the skill is activated.
+* **MercenaryBaseAcceleration:** Mercenary: The base acceleration of your survivor
+* **MercenaryBaseArmor:** Mercenary: The base armor of your survivor
+* **MercenaryBaseAttackSpeed:** Mercenary: The base attack speed of your survivor
+* **MercenaryBaseCrit:** Mercenary: The base crit chance of your survivor
+* **MercenaryBaseDamage:** Mercenary: The base damage of your survivor
+* **MercenaryBaseJumpCount:** Mercenary: The base jump count of your survivor
+* **MercenaryBaseJumpPower:** Mercenary: The base jump power of your survivor
+* **MercenaryBaseMaxHealth:** Mercenary: The base health of your survivor
+* **MercenaryBaseMaxShield:** Mercenary: the base max shield of you survivor
+* **MercenaryBaseMoveSpeed:** Mercenary: The base move speed of your survivor
+* **MercenaryBaseRegen:** Mercenary: The base regen of your survivor
+* **MercenaryLevelArmor:** Mercenary: The armor per level your survivor gets
+* **MercenaryLevelAttackSpeed:** Mercenary: The attack speed per level your survivor gets
+* **MercenaryLevelCrit:** Mercenary: The crit chance per level your survivor gets
+* **MercenaryLevelDamage:** Mercenary: The damage per level your survivor gets
+* **MercenaryLevelJumpPower:** Mercenary: The jump power per level your survivor gets
+* **MercenaryLevelMaxHealth:** Mercenary: The max health per level your survivor gets.
+* **MercenaryLevelMaxShield:** Mercenary: The max shield per level your survivor gets
+* **MercenaryLevelMoveSpeed:** Mercenary: The move speed per level your survivor gets
+* **MercenaryLevelRegen:** Mercenary: The regen per level your survivor gets.
 * **WhirlwindBaseMaxStock:** Whirlwind: Maximum number of charges this skill can carry.
 * **WhirlwindBaseRechargeInterval:** Whirlwind: How long it takes for this skill to recharge after being used.
 * **WhirlwindBeginSkillCooldownOnSkillEnd:** Whirlwind: Whether or not the cooldown waits until it leaves the set state
@@ -352,6 +471,26 @@
 * **WhirlwindShootDelay:** Whirlwind: Time between bullets for bullet-style weapons
 * **WhirlwindStockToConsume:** Whirlwind: How much stock to deduct when the skill is activated.
 # Bandit
+* **BanditBaseAcceleration:** Bandit: The base acceleration of your survivor
+* **BanditBaseArmor:** Bandit: The base armor of your survivor
+* **BanditBaseAttackSpeed:** Bandit: The base attack speed of your survivor
+* **BanditBaseCrit:** Bandit: The base crit chance of your survivor
+* **BanditBaseDamage:** Bandit: The base damage of your survivor
+* **BanditBaseJumpCount:** Bandit: The base jump count of your survivor
+* **BanditBaseJumpPower:** Bandit: The base jump power of your survivor
+* **BanditBaseMaxHealth:** Bandit: The base health of your survivor
+* **BanditBaseMaxShield:** Bandit: the base max shield of you survivor
+* **BanditBaseMoveSpeed:** Bandit: The base move speed of your survivor
+* **BanditBaseRegen:** Bandit: The base regen of your survivor
+* **BanditLevelArmor:** Bandit: The armor per level your survivor gets
+* **BanditLevelAttackSpeed:** Bandit: The attack speed per level your survivor gets
+* **BanditLevelCrit:** Bandit: The crit chance per level your survivor gets
+* **BanditLevelDamage:** Bandit: The damage per level your survivor gets
+* **BanditLevelJumpPower:** Bandit: The jump power per level your survivor gets
+* **BanditLevelMaxHealth:** Bandit: The max health per level your survivor gets.
+* **BanditLevelMaxShield:** Bandit: The max shield per level your survivor gets
+* **BanditLevelMoveSpeed:** Bandit: The move speed per level your survivor gets
+* **BanditLevelRegen:** Bandit: The regen per level your survivor gets.
 * **BaseMaxStock:** : Maximum number of charges this skill can carry.
 * **BaseMaxStock:** : Maximum number of charges this skill can carry.
 * **BaseMaxStock:** : Maximum number of charges this skill can carry.

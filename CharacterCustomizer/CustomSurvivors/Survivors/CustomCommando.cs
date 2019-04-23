@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
@@ -20,70 +21,83 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public class CustomCommando : CustomSurvivor
         {
-            public CustomCommando() : base(SurvivorIndex.Commando,"Commando", 
-                "FirePistol", 
-                "FireFMJ", 
-                "Roll", 
+            public CustomCommando() : base(SurvivorIndex.Commando, "Commando",
+                "FirePistol",
+                "FireFMJ",
+                "Roll",
                 "Barrage")
             {
             }
 
-            public ValueConfigWrapper<string> PistolDamageCoefficient;
+            public ConfigWrapper<bool> PistolHitLowerBarrageCooldown;
 
-            public ValueConfigWrapper<string> PistolBaseDuration;
+            public ValueConfigWrapper<string> PistolHitLowerBarrageCooldownPercent;
 
-            public ValueConfigWrapper<string> LaserDamageCoefficient;
+            public FieldConfigWrapper<string> PistolDamageCoefficient;
+
+            public FieldConfigWrapper<string> PistolBaseDuration;
+
+            public List<IFieldChanger> PistolFields;
+
+            public FieldConfigWrapper<string> LaserDamageCoefficient;
+
+            public List<IFieldChanger> LaserFields;
 
             public ConfigWrapper<bool> DashResetsSecondCooldown;
 
-            public ValueConfigWrapper<int> DashStockCount;
-
-            public ConfigWrapper<bool> PistolHitLowerBarrageCooldown;
-            public ValueConfigWrapper<string> PistolHitLowerBarrageCooldownPercent;
+            public List<IFieldChanger> DashFields;
 
             public ConfigWrapper<bool> BarrageScalesWithAttackSpeed;
 
             public ValueConfigWrapper<string> BarrageScaleModifier;
 
-            public ValueConfigWrapper<int> BarrageBaseShotAmount;
-
             public int VanillaBarrageBaseShotAmount;
 
-            public ValueConfigWrapper<string> BarrageBaseDurationBetweenShots;
+            public float VanillaBarrageBaseDurationBetweenShots;
 
-            public float VanillaBarrageBaseDurationBeetweenShots;
+            public FieldConfigWrapper<string> BarrageBaseDurationBetweenShots;
+
+            public FieldConfigWrapper<int> BarrageBaseShotAmount;
+
+            public List<IFieldChanger> BarrageFields;
 
             public override void InitConfigValues()
             {
-                PistolDamageCoefficient = WrapConfigFloat("PistolDamageCoefficient",
-                    "Damage coefficient for the pistol, in percent.");
+                // Pistol
 
-                LaserDamageCoefficient = WrapConfigFloat("LaserDamageCoefficient",
-                    "Damage coefficient for the secondary laser, in percent.");
+                PistolDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat("PistolDamageCoefficient",
+                    "Damage coefficient for the pistol, in percent."), "damageCoefficient", true);
 
                 PistolBaseDuration =
-                    WrapConfigFloat("PistolBaseDuration",
-                        "Base duration for the pistol shot, in percent. (Attack Speed)");
+                    new FieldConfigWrapper<string>(WrapConfigFloat("PistolBaseDuration",
+                        "Base duration for the pistol shot, in percent. (Attack Speed)"), "baseDuration", true);
 
+                PistolFields = new List<IFieldChanger> {PistolBaseDuration, PistolDamageCoefficient};
 
-                DashResetsSecondCooldown =
-                    WrapConfigBool("DashResetsSecondCooldown",
-                        "If the dash should reset the cooldown of the second ability.");
-
-
-                DashStockCount = WrapConfigInt("DashStockCount", "How many stocks the dash ability has.");
-
-          
                 PistolHitLowerBarrageCooldownPercent = WrapConfigFloat("PistolHitLowerBarrageCooldownPercent",
                     "The amount in percent that the current cooldown of the Barrage Skill should be lowered by. Needs to have PistolHitLowerBarrageCooldownPercent set.");
 
 
                 PistolHitLowerBarrageCooldown =
-                    WrapConfigBool("PistolHitLowerBarrageCooldown",
+                    WrapConfigStandardBool("PistolHitLowerBarrageCooldown",
                         "If the pistol hit should lower the Barrage Skill cooldown. Needs to have PistolHitLowerBarrageCooldownPercent set to work");
 
+                // Laser
 
-                BarrageScalesWithAttackSpeed = WrapConfigBool("BarrageScalesWithAttackSpeed",
+                LaserDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat("LaserDamageCoefficient",
+                    "Damage coefficient for the secondary laser, in percent."), "damageCoefficient", true);
+
+                LaserFields = new List<IFieldChanger> {LaserDamageCoefficient};
+
+                // Dash
+
+                DashResetsSecondCooldown =
+                    WrapConfigStandardBool("DashResetsSecondCooldown",
+                        "If the dash should reset the cooldown of the second ability.");
+
+                // Barrage
+
+                BarrageScalesWithAttackSpeed = WrapConfigStandardBool("BarrageScalesWithAttackSpeed",
                     "If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.");
 
 
@@ -92,12 +106,16 @@ namespace CharacterCustomizer.CustomSurvivors
 
 
                 BarrageBaseShotAmount =
-                    WrapConfigInt("BarrageBaseShotAmount", "How many shots the Barrage skill should fire");
+                    new FieldConfigWrapper<int>(
+                        WrapConfigInt("BarrageBaseShotAmount", "How many shots the Barrage skill should fire"),
+                        "bulletCount", true);
 
 
                 BarrageBaseDurationBetweenShots =
-                    WrapConfigFloat("BarrageBaseDurationBetweenShots",
-                        "Base duration between shots in the Barrage skill.");
+                    new FieldConfigWrapper<string>(WrapConfigFloat("BarrageBaseDurationBetweenShots",
+                        "Base duration between shots in the Barrage skill."), "baseDurationBetweenShots", true);
+
+                BarrageFields = new List<IFieldChanger> {BarrageBaseShotAmount, BarrageBaseDurationBetweenShots};
             }
 
             public override void OverrideGameValues()
@@ -108,45 +126,21 @@ namespace CharacterCustomizer.CustomSurvivors
                     Assembly assembly = self.GetType().Assembly;
 
                     Type firePistol = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FirePistol2");
-
                     
-                    PistolDamageCoefficient.SetDefaultValue(firePistol.GetFieldValue<float>("damageCoefficient"));
-                    if (PistolDamageCoefficient.IsNotDefault())
-                    {
-                        firePistol.SetFieldValue("damageCoefficient", PistolDamageCoefficient.FloatValue);
-                    }
-
-                    PistolBaseDuration.SetDefaultValue(firePistol.GetFieldValue<float>("baseDuration"));
-                    if (PistolBaseDuration.IsNotDefault())
-                    {
-                        firePistol.SetFieldValue("baseDuration", PistolBaseDuration.FloatValue);
-                    }
+                    PistolFields.ForEach(changer => changer.Apply(firePistol));
 
                     Type fireLaser = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireFMJ");
 
-                    LaserDamageCoefficient.SetDefaultValue(fireLaser.GetFieldValue<float>("damageCoefficient"));
-                    if (LaserDamageCoefficient.IsNotDefault())
-                    {
-                        fireLaser.SetFieldValue("damageCoefficient", LaserDamageCoefficient.FloatValue);
-                    }
+                    LaserFields.ForEach(changer => changer.Apply(fireLaser));
 
                     Type fireBarr = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireBarrage");
 
                     VanillaBarrageBaseShotAmount =
-                        fireBarr.GetFieldValue<int>("bulletCount");
+                        BarrageBaseShotAmount.GetValue<int>(fireBarr);
+
+                    VanillaBarrageBaseDurationBetweenShots = BarrageBaseDurationBetweenShots.GetValue<float>(fireBarr);
                     
-                    BarrageBaseShotAmount.SetDefaultValue(VanillaBarrageBaseShotAmount);
-
-                    VanillaBarrageBaseDurationBeetweenShots = fireBarr.GetFieldValue<float>("baseDurationBetweenShots");
-
-                    BarrageBaseDurationBetweenShots.SetDefaultValue(VanillaBarrageBaseDurationBeetweenShots);
-                    
-                    if (BarrageBaseDurationBetweenShots.IsNotDefault())
-                    {
-                        fireBarr.SetFieldValue("baseDurationBetweenShots", BarrageBaseDurationBetweenShots.FloatValue);
-                    }
-
-                    BarrageBaseShotAmount.RunIfNotDefault(count => { fireBarr.SetFieldValue("bulletCount", count); });
+                    BarrageFields.ForEach(changer => changer.Apply(fireBarr));
                 };
             }
 
@@ -166,14 +160,14 @@ namespace CharacterCustomizer.CustomSurvivors
 
                         float attackSpeedF = (float) attackSpeed?.GetValue(self);
 
-                        int baseShot = BarrageBaseShotAmount.IsDefault()
+                        int baseShot = BarrageBaseShotAmount.ValueConfigWrapper.IsDefault()
                             ? VanillaBarrageBaseShotAmount
-                            : BarrageBaseShotAmount.Value;
+                            : BarrageBaseShotAmount.ValueConfigWrapper.Value;
 
                         durationBetweenShots?.SetValue(self,
-                            (BarrageBaseDurationBetweenShots.IsDefault()
-                                ? VanillaBarrageBaseDurationBeetweenShots
-                                : BarrageBaseDurationBetweenShots.FloatValue) / attackSpeedF /
+                            (BarrageBaseDurationBetweenShots.ValueConfigWrapper.IsDefault()
+                                ? VanillaBarrageBaseDurationBetweenShots
+                                : BarrageBaseDurationBetweenShots.ValueConfigWrapper.FloatValue) / attackSpeedF /
                             BarrageScaleModifier.FloatValue);
 
                         fireBarr.SetFieldValue("bulletCount",
