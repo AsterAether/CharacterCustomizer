@@ -47,6 +47,8 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ConfigWrapper<bool> DashInvulnerability;
 
+            public ValueConfigWrapper<string> DashInvulnerabilityTimer;
+
             public List<IFieldChanger> DashFields;
 
             public ConfigWrapper<bool> BarrageScalesWithAttackSpeed;
@@ -99,6 +101,10 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 DashInvulnerability = WrapConfigStandardBool("DashInvulnerability",
                     "If Commando should be invulnerable while dashing.");
+
+                DashInvulnerabilityTimer = WrapConfigFloat("DashInvulnerabilityTimer",
+                    "How long Commando should be invincible for when dashing. Only active when DashInvulnerability is on. 0 = For the whole dash.");
+
 
                 // Barrage
 
@@ -179,7 +185,7 @@ namespace CharacterCustomizer.CustomSurvivors
                             BarrageScaleModifier.FloatValue);
 
                         fireBarr.SetFieldValue("bulletCount",
-                            baseShot + (attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot);
+                            baseShot + (int) ((attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot));
                     };
                 }
 
@@ -204,23 +210,31 @@ namespace CharacterCustomizer.CustomSurvivors
 
                     if (DashInvulnerability.Value)
                     {
-                        Transform transform = self.InvokeMethod<Transform>("GetModelTransform");
+                        if (DashInvulnerabilityTimer.IsDefault())
+                        {
+                            Transform transform = self.InvokeMethod<Transform>("GetModelTransform");
 
-                        HurtBoxGroup hurtBoxGroup = transform.GetComponent<HurtBoxGroup>();
-                        ++hurtBoxGroup.hurtBoxesDeactivatorCounter;
+                            HurtBoxGroup hurtBoxGroup = transform.GetComponent<HurtBoxGroup>();
+                            ++hurtBoxGroup.hurtBoxesDeactivatorCounter;
+                        }
+                        else
+                        {
+                            self.outer.commonComponents.characterBody.AddTimedBuff(BuffIndex.HiddenInvincibility,
+                                DashInvulnerabilityTimer.FloatValue);
+                        }
                     }
                 };
 
                 On.EntityStates.Commando.DodgeState.OnExit += (orig, self) =>
                 {
-                    if (DashInvulnerability.Value)
+                    if (DashInvulnerability.Value && DashInvulnerabilityTimer.IsDefault())
                     {
                         Transform transform = self.InvokeMethod<Transform>("GetModelTransform");
 
                         HurtBoxGroup hurtBoxGroup = transform.GetComponent<HurtBoxGroup>();
                         --hurtBoxGroup.hurtBoxesDeactivatorCounter;
                     }
-                    
+
                     orig(self);
                 };
 
