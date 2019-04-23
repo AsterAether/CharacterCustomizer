@@ -57,6 +57,14 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public FieldConfigWrapper<string> FlamethrowerIgnitePercentChance;
 
+            public ConfigWrapper<bool> FlamethrowerDurationScaleDownWithAttackSpeed;
+
+            public ValueConfigWrapper<string> FlamethrowerDurationScaleCoefficient;
+
+            public ValueConfigWrapper<string> FlamethrowerMinimalDuration;
+
+            public float VanillaFlamethrowerDuration;
+
             public List<IFieldChanger> FlamethrowerFields;
 
 
@@ -78,7 +86,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 FireboltAttackSpeedStockScalingCoefficient =
                     WrapConfigFloat("FireboltAttackSpeedStockScalingCoefficient",
-                        "Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * (ATKSP - 1) * Coeff.");
+                        "Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock + Stock * (ATKSP - 1) * Coeff.");
 
                 FireboltAttackSpeedCooldownScaling = WrapConfigStandardBool("FireboltAttackSpeedCooldownScaling",
                     "If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.");
@@ -86,7 +94,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
                 FireboltAttackSpeedCooldownScalingCoefficient = WrapConfigFloat(
                     "FireboltAttackSpeedCooldownScalingCoefficient",
-                    "Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / ((ATKSP - 1) * Coeff)).");
+                    "Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (1 + (ATKSP-1) * Coeff)) .");
 
                 // NovaBomb
 
@@ -144,7 +152,18 @@ namespace CharacterCustomizer.CustomSurvivors
                     "If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.");
 
                 FlamethrowerTickFrequencyScaleCoefficient = WrapConfigFloat("FlamethrowerTickFrequencyScaleCoefficient",
-                    "The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * (ATKSP - 1) * TickFreq");
+                    "The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: TickFreq + Coeff * (ATKSP - 1) * TickFreq");
+
+                FlamethrowerDurationScaleDownWithAttackSpeed =
+                    WrapConfigStandardBool("FlamethrowerDurationScaleDownWithAttackSpeed",
+                        "If the flame thrower duration should get shorter with more attack speed. Needs FlamethrowerDurationScaleCoefficient to be set.");
+
+                FlamethrowerDurationScaleCoefficient = WrapConfigFloat("FlamethrowerDurationScaleCoefficient",
+                    "The coefficient for flame thrower scaling. Formula: Duration - Coeff * (ATKSP - 1) * Duration. Minimum of FlamethrowerMinimalDuration seconds.");
+
+                FlamethrowerMinimalDuration = WrapConfigFloat("FlamethrowerMinimalDuration",
+                    "The minimal duration of the flamethrower",
+                    1f);
             }
 
 
@@ -165,6 +184,7 @@ namespace CharacterCustomizer.CustomSurvivors
                     FlamethrowerFields.ForEach(changer => changer.Apply(flamethrower));
 
                     VanillaFlamethrowerTickFrequency = FlamethrowerTickFrequency.GetValue<float>(flamethrower);
+                    VanillaFlamethrowerDuration = FlamethrowerDuration.GetValue<float>(flamethrower);
                 };
             }
 
@@ -201,44 +221,71 @@ namespace CharacterCustomizer.CustomSurvivors
                                     if (runCooldownScaling)
                                     {
                                         primary.cooldownScale =
-                                            cooldownScale * (1 / (cooldownCoeff * (attackSpeed - 1)));
+                                            cooldownScale - cooldownScale *
+                                            (1 / (1 + cooldownCoeff * (attackSpeed - 1)));
                                     }
 
                                     if (runStockScaling)
                                     {
-                                        primary.SetBonusStockFromBody((int) ((attackSpeed - 1) * stockCoeff));
+                                        primary.SetBonusStockFromBody(
+                                            (int) ((attackSpeed - 1) * stockCoeff * primary.maxStock));
                                     }
                                 }
                             });
                     };
                 }
 
-                if (FlamethrowerTickFrequencyScaleWithAttackSpeed.Value &&
-                    FlamethrowerTickFrequencyScaleCoefficient.IsNotDefault())
+
+                On.EntityStates.Mage.Weapon.Flamethrower.OnEnter += (orig, self) =>
                 {
-                    On.EntityStates.Mage.Weapon.Flamethrower.OnEnter += (orig, self) =>
+                    Type flamethrowerType = self.GetType();
+
+                    GameObject go = typeof(EntityState)
+                        .GetProperty("gameObject", BindingFlags.NonPublic | BindingFlags.Instance)
+                        ?.GetValue(self) as GameObject;
+
+                    CharacterBody body = go.GetComponent<CharacterBody>();
+
+                    if (FlamethrowerTickFrequencyScaleWithAttackSpeed.Value &&
+                        FlamethrowerTickFrequencyScaleCoefficient.IsNotDefault())
                     {
-                        Type flamethrowerType = self.GetType();
+                        float baseVal = FlamethrowerTickFrequency.ValueConfigWrapper.IsNotDefault()
+                            ? FlamethrowerTickFrequency.ValueConfigWrapper.FloatValue
+                            : VanillaFlamethrowerTickFrequency;
 
-                        GameObject go = typeof(EntityState)
-                            .GetProperty("gameObject", BindingFlags.NonPublic | BindingFlags.Instance)
-                            ?.GetValue(self) as GameObject;
-
-                        CharacterBody body = go.GetComponent<CharacterBody>();
-
-                        float val = (body.attackSpeed - 1) *
-                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue *
-                                    (FlamethrowerTickFrequency.ValueConfigWrapper.IsNotDefault()
-                                        ? FlamethrowerTickFrequency.ValueConfigWrapper.FloatValue
-                                        : VanillaFlamethrowerTickFrequency);
+                        float val = baseVal - (body.attackSpeed - 1) *
+                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue * baseVal
+                            ;
 
                         flamethrowerType.SetFieldValue("tickFrequency",
                             val
                         );
+                    }
 
-                        orig(self);
-                    };
-                }
+                    if (FlamethrowerDurationScaleDownWithAttackSpeed.Value &&
+                        FlamethrowerDurationScaleCoefficient.IsNotDefault())
+                    {
+                        float baseVal = FlamethrowerDuration.ValueConfigWrapper.IsNotDefault()
+                            ? FlamethrowerDuration.ValueConfigWrapper.FloatValue
+                            : VanillaFlamethrowerDuration;
+
+                        float val = baseVal - (body.attackSpeed - 1) *
+                                    FlamethrowerDurationScaleCoefficient.FloatValue *
+                                    baseVal;
+
+                        if (val < FlamethrowerMinimalDuration.FloatValue)
+                        {
+                            val = FlamethrowerMinimalDuration.FloatValue;
+                        }
+
+                        flamethrowerType.SetFieldValue("baseFlamethrowerDuration",
+                            val
+                        );
+                    }
+
+
+                    orig(self);
+                };
             }
         }
     }

@@ -96,7 +96,7 @@
 * **BarrageRechargeStock:** Barrage: How much stock to restore on a recharge.
 * **BarrageRequiredStock:** Barrage: How much stock is required to activate this skill.
 * **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * (ATKSP - 1) * Coeff
-* **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
+* **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attack speed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
 * **BarrageShootDelay:** Barrage: Time between bullets for bullet-style weapons
 * **BarrageStockToConsume:** Barrage: How much stock to deduct when the skill is activated.
 * **CommandoBaseAcceleration:** Commando: The base acceleration of your survivor
@@ -203,6 +203,8 @@
 * **FlamethrowerBeginSkillCooldownOnSkillEnd:** Flamethrower: Whether or not the cooldown waits until it leaves the set state
 * **FlamethrowerCanceledFromSprinting:** Flamethrower: Sprinting will actively cancel this ability.
 * **FlamethrowerDuration:** The duration of the flamethrower
+* **FlamethrowerDurationScaleCoefficient:** The coefficient for flame thrower scaling. Formula: Coeff * (ATKSP - 1) * duration. Minimum of 0.5 seconds.
+* **FlamethrowerDurationScaleDownWithAttackSpeed:** If the flame thrower duration should get shorter with more attack speed. Needs FlamethrowerDurationScaleCoefficient to be set.
 * **FlamethrowerIgnitePercentChance:** The change to ignite per proc in percent.
 * **FlamethrowerIsBullets:** Flamethrower: Whether or not it has bullet reload behavior
 * **FlamethrowerIsCombatSkill:** Flamethrower: Whether or not this is considered a combat skill.

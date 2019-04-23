@@ -98,11 +98,11 @@ namespace CharacterCustomizer.CustomSurvivors
                 // Barrage
 
                 BarrageScalesWithAttackSpeed = WrapConfigStandardBool("BarrageScalesWithAttackSpeed",
-                    "If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.");
+                    "If the barrage bullet count should scale with attack speed. Idea by @Twyla. Needs BarrageScaleModifier to be set.");
 
 
                 BarrageScaleModifier = WrapConfigFloat("BarrageScaleCoefficient",
-                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * (ATKSP - 1) * Coeff");
+                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount + BCount * (ATKSP - 1) * Coeff");
 
 
                 BarrageBaseShotAmount =
@@ -148,9 +148,12 @@ namespace CharacterCustomizer.CustomSurvivors
             {
                 if (BarrageScalesWithAttackSpeed.Value && BarrageScaleModifier.IsNotDefault())
                 {
-                    On.EntityStates.Commando.CommandoWeapon.FireBarrage.FixedUpdate += (orig, self) =>
+                    On.EntityStates.Commando.CommandoWeapon.FireBarrage.OnEnter += (orig, self) =>
                     {
+                        orig(self);
+
                         Assembly assembly = self.GetType().Assembly;
+
                         Type fireBarr = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireBarrage");
                         FieldInfo attackSpeed = typeof(BaseState).GetField("attackSpeedStat",
                             BindingFlags.NonPublic | BindingFlags.Instance);
@@ -171,8 +174,7 @@ namespace CharacterCustomizer.CustomSurvivors
                             BarrageScaleModifier.FloatValue);
 
                         fireBarr.SetFieldValue("bulletCount",
-                            (int) ((attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot));
-                        orig(self);
+                            baseShot + (attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot);
                     };
                 }
 

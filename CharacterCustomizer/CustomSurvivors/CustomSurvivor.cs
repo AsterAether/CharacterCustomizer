@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AetherLib.Util.Config;
 using BepInEx.Configuration;
@@ -116,9 +117,9 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public abstract void WriteNewHooks();
 
-        public ValueConfigWrapper<int> WrapConfigInt(string key, string description)
+        public ValueConfigWrapper<int> WrapConfigInt(string key, string description, int defaultVal = 0)
         {
-            ValueConfigWrapper<int> conf = Config.ValueWrap(CharacterName, key, description, 0);
+            ValueConfigWrapper<int> conf = Config.ValueWrap(CharacterName, key, description, defaultVal);
             MarkdownConfigDefinitions.Add(conf);
             return conf;
         }
@@ -137,9 +138,9 @@ namespace CharacterCustomizer.CustomSurvivors
             return conf;
         }
 
-        public ValueConfigWrapper<string> WrapConfigFloat(string key, string description)
+        public ValueConfigWrapper<string> WrapConfigFloat(string key, string description, float defaultVal = 0f)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Float, description);
+            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Float, description, defaultVal.ToString(CultureInfo.InvariantCulture));
             MarkdownConfigDefinitions.Add(conf);
             return conf;
         }
