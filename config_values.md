@@ -95,7 +95,7 @@
 * **BarrageNoSprint:** Barrage: Whether or not the usage of this skill is mutually exclusive with sprinting.
 * **BarrageRechargeStock:** Barrage: How much stock to restore on a recharge.
 * **BarrageRequiredStock:** Barrage: How much stock is required to activate this skill.
-* **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * (ATKSP - 1) * Coeff
+* **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount + BCount * (ATKSP - 1) * Coeff
 * **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attack speed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
 * **BarrageShootDelay:** Barrage: Time between bullets for bullet-style weapons
 * **BarrageStockToConsume:** Barrage: How much stock to deduct when the skill is activated.
@@ -183,9 +183,9 @@
 * **ArtificerLevelMoveSpeed:** Artificer: The move speed per level your survivor gets
 * **ArtificerLevelRegen:** Artificer: The regen per level your survivor gets.
 * **FireboltAttackSpeedCooldownScaling:** If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.
-* **FireboltAttackSpeedCooldownScalingCoefficient:** Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / ((ATKSP - 1) * Coeff)).
+* **FireboltAttackSpeedCooldownScalingCoefficient:** Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (1 + (ATKSP-1) * Coeff)) .
 * **FireboltAttackSpeedStockScaling:** If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.
-* **FireboltAttackSpeedStockScalingCoefficient:** Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * (ATKSP - 1) * Coeff.
+* **FireboltAttackSpeedStockScalingCoefficient:** Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock + Stock * (ATKSP - 1) * Coeff.
 * **FireFireboltBaseMaxStock:** FireFirebolt: Maximum number of charges this skill can carry.
 * **FireFireboltBaseRechargeInterval:** FireFirebolt: How long it takes for this skill to recharge after being used.
 * **FireFireboltBeginSkillCooldownOnSkillEnd:** FireFirebolt: Whether or not the cooldown waits until it leaves the set state
@@ -203,12 +203,13 @@
 * **FlamethrowerBeginSkillCooldownOnSkillEnd:** Flamethrower: Whether or not the cooldown waits until it leaves the set state
 * **FlamethrowerCanceledFromSprinting:** Flamethrower: Sprinting will actively cancel this ability.
 * **FlamethrowerDuration:** The duration of the flamethrower
-* **FlamethrowerDurationScaleCoefficient:** The coefficient for flame thrower scaling. Formula: Coeff * (ATKSP - 1) * duration. Minimum of 0.5 seconds.
+* **FlamethrowerDurationScaleCoefficient:** The coefficient for flame thrower scaling. Formula: Duration - Coeff * (ATKSP - 1) * Duration. Minimum of FlamethrowerMinimalDuration seconds.
 * **FlamethrowerDurationScaleDownWithAttackSpeed:** If the flame thrower duration should get shorter with more attack speed. Needs FlamethrowerDurationScaleCoefficient to be set.
 * **FlamethrowerIgnitePercentChance:** The change to ignite per proc in percent.
 * **FlamethrowerIsBullets:** Flamethrower: Whether or not it has bullet reload behavior
 * **FlamethrowerIsCombatSkill:** Flamethrower: Whether or not this is considered a combat skill.
 * **FlamethrowerMaxDistance:** The max distance of the Flamethrower
+* **FlamethrowerMinimalDuration:** The minimal duration of the flamethrower
 * **FlamethrowerMustKeyPress:** Flamethrower: The skill can't be activated if the key is held.
 * **FlamethrowerNoSprint:** Flamethrower: Whether or not the usage of this skill is mutually exclusive with sprinting.
 * **FlamethrowerProcCoefficientPerTick:** The coefficient for items per proc of the flamethrower.
@@ -218,7 +219,7 @@
 * **FlamethrowerShootDelay:** Flamethrower: Time between bullets for bullet-style weapons
 * **FlamethrowerStockToConsume:** Flamethrower: How much stock to deduct when the skill is activated.
 * **FlamethrowerTickFrequency:** The tick frequency of the flamethrower
-* **FlamethrowerTickFrequencyScaleCoefficient:** The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * (ATKSP - 1) * TickFreq
+* **FlamethrowerTickFrequencyScaleCoefficient:** The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: TickFreq + Coeff * (ATKSP - 1) * TickFreq
 * **FlamethrowerTickFrequencyScaleWithAttackSpeed:** If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.
 * **FlamethrowerTotalDamageCoefficient:** The total damage coefficient for the flamethrower
 * **NovaBombBaseChargeDuration:** Base max charging duration of the NovaBomb
