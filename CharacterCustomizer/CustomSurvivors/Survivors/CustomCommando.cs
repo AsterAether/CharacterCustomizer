@@ -102,7 +102,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
 
                 BarrageScaleModifier = WrapConfigFloat("BarrageScaleCoefficient",
-                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * ATKSP * Coeff");
+                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * (ATKSP - 1) * Coeff");
 
 
                 BarrageBaseShotAmount =
@@ -126,7 +126,7 @@ namespace CharacterCustomizer.CustomSurvivors
                     Assembly assembly = self.GetType().Assembly;
 
                     Type firePistol = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FirePistol2");
-                    
+
                     PistolFields.ForEach(changer => changer.Apply(firePistol));
 
                     Type fireLaser = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireFMJ");
@@ -139,7 +139,7 @@ namespace CharacterCustomizer.CustomSurvivors
                         BarrageBaseShotAmount.GetValue<int>(fireBarr);
 
                     VanillaBarrageBaseDurationBetweenShots = BarrageBaseDurationBetweenShots.GetValue<float>(fireBarr);
-                    
+
                     BarrageFields.ForEach(changer => changer.Apply(fireBarr));
                 };
             }
@@ -171,7 +171,7 @@ namespace CharacterCustomizer.CustomSurvivors
                             BarrageScaleModifier.FloatValue);
 
                         fireBarr.SetFieldValue("bulletCount",
-                            (int) (attackSpeedF * BarrageScaleModifier.FloatValue * baseShot));
+                            (int) ((attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot));
                         orig(self);
                     };
                 }

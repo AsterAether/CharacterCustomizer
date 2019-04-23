@@ -5,10 +5,10 @@ namespace CharacterCustomizer.CustomSurvivors
     public class CustomBandit : CustomSurvivor
     {
         public CustomBandit() : base(SurvivorIndex.Bandit,"Bandit", 
-            "", 
-            "", 
-            "", 
-            "")
+            "FireShotgun", 
+            "LightsOut", 
+            "Cloak", 
+            "Grenade")
         {
         }
 

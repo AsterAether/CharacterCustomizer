@@ -95,7 +95,7 @@
 * **BarrageNoSprint:** Barrage: Whether or not the usage of this skill is mutually exclusive with sprinting.
 * **BarrageRechargeStock:** Barrage: How much stock to restore on a recharge.
 * **BarrageRequiredStock:** Barrage: How much stock is required to activate this skill.
-* **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * ATKSP * Coeff
+* **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount * (ATKSP - 1) * Coeff
 * **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attackspeed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
 * **BarrageShootDelay:** Barrage: Time between bullets for bullet-style weapons
 * **BarrageStockToConsume:** Barrage: How much stock to deduct when the skill is activated.
@@ -183,9 +183,9 @@
 * **ArtificerLevelMoveSpeed:** Artificer: The move speed per level your survivor gets
 * **ArtificerLevelRegen:** Artificer: The regen per level your survivor gets.
 * **FireboltAttackSpeedCooldownScaling:** If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.
-* **FireboltAttackSpeedCooldownScalingCoefficient:** Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (ATKSP * Coeff)).
+* **FireboltAttackSpeedCooldownScalingCoefficient:** Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / ((ATKSP - 1) * Coeff)).
 * **FireboltAttackSpeedStockScaling:** If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.
-* **FireboltAttackSpeedStockScalingCoefficient:** Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * ATKSP * Coeff.
+* **FireboltAttackSpeedStockScalingCoefficient:** Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock * (ATKSP - 1) * Coeff.
 * **FireFireboltBaseMaxStock:** FireFirebolt: Maximum number of charges this skill can carry.
 * **FireFireboltBaseRechargeInterval:** FireFirebolt: How long it takes for this skill to recharge after being used.
 * **FireFireboltBeginSkillCooldownOnSkillEnd:** FireFirebolt: Whether or not the cooldown waits until it leaves the set state
@@ -216,7 +216,7 @@
 * **FlamethrowerShootDelay:** Flamethrower: Time between bullets for bullet-style weapons
 * **FlamethrowerStockToConsume:** Flamethrower: How much stock to deduct when the skill is activated.
 * **FlamethrowerTickFrequency:** The tick frequency of the flamethrower
-* **FlamethrowerTickFrequencyScaleCoefficient:** The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * ATKSP * TickFreq
+* **FlamethrowerTickFrequencyScaleCoefficient:** The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: Coeff * (ATKSP - 1) * TickFreq
 * **FlamethrowerTickFrequencyScaleWithAttackSpeed:** If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.
 * **FlamethrowerTotalDamageCoefficient:** The total damage coefficient for the flamethrower
 * **NovaBombBaseChargeDuration:** Base max charging duration of the NovaBomb
@@ -491,51 +491,51 @@
 * **BanditLevelMaxShield:** Bandit: The max shield per level your survivor gets
 * **BanditLevelMoveSpeed:** Bandit: The move speed per level your survivor gets
 * **BanditLevelRegen:** Bandit: The regen per level your survivor gets.
-* **BaseMaxStock:** : Maximum number of charges this skill can carry.
-* **BaseMaxStock:** : Maximum number of charges this skill can carry.
-* **BaseMaxStock:** : Maximum number of charges this skill can carry.
-* **BaseMaxStock:** : Maximum number of charges this skill can carry.
-* **BaseRechargeInterval:** : How long it takes for this skill to recharge after being used.
-* **BaseRechargeInterval:** : How long it takes for this skill to recharge after being used.
-* **BaseRechargeInterval:** : How long it takes for this skill to recharge after being used.
-* **BaseRechargeInterval:** : How long it takes for this skill to recharge after being used.
-* **BeginSkillCooldownOnSkillEnd:** : Whether or not the cooldown waits until it leaves the set state
-* **BeginSkillCooldownOnSkillEnd:** : Whether or not the cooldown waits until it leaves the set state
-* **BeginSkillCooldownOnSkillEnd:** : Whether or not the cooldown waits until it leaves the set state
-* **BeginSkillCooldownOnSkillEnd:** : Whether or not the cooldown waits until it leaves the set state
-* **CanceledFromSprinting:** : Sprinting will actively cancel this ability.
-* **CanceledFromSprinting:** : Sprinting will actively cancel this ability.
-* **CanceledFromSprinting:** : Sprinting will actively cancel this ability.
-* **CanceledFromSprinting:** : Sprinting will actively cancel this ability.
-* **IsBullets:** : Whether or not it has bullet reload behavior
-* **IsBullets:** : Whether or not it has bullet reload behavior
-* **IsBullets:** : Whether or not it has bullet reload behavior
-* **IsBullets:** : Whether or not it has bullet reload behavior
-* **IsCombatSkill:** : Whether or not this is considered a combat skill.
-* **IsCombatSkill:** : Whether or not this is considered a combat skill.
-* **IsCombatSkill:** : Whether or not this is considered a combat skill.
-* **IsCombatSkill:** : Whether or not this is considered a combat skill.
-* **MustKeyPress:** : The skill can't be activated if the key is held.
-* **MustKeyPress:** : The skill can't be activated if the key is held.
-* **MustKeyPress:** : The skill can't be activated if the key is held.
-* **MustKeyPress:** : The skill can't be activated if the key is held.
-* **NoSprint:** : Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **NoSprint:** : Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **NoSprint:** : Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **NoSprint:** : Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **RechargeStock:** : How much stock to restore on a recharge.
-* **RechargeStock:** : How much stock to restore on a recharge.
-* **RechargeStock:** : How much stock to restore on a recharge.
-* **RechargeStock:** : How much stock to restore on a recharge.
-* **RequiredStock:** : How much stock is required to activate this skill.
-* **RequiredStock:** : How much stock is required to activate this skill.
-* **RequiredStock:** : How much stock is required to activate this skill.
-* **RequiredStock:** : How much stock is required to activate this skill.
-* **ShootDelay:** : Time between bullets for bullet-style weapons
-* **ShootDelay:** : Time between bullets for bullet-style weapons
-* **ShootDelay:** : Time between bullets for bullet-style weapons
-* **ShootDelay:** : Time between bullets for bullet-style weapons
-* **StockToConsume:** : How much stock to deduct when the skill is activated.
-* **StockToConsume:** : How much stock to deduct when the skill is activated.
-* **StockToConsume:** : How much stock to deduct when the skill is activated.
-* **StockToConsume:** : How much stock to deduct when the skill is activated.
+* **CloakBaseMaxStock:** Cloak: Maximum number of charges this skill can carry.
+* **CloakBaseRechargeInterval:** Cloak: How long it takes for this skill to recharge after being used.
+* **CloakBeginSkillCooldownOnSkillEnd:** Cloak: Whether or not the cooldown waits until it leaves the set state
+* **CloakCanceledFromSprinting:** Cloak: Sprinting will actively cancel this ability.
+* **CloakIsBullets:** Cloak: Whether or not it has bullet reload behavior
+* **CloakIsCombatSkill:** Cloak: Whether or not this is considered a combat skill.
+* **CloakMustKeyPress:** Cloak: The skill can't be activated if the key is held.
+* **CloakNoSprint:** Cloak: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **CloakRechargeStock:** Cloak: How much stock to restore on a recharge.
+* **CloakRequiredStock:** Cloak: How much stock is required to activate this skill.
+* **CloakShootDelay:** Cloak: Time between bullets for bullet-style weapons
+* **CloakStockToConsume:** Cloak: How much stock to deduct when the skill is activated.
+* **FireShotgunBaseMaxStock:** FireShotgun: Maximum number of charges this skill can carry.
+* **FireShotgunBaseRechargeInterval:** FireShotgun: How long it takes for this skill to recharge after being used.
+* **FireShotgunBeginSkillCooldownOnSkillEnd:** FireShotgun: Whether or not the cooldown waits until it leaves the set state
+* **FireShotgunCanceledFromSprinting:** FireShotgun: Sprinting will actively cancel this ability.
+* **FireShotgunIsBullets:** FireShotgun: Whether or not it has bullet reload behavior
+* **FireShotgunIsCombatSkill:** FireShotgun: Whether or not this is considered a combat skill.
+* **FireShotgunMustKeyPress:** FireShotgun: The skill can't be activated if the key is held.
+* **FireShotgunNoSprint:** FireShotgun: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FireShotgunRechargeStock:** FireShotgun: How much stock to restore on a recharge.
+* **FireShotgunRequiredStock:** FireShotgun: How much stock is required to activate this skill.
+* **FireShotgunShootDelay:** FireShotgun: Time between bullets for bullet-style weapons
+* **FireShotgunStockToConsume:** FireShotgun: How much stock to deduct when the skill is activated.
+* **GrenadeBaseMaxStock:** Grenade: Maximum number of charges this skill can carry.
+* **GrenadeBaseRechargeInterval:** Grenade: How long it takes for this skill to recharge after being used.
+* **GrenadeBeginSkillCooldownOnSkillEnd:** Grenade: Whether or not the cooldown waits until it leaves the set state
+* **GrenadeCanceledFromSprinting:** Grenade: Sprinting will actively cancel this ability.
+* **GrenadeIsBullets:** Grenade: Whether or not it has bullet reload behavior
+* **GrenadeIsCombatSkill:** Grenade: Whether or not this is considered a combat skill.
+* **GrenadeMustKeyPress:** Grenade: The skill can't be activated if the key is held.
+* **GrenadeNoSprint:** Grenade: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **GrenadeRechargeStock:** Grenade: How much stock to restore on a recharge.
+* **GrenadeRequiredStock:** Grenade: How much stock is required to activate this skill.
+* **GrenadeShootDelay:** Grenade: Time between bullets for bullet-style weapons
+* **GrenadeStockToConsume:** Grenade: How much stock to deduct when the skill is activated.
+* **LightsOutBaseMaxStock:** LightsOut: Maximum number of charges this skill can carry.
+* **LightsOutBaseRechargeInterval:** LightsOut: How long it takes for this skill to recharge after being used.
+* **LightsOutBeginSkillCooldownOnSkillEnd:** LightsOut: Whether or not the cooldown waits until it leaves the set state
+* **LightsOutCanceledFromSprinting:** LightsOut: Sprinting will actively cancel this ability.
+* **LightsOutIsBullets:** LightsOut: Whether or not it has bullet reload behavior
+* **LightsOutIsCombatSkill:** LightsOut: Whether or not this is considered a combat skill.
+* **LightsOutMustKeyPress:** LightsOut: The skill can't be activated if the key is held.
+* **LightsOutNoSprint:** LightsOut: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **LightsOutRechargeStock:** LightsOut: How much stock to restore on a recharge.
+* **LightsOutRequiredStock:** LightsOut: How much stock is required to activate this skill.
+* **LightsOutShootDelay:** LightsOut: Time between bullets for bullet-style weapons
+* **LightsOutStockToConsume:** LightsOut: How much stock to deduct when the skill is activated.
