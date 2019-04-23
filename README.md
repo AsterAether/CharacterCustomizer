@@ -45,6 +45,7 @@ with the real values.
 
 ## Changelog
 
+* **v0.2.3** - Added option for Commandos role to grant him invulnerability frames while rolling.
 * **v0.2.2** - Fixed up scaling mistake from before, most formulas are now: Stat + Coeff * (ATKSP - 1) * Stat. Also added Artificer Flamethrower downscale with attack speed.
 * **v0.2.1** - Changed attack speed scaling formula to only start affecting the scaling stat with additional attack speed. E.G.: Formula now isn't Coeff * ATKSP * Stat, it's Coeff * (ATKSP - 1) * Stat
 * **v0.2.0** - Added base character body values for every survivor, and rewrote the baseline code to be more manageable.

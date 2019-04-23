@@ -45,6 +45,8 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public ConfigWrapper<bool> DashResetsSecondCooldown;
 
+            public ConfigWrapper<bool> DashInvulnerability;
+
             public List<IFieldChanger> DashFields;
 
             public ConfigWrapper<bool> BarrageScalesWithAttackSpeed;
@@ -94,6 +96,9 @@ namespace CharacterCustomizer.CustomSurvivors
                 DashResetsSecondCooldown =
                     WrapConfigStandardBool("DashResetsSecondCooldown",
                         "If the dash should reset the cooldown of the second ability.");
+
+                DashInvulnerability = WrapConfigStandardBool("DashInvulnerability",
+                    "If Commando should be invulnerable while dashing.");
 
                 // Barrage
 
@@ -178,12 +183,13 @@ namespace CharacterCustomizer.CustomSurvivors
                     };
                 }
 
-                if (DashResetsSecondCooldown.Value)
-                {
-                    On.EntityStates.Commando.DodgeState.OnEnter += (orig, self) =>
-                    {
-                        orig(self);
 
+                On.EntityStates.Commando.DodgeState.OnEnter += (orig, self) =>
+                {
+                    orig(self);
+
+                    if (DashResetsSecondCooldown.Value)
+                    {
                         Assembly assembly = self.GetType().Assembly;
 
                         Type entityState = assembly.GetClass("EntityStates", "EntityState");
@@ -194,8 +200,29 @@ namespace CharacterCustomizer.CustomSurvivors
 
                         GenericSkill skill2 = locator.GetSkill(SkillSlot.Secondary);
                         skill2.Reset();
-                    };
-                }
+                    }
+
+                    if (DashInvulnerability.Value)
+                    {
+                        Transform transform = self.InvokeMethod<Transform>("GetModelTransform");
+
+                        HurtBoxGroup hurtBoxGroup = transform.GetComponent<HurtBoxGroup>();
+                        ++hurtBoxGroup.hurtBoxesDeactivatorCounter;
+                    }
+                };
+
+                On.EntityStates.Commando.DodgeState.OnExit += (orig, self) =>
+                {
+                    if (DashInvulnerability.Value)
+                    {
+                        Transform transform = self.InvokeMethod<Transform>("GetModelTransform");
+
+                        HurtBoxGroup hurtBoxGroup = transform.GetComponent<HurtBoxGroup>();
+                        --hurtBoxGroup.hurtBoxesDeactivatorCounter;
+                    }
+                    
+                    orig(self);
+                };
 
 
                 if (PistolHitLowerBarrageCooldown.Value && PistolHitLowerBarrageCooldownPercent.IsNotDefault())
