@@ -220,9 +220,9 @@ namespace CharacterCustomizer.CustomSurvivors
                                 {
                                     if (runCooldownScaling)
                                     {
-                                        primary.cooldownScale =
-                                            cooldownScale - cooldownScale *
-                                            (1 / (1 + cooldownCoeff * (attackSpeed - 1)));
+                                        float val = cooldownScale *
+                                                    (1 / (1 + cooldownCoeff * (attackSpeed - 1)));
+                                        primary.cooldownScale = val;
                                     }
 
                                     if (runStockScaling)
