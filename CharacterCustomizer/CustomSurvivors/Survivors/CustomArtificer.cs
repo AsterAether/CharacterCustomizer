@@ -228,7 +228,7 @@ namespace CharacterCustomizer.CustomSurvivors
                                     if (runStockScaling)
                                     {
                                         primary.SetBonusStockFromBody(
-                                            (int) ((attackSpeed - 1) * stockCoeff * primary.maxStock));
+                                            (int) ((attackSpeed - 1) * stockCoeff * primary.baseMaxStock));
                                     }
                                 }
                             });
@@ -253,7 +253,7 @@ namespace CharacterCustomizer.CustomSurvivors
                             ? FlamethrowerTickFrequency.ValueConfigWrapper.FloatValue
                             : VanillaFlamethrowerTickFrequency;
 
-                        float val = baseVal - (body.attackSpeed - 1) *
+                        float val = baseVal + (body.attackSpeed - 1) *
                                     FlamethrowerTickFrequencyScaleCoefficient.FloatValue * baseVal
                             ;
 
