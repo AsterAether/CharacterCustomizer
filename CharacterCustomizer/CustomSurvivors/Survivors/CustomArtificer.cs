@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using AetherLib.Util;
 using AetherLib.Util.Config;
 using AetherLib.Util.Reflection;
-using BepInEx;
 using BepInEx.Configuration;
 using EntityStates;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
-using RoR2.UI;
 using UnityEngine;
 
-namespace CharacterCustomizer.CustomSurvivors
+namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     namespace Artificer
     {
@@ -169,7 +164,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public override void OverrideGameValues()
             {
-                On.RoR2.Run.Awake += (orig, self) =>
+                On.RoR2.RoR2Application.Start += (orig, self) =>
                 {
                     orig(self);
 

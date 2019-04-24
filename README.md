@@ -8,6 +8,7 @@ Customize your Survivors by simply changing a value in a config file!
   value in the config file
 * Doesn't overwrite default values if the config value is set to 0,
   improving forward compatibility
+* Multiplayer compatible, players can even have different configs if they want!
 * Small vanilla QoL fixes, enabled by default!
 * Extra features that can be enabled, that equip the Survivors with new
   behaviours!
@@ -45,6 +46,7 @@ with the real values.
 
 ## Changelog
 
+* **v0.2.7** - Changed loading times of stat changes from start of Run to start of Application.
 * **v0.2.6** - Fixed artificer Firebolt stock scaling, and Flamethrower tick scaling (Why scaling oh why).
 * **v0.2.5** - Fixed artificer Firebolt cooldown scaling.
 * **v0.2.4** - Added optional time limit to invulnerability to Commandos role, and fixed a bug with scaling Barrage.

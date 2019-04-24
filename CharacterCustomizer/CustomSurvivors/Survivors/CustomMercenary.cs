@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using AetherLib.Util;
+﻿using System.Collections.Generic;
 using AetherLib.Util.Config;
-using BepInEx;
-using BepInEx.Configuration;
 using RoR2;
 
-namespace CharacterCustomizer.CustomSurvivors
+namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     namespace Mercenary
     {

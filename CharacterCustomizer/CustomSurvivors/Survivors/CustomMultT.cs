@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using AetherLib.Util;
 using AetherLib.Util.Config;
-using BepInEx;
-using BepInEx.Configuration;
 using EntityStates;
 using RoR2;
 
-namespace CharacterCustomizer.CustomSurvivors
+namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     namespace MulT
     {
@@ -49,7 +45,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
             public override void OverrideGameValues()
             {
-                On.RoR2.Run.Awake += (orig, self) =>
+                On.RoR2.RoR2Application.Start += (orig, self) =>
                 {
                     orig(self);
 

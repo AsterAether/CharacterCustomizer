@@ -1,6 +1,6 @@
 using RoR2;
 
-namespace CharacterCustomizer.CustomSurvivors
+namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     public class CustomBandit : CustomSurvivor
     {
