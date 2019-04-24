@@ -45,7 +45,8 @@ with the real values.
 
 ## Changelog
 
-* **v0.2.5** - Fixed artificer cooldown scaling.
+* **v0.2.6** - Fixed artificer Firebolt stock scaling, and Flamethrower tick scaling (Why scaling oh why).
+* **v0.2.5** - Fixed artificer Firebolt cooldown scaling.
 * **v0.2.4** - Added optional time limit to invulnerability to Commandos role, and fixed a bug with scaling Barrage.
 * **v0.2.3** - Added option for Commandos role to grant him invulnerability frames while rolling.
 * **v0.2.2** - Fixed up scaling mistake from before, most formulas are now: Stat + Coeff * (ATKSP - 1) * Stat. Also added Artificer Flamethrower downscale with attack speed.
