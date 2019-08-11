@@ -25,7 +25,7 @@ namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("at.aster.aetherlib")]
-    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "<version>")]
+    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "0.2.7")]
     public class CharacterCustomizer : BaseUnityPlugin
     {
         private List<CustomSurvivor> CustomSurvivors { get; set; }
@@ -116,8 +116,8 @@ namespace CharacterCustomizer
                         Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
                     }
                 }
-
-                SurvivorAPI.ReconstructSurvivors();
+                
+                // SurvivorAPI.ReconstructSurvivors();
             };
 
             if (CreateReadme.Value)
