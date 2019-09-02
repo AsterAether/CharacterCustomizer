@@ -210,7 +210,7 @@
 * **FlamethrowerIgnitePercentChance:** The change to ignite per proc in percent.
 * **FlamethrowerIsBullets:** Flamethrower: Whether or not it has bullet reload behavior
 * **FlamethrowerIsCombatSkill:** Flamethrower: Whether or not this is considered a combat skill.
-* **FlamethrowerMaxDistance:** The max distance of the Flamethrower
+* ~~**FlamethrowerMaxDistance:** The max distance of the Flamethrower~~ **Currently not functional**
 * **FlamethrowerMinimalDuration:** The minimal duration of the flamethrower
 * **FlamethrowerMustKeyPress:** Flamethrower: The skill can't be activated if the key is held.
 * **FlamethrowerNoSprint:** Flamethrower: Whether or not the usage of this skill is mutually exclusive with sprinting.
@@ -250,7 +250,7 @@
 * **WallRequiredStock:** Wall: How much stock is required to activate this skill.
 * **WallShootDelay:** Wall: Time between bullets for bullet-style weapons
 * **WallStockToConsume:** Wall: How much stock to deduct when the skill is activated.
-# MulT
+# MultT
 * **FireNailgunBaseMaxStock:** FireNailgun: Maximum number of charges this skill can carry.
 * **FireNailgunBaseRechargeInterval:** FireNailgun: How long it takes for this skill to recharge after being used.
 * **FireNailgunBeginSkillCooldownOnSkillEnd:** FireNailgun: Whether or not the cooldown waits until it leaves the set state
@@ -275,26 +275,26 @@
 * **FireSpearRequiredStock:** FireSpear: How much stock is required to activate this skill.
 * **FireSpearShootDelay:** FireSpear: Time between bullets for bullet-style weapons
 * **FireSpearStockToConsume:** FireSpear: How much stock to deduct when the skill is activated.
-* **MulTBaseAcceleration:** MulT: The base acceleration of your survivor
-* **MulTBaseArmor:** MulT: The base armor of your survivor
-* **MulTBaseAttackSpeed:** MulT: The base attack speed of your survivor
-* **MulTBaseCrit:** MulT: The base crit chance of your survivor
-* **MulTBaseDamage:** MulT: The base damage of your survivor
-* **MulTBaseJumpCount:** MulT: The base jump count of your survivor
-* **MulTBaseJumpPower:** MulT: The base jump power of your survivor
-* **MulTBaseMaxHealth:** MulT: The base health of your survivor
-* **MulTBaseMaxShield:** MulT: the base max shield of you survivor
-* **MulTBaseMoveSpeed:** MulT: The base move speed of your survivor
-* **MulTBaseRegen:** MulT: The base regen of your survivor
-* **MulTLevelArmor:** MulT: The armor per level your survivor gets
-* **MulTLevelAttackSpeed:** MulT: The attack speed per level your survivor gets
-* **MulTLevelCrit:** MulT: The crit chance per level your survivor gets
-* **MulTLevelDamage:** MulT: The damage per level your survivor gets
-* **MulTLevelJumpPower:** MulT: The jump power per level your survivor gets
-* **MulTLevelMaxHealth:** MulT: The max health per level your survivor gets.
-* **MulTLevelMaxShield:** MulT: The max shield per level your survivor gets
-* **MulTLevelMoveSpeed:** MulT: The move speed per level your survivor gets
-* **MulTLevelRegen:** MulT: The regen per level your survivor gets.
+* **MultTBaseAcceleration:** MultT: The base acceleration of your survivor
+* **MultTBaseArmor:** MultT: The base armor of your survivor
+* **MultTBaseAttackSpeed:** MultT: The base attack speed of your survivor
+* **MultTBaseCrit:** MultT: The base crit chance of your survivor
+* **MultTBaseDamage:** MultT: The base damage of your survivor
+* **MultTBaseJumpCount:** MultT: The base jump count of your survivor
+* **MultTBaseJumpPower:** MultT: The base jump power of your survivor
+* **MultTBaseMaxHealth:** MultT: The base health of your survivor
+* **MultTBaseMaxShield:** MultT: the base max shield of you survivor
+* **MultTBaseMoveSpeed:** MultT: The base move speed of your survivor
+* **MultTBaseRegen:** MultT: The base regen of your survivor
+* **MultTLevelArmor:** MultT: The armor per level your survivor gets
+* **MultTLevelAttackSpeed:** MultT: The attack speed per level your survivor gets
+* **MultTLevelCrit:** MultT: The crit chance per level your survivor gets
+* **MultTLevelDamage:** MultT: The damage per level your survivor gets
+* **MultTLevelJumpPower:** MultT: The jump power per level your survivor gets
+* **MultTLevelMaxHealth:** MultT: The max health per level your survivor gets.
+* **MultTLevelMaxShield:** MultT: The max shield per level your survivor gets
+* **MultTLevelMoveSpeed:** MultT: The move speed per level your survivor gets
+* **MultTLevelRegen:** MultT: The regen per level your survivor gets.
 * **NailgunSpreadPitch:** Pitch spread of the nailgun, in percent
 * **NailgunSpreadYaw:** Yaw spread of the nailgun, in percent
 * **StunDroneBaseMaxStock:** StunDrone: Maximum number of charges this skill can carry.
@@ -544,3 +544,72 @@
 * **LightsOutRequiredStock:** LightsOut: How much stock is required to activate this skill.
 * **LightsOutShootDelay:** LightsOut: Time between bullets for bullet-style weapons
 * **LightsOutStockToConsume:** LightsOut: How much stock to deduct when the skill is activated.
+# REX
+* **AimMortar2BaseMaxStock:** AimMortar2: Maximum number of charges this skill can carry.
+* **AimMortar2BaseRechargeInterval:** AimMortar2: How long it takes for this skill to recharge after being used.
+* **AimMortar2BeginSkillCooldownOnSkillEnd:** AimMortar2: Whether or not the cooldown waits until it leaves the set state
+* **AimMortar2CanceledFromSprinting:** AimMortar2: Sprinting will actively cancel this ability.
+* **AimMortar2IsBullets:** AimMortar2: Whether or not it has bullet reload behavior
+* **AimMortar2IsCombatSkill:** AimMortar2: Whether or not this is considered a combat skill.
+* **AimMortar2MustKeyPress:** AimMortar2: The skill can't be activated if the key is held.
+* **AimMortar2NoSprint:** AimMortar2: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **AimMortar2RechargeStock:** AimMortar2: How much stock to restore on a recharge.
+* **AimMortar2RequiredStock:** AimMortar2: How much stock is required to activate this skill.
+* **AimMortar2ShootDelay:** AimMortar2: Time between bullets for bullet-style weapons
+* **AimMortar2StockToConsume:** AimMortar2: How much stock to deduct when the skill is activated.
+* **FireFlower2BaseMaxStock:** FireFlower2: Maximum number of charges this skill can carry.
+* **FireFlower2BaseRechargeInterval:** FireFlower2: How long it takes for this skill to recharge after being used.
+* **FireFlower2BeginSkillCooldownOnSkillEnd:** FireFlower2: Whether or not the cooldown waits until it leaves the set state
+* **FireFlower2CanceledFromSprinting:** FireFlower2: Sprinting will actively cancel this ability.
+* **FireFlower2IsBullets:** FireFlower2: Whether or not it has bullet reload behavior
+* **FireFlower2IsCombatSkill:** FireFlower2: Whether or not this is considered a combat skill.
+* **FireFlower2MustKeyPress:** FireFlower2: The skill can't be activated if the key is held.
+* **FireFlower2NoSprint:** FireFlower2: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FireFlower2RechargeStock:** FireFlower2: How much stock to restore on a recharge.
+* **FireFlower2RequiredStock:** FireFlower2: How much stock is required to activate this skill.
+* **FireFlower2ShootDelay:** FireFlower2: Time between bullets for bullet-style weapons
+* **FireFlower2StockToConsume:** FireFlower2: How much stock to deduct when the skill is activated.
+* **FireSyringeBaseMaxStock:** FireSyringe: Maximum number of charges this skill can carry.
+* **FireSyringeBaseRechargeInterval:** FireSyringe: How long it takes for this skill to recharge after being used.
+* **FireSyringeBeginSkillCooldownOnSkillEnd:** FireSyringe: Whether or not the cooldown waits until it leaves the set state
+* **FireSyringeCanceledFromSprinting:** FireSyringe: Sprinting will actively cancel this ability.
+* **FireSyringeIsBullets:** FireSyringe: Whether or not it has bullet reload behavior
+* **FireSyringeIsCombatSkill:** FireSyringe: Whether or not this is considered a combat skill.
+* **FireSyringeMustKeyPress:** FireSyringe: The skill can't be activated if the key is held.
+* **FireSyringeNoSprint:** FireSyringe: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FireSyringeRechargeStock:** FireSyringe: How much stock to restore on a recharge.
+* **FireSyringeRequiredStock:** FireSyringe: How much stock is required to activate this skill.
+* **FireSyringeShootDelay:** FireSyringe: Time between bullets for bullet-style weapons
+* **FireSyringeStockToConsume:** FireSyringe: How much stock to deduct when the skill is activated.
+* **REXBaseAcceleration:** REX: The base acceleration of your survivor
+* **REXBaseArmor:** REX: The base armor of your survivor
+* **REXBaseAttackSpeed:** REX: The base attack speed of your survivor
+* **REXBaseCrit:** REX: The base crit chance of your survivor
+* **REXBaseDamage:** REX: The base damage of your survivor
+* **REXBaseJumpCount:** REX: The base jump count of your survivor
+* **REXBaseJumpPower:** REX: The base jump power of your survivor
+* **REXBaseMaxHealth:** REX: The base health of your survivor
+* **REXBaseMaxShield:** REX: the base max shield of you survivor
+* **REXBaseMoveSpeed:** REX: The base move speed of your survivor
+* **REXBaseRegen:** REX: The base regen of your survivor
+* **REXLevelArmor:** REX: The armor per level your survivor gets
+* **REXLevelAttackSpeed:** REX: The attack speed per level your survivor gets
+* **REXLevelCrit:** REX: The crit chance per level your survivor gets
+* **REXLevelDamage:** REX: The damage per level your survivor gets
+* **REXLevelJumpPower:** REX: The jump power per level your survivor gets
+* **REXLevelMaxHealth:** REX: The max health per level your survivor gets.
+* **REXLevelMaxShield:** REX: The max shield per level your survivor gets
+* **REXLevelMoveSpeed:** REX: The move speed per level your survivor gets
+* **REXLevelRegen:** REX: The regen per level your survivor gets.
+* **SonicBoomBaseMaxStock:** SonicBoom: Maximum number of charges this skill can carry.
+* **SonicBoomBaseRechargeInterval:** SonicBoom: How long it takes for this skill to recharge after being used.
+* **SonicBoomBeginSkillCooldownOnSkillEnd:** SonicBoom: Whether or not the cooldown waits until it leaves the set state
+* **SonicBoomCanceledFromSprinting:** SonicBoom: Sprinting will actively cancel this ability.
+* **SonicBoomIsBullets:** SonicBoom: Whether or not it has bullet reload behavior
+* **SonicBoomIsCombatSkill:** SonicBoom: Whether or not this is considered a combat skill.
+* **SonicBoomMustKeyPress:** SonicBoom: The skill can't be activated if the key is held.
+* **SonicBoomNoSprint:** SonicBoom: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **SonicBoomRechargeStock:** SonicBoom: How much stock to restore on a recharge.
+* **SonicBoomRequiredStock:** SonicBoom: How much stock is required to activate this skill.
+* **SonicBoomShootDelay:** SonicBoom: Time between bullets for bullet-style weapons
+* **SonicBoomStockToConsume:** SonicBoom: How much stock to deduct when the skill is activated.

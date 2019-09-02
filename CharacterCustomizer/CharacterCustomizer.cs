@@ -61,7 +61,8 @@ namespace CharacterCustomizer
                 new CustomMulT(),
                 new CustomHuntress(),
                 new CustomMercenary(),
-                new CustomBandit()
+                new CustomBandit(),
+                new CustomTreebot()
             };
 
             StringBuilder markdown = new StringBuilder("# Config Values\n");
@@ -116,8 +117,6 @@ namespace CharacterCustomizer
                         Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
                     }
                 }
-
-                SurvivorAPI.ReconstructSurvivors();
             };
 
             if (CreateReadme.Value)

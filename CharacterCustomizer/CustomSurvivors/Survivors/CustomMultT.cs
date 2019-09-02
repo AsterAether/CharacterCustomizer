@@ -16,7 +16,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
             public List<IFieldChanger> NailgunFields;
 
-            public CustomMulT() : base(SurvivorIndex.Toolbot, "MulT",
+            public CustomMulT() : base(SurvivorIndex.Toolbot, "MultT",
                 "FireNailgun",
                 "StunDrone",
                 "ToolbotDash",

@@ -38,6 +38,8 @@ for instance the Vanilla values of the Mercenary Dash skill, try loading
 into the game and dashing with him. This should update the config file
 with the real values.
 
+Please use dots for separating the decimal values (0.1) and not commas (0,1).
+
 
 ## Available Config Values
 
@@ -46,6 +48,7 @@ with the real values.
 
 ## Changelog
 
+* **v0.2.8** - Updated to new game version, and added new survivor.
 * **v0.2.7** - Changed loading times of stat changes from start of Run to start of Application.
 * **v0.2.6** - Fixed artificer Firebolt stock scaling, and Flamethrower tick scaling (Why scaling oh why).
 * **v0.2.5** - Fixed artificer Firebolt cooldown scaling.

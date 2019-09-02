@@ -43,7 +43,7 @@
             <HintPath>..\..\RiskOfRainDLLs\libs\Mono.Security.dll</HintPath>
         </Reference>
         <Reference Include="MonoMod.Utils, Version=18.10.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\RiskOfRainDLLs\libs\MonoMod.Utils.dll</HintPath>
+          <HintPath>..\..\RiskOfRainDLLs\libs\MonoMod.Utils.dll</HintPath>
         </Reference>
         <Reference Include="pb_Stl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\RiskOfRainDLLs\libs\pb_Stl.dll</HintPath>
@@ -57,8 +57,8 @@
         <Reference Include="ProBuilderMeshOps, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\RiskOfRainDLLs\libs\ProBuilderMeshOps.dll</HintPath>
         </Reference>
-        <Reference Include="R2API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\RiskOfRainDLLs\libs\R2API.dll</HintPath>
+        <Reference Include="R2API, Version=2.1.15.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\RiskOfRainDLLs\libs\R2API.dll</HintPath>
         </Reference>
         <Reference Include="Rewired_Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\RiskOfRainDLLs\libs\Rewired_Core.dll</HintPath>

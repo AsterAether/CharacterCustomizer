@@ -113,8 +113,9 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     "FlamethrowerProcCoefficientPerTick",
                     "The coefficient for items per proc of the flamethrower."), "procCoefficientPerTick", true);
 
-                FlamethrowerMaxDistance = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerMaxDistance",
-                    "The max distance of the Flamethrower"), "maxDistance", true);
+                // Not static anymore, needs to be fixed with Awake hook on the Mage Weapon:
+//                FlamethrowerMaxDistance = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerMaxDistance",
+//                    "The max distance of the Flamethrower"), "maxDistance", true);
 
                 FlamethrowerRadius = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerRadius",
                     "The radius of the Flamethrower"), "radius", true);
@@ -130,7 +131,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                 FlamethrowerFields = new List<IFieldChanger>
                 {
                     FlamethrowerProcCoefficientPerTick,
-                    FlamethrowerMaxDistance,
+//                    FlamethrowerMaxDistance,
                     FlamethrowerRadius,
                     FlamethrowerTotalDamageCoefficient,
                     FlamethrowerIgnitePercentChance
