@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using AetherLib.Util.Config;
 using AetherLib.Util.Reflection;
+using R2API.Utils;
 using BepInEx.Configuration;
 using EntityStates;
 using MonoMod.Cil;

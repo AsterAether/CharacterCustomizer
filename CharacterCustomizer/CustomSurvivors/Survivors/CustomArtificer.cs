@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AetherLib.Util.Config;
-using AetherLib.Util.Reflection;
+using R2API.Utils;
 using BepInEx.Configuration;
 using EntityStates;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using AetherLib.Util.Reflection;
 using UnityEngine;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors

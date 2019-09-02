@@ -4,6 +4,7 @@ using System.Reflection;
 using AetherLib.Util.Config;
 using AetherLib.Util.Reflection;
 using BepInEx.Configuration;
+using R2API.Utils;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
