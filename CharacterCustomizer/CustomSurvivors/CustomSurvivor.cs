@@ -63,9 +63,11 @@ namespace CharacterCustomizer.CustomSurvivors
             SpecialSkillName = specialSkillName;
         }
 
-        public void InitVariables(ManualLogSource logger)
+        public void InitVariables(ConfigFile file, ManualLogSource logger)
         {
-            Config = new ConfigFile(Path.Combine(Paths.ConfigPath, "CustomSurvivors", CharacterName + ".cfg"), true);
+            Config = file;
+            // Used for creating a file per survivor, though that breaks compatibility with BepInEx.ConfigurationManager, which is the better solution to editing anyway
+            // Config = new ConfigFile(Path.Combine(Paths.ConfigPath, "CustomSurvivors", CharacterName + ".cfg"), true);
             Logger = logger;
         }
 

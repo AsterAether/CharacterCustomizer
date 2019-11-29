@@ -26,6 +26,14 @@ Customize your Survivors by simply changing a value in a config file!
 
 ## Configuration
 
+It is highly recommended to use [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager) to edit the configuration values in-game with the F1 key.
+**You will need to restart the game after changing the values though.**
+
+The configuration file is located in the config folder of BepInEx, called at.aster.CharacterCustomizer.cfg. 
+It initializes with all values set to their default values. If a value is left with the default one (0 in cases of numbers), 
+the executing code in the plugin will be skipped, and vanilla risk of rain behavior will be used.
+
+<!-- Description for multiple files
 The main configuration file is located at `at.aster.charactercustomizer.cfg` in the BepInEx configuration folder. 
 It houses some general settings.
 The configuration files for the survivors are in the `CustomSurvivors` folder, inside the BepInEx configuration folder.
@@ -33,6 +41,7 @@ In this folder there is a `.cfg` file for every survivor, containing their setti
 They initialize with all values set to their default values. If a value is left with the default
 one (0 in the case of numbers), the executing code in the plugin will be
 skipped, and vanilla Risk of Rain behavior will be used.
+-->
 
 A sample config line would look like this:
 ```

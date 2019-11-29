@@ -83,7 +83,7 @@ namespace CharacterCustomizer
 
             foreach (var customSurvivor in CustomSurvivors)
             {
-                customSurvivor.InitVariables(Logger);
+                customSurvivor.InitVariables(Config, Logger);
 
                 customSurvivor.Patch();
 
