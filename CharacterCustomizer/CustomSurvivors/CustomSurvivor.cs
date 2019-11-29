@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AetherLib.Util.Config;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using R2API;
 using RoR2;
 using UnityEngine;
-using ValueType = AetherLib.Util.Config.ValueType;
+using Path = System.IO.Path;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
     public abstract class CustomSurvivor
     {
-        public readonly List<IMarkdownString> MarkdownConfigDefinitions = new List<IMarkdownString>();
-
-        public readonly List<ConfigDefinition> NonMarkDownConfigDefinitions = new List<ConfigDefinition>();
+        public readonly List<IMarkdownString> MarkdownConfigEntries = new List<IMarkdownString>();
 
         protected ConfigFile Config { get; private set; }
 
@@ -48,10 +47,13 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public CustomBodyDefinition BodyDefinition { get; private set; }
 
+        private bool _updateVanillaValues;
+
         protected CustomSurvivor(SurvivorIndex index, string characterName, string primarySkillName,
             string secondarySkillName,
-            string utilitySkillName, string specialSkillName)
+            string utilitySkillName, string specialSkillName, bool updateVanillaValues)
         {
+            _updateVanillaValues = updateVanillaValues;
             SurvivorIndex = index;
 
             CharacterName = characterName;
@@ -61,9 +63,9 @@ namespace CharacterCustomizer.CustomSurvivors
             SpecialSkillName = specialSkillName;
         }
 
-        public void InitVariables(ConfigFile config, ManualLogSource logger)
+        public void InitVariables(ManualLogSource logger)
         {
-            Config = config;
+            Config = new ConfigFile(Path.Combine(Paths.ConfigPath, "CustomSurvivors", CharacterName + ".cfg"), true);
             Logger = logger;
         }
 
@@ -93,7 +95,10 @@ namespace CharacterCustomizer.CustomSurvivors
                 {
                     if (genericSkill.skillName == skillDef.SkillName)
                     {
-                        skillDef.AllFields.ForEach(changer => { changer.Apply(genericSkill); });
+                        skillDef.AllFields.ForEach(changer =>
+                        {
+                            changer.Apply(genericSkill.skillFamily.defaultSkillDef);
+                        });
                     }
                 }
             }
@@ -117,39 +122,29 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public abstract void WriteNewHooks();
 
-        public ValueConfigWrapper<int> WrapConfigInt(string key, string description, int defaultVal = 0)
+        public ConfigEntryDescriptionWrapper<T> BindConfig<T>(string key, T defaultVal,
+            string description)
         {
-            ValueConfigWrapper<int> conf = Config.ValueWrap(CharacterName, key, description, defaultVal);
-            MarkdownConfigDefinitions.Add(conf);
-            return conf;
+            ConfigEntryDescriptionWrapper<T> entry =
+                new ConfigEntryDescriptionWrapper<T>(Config.Bind(CharacterName, key, defaultVal, description),
+                    _updateVanillaValues);
+            MarkdownConfigEntries.Add(entry);
+            return entry;
         }
 
-        public ValueConfigWrapper<string> WrapConfigString(string key, string description)
+        public ConfigEntryDescriptionWrapper<bool> BindConfigBool(string key, string description, bool defVal = false)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.String, description);
-            MarkdownConfigDefinitions.Add(conf);
-            return conf;
+            return BindConfig(key, defVal, description);
         }
 
-        public ValueConfigWrapper<string> WrapConfigBool(string key, string description)
+        public ConfigEntryDescriptionWrapper<float> BindConfigFloat(string key, string description, float defVal = 0f)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Bool, description);
-            MarkdownConfigDefinitions.Add(conf);
-            return conf;
+            return BindConfig(key, defVal, description);
         }
 
-        public ValueConfigWrapper<string> WrapConfigFloat(string key, string description, float defaultVal = 0f)
+        public ConfigEntryDescriptionWrapper<int> BindConfigInt(string key, string description, int defVal = 0)
         {
-            ValueConfigWrapper<string> conf = Config.ValueWrap(CharacterName, key, ValueType.Float, description, defaultVal.ToString(CultureInfo.InvariantCulture));
-            MarkdownConfigDefinitions.Add(conf);
-            return conf;
-        }
-
-        public ConfigWrapper<bool> WrapConfigStandardBool(string key, string description)
-        {
-            ConfigWrapper<bool> conf = Config.Wrap(CharacterName, key, description, false);
-            NonMarkDownConfigDefinitions.Add(conf.Definition);
-            return conf;
+            return BindConfig(key, defVal, description);
         }
     }
 }

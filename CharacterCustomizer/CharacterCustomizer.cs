@@ -19,7 +19,6 @@ using R2API;
 using RoR2;
 using RoR2.UI;
 using UnityEngine;
-using Console = System.Console;
 
 namespace CharacterCustomizer
 {
@@ -30,22 +29,29 @@ namespace CharacterCustomizer
     {
         private List<CustomSurvivor> CustomSurvivors { get; set; }
 
-        public ConfigWrapper<bool> CreateReadme;
-        public ConfigWrapper<bool> FixSkillIconCooldownScaling;
+        public ConfigEntry<bool> CreateReadme;
+        public ConfigEntry<bool> FixSkillIconCooldownScaling;
+        public ConfigEntry<bool> UpdateVanillaValues;
 
         public void InitConfig()
         {
-            CreateReadme = Config.Wrap(
+            CreateReadme = Config.Bind(
                 "General",
                 "PrintReadme",
-                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown.",
-                false);
+                false,
+                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown.");
 
-            FixSkillIconCooldownScaling = Config.Wrap(
+            FixSkillIconCooldownScaling = Config.Bind(
                 "Fixes",
                 "FixSkillIconCooldownScaling",
-                "Fix the display of cooldowns when cooldown scaling is applied",
-                true);
+                true,
+                "Fix the display of cooldowns when cooldown scaling is applied");
+            
+            UpdateVanillaValues = Config.Bind(
+                "General",
+                "UpdateVanillaValues",
+                true,
+                "Write default values in descriptions of settings. Will flip to false after doing it once.");
         }
 
         public void Awake()
@@ -55,27 +61,29 @@ namespace CharacterCustomizer
 
             CustomSurvivors = new List<CustomSurvivor>
             {
-                new CustomEngineer(),
-                new CustomCommando(),
-                new CustomArtificer(),
-                new CustomMulT(),
-                new CustomHuntress(),
-                new CustomMercenary(),
-                new CustomBandit(),
-                new CustomTreebot()
+                new CustomEngineer(UpdateVanillaValues.Value),
+                new CustomCommando(UpdateVanillaValues.Value),
+                new CustomArtificer(UpdateVanillaValues.Value),
+                new CustomMulT(UpdateVanillaValues.Value),
+                new CustomHuntress(UpdateVanillaValues.Value),
+                new CustomMercenary(UpdateVanillaValues.Value),
+                new CustomBandit(UpdateVanillaValues.Value),
+                new CustomTreebot(UpdateVanillaValues.Value),
+                new CustomLoader(UpdateVanillaValues.Value)
             };
 
             StringBuilder markdown = new StringBuilder("# Config Values\n");
 
             markdown.AppendLine("## General");
-            markdown.AppendLine(CreateReadme.Definition.ToMarkdownString());
+            markdown.AppendLine(CreateReadme.ToMarkdownString());
+            markdown.AppendLine(UpdateVanillaValues.ToMarkdownString());
 
             markdown.AppendLine("## Fixes");
-            markdown.AppendLine(FixSkillIconCooldownScaling.Definition.ToMarkdownString());
+            markdown.AppendLine(FixSkillIconCooldownScaling.ToMarkdownString());
 
             foreach (var customSurvivor in CustomSurvivors)
             {
-                customSurvivor.InitVariables(Config, Logger);
+                customSurvivor.InitVariables(Logger);
 
                 customSurvivor.Patch();
 
@@ -84,12 +92,7 @@ namespace CharacterCustomizer
                     markdown.AppendLine("# " + customSurvivor.CharacterName);
                     List<string> markdownLines = new List<string>();
 
-                    foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigDefinitions)
-                    {
-                        markdownLines.Add(markdownDef.ToMarkdownString());
-                    }
-
-                    foreach (ConfigDefinition markdownDef in customSurvivor.NonMarkDownConfigDefinitions)
+                    foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
                     {
                         markdownLines.Add(markdownDef.ToMarkdownString());
                     }
@@ -102,27 +105,37 @@ namespace CharacterCustomizer
                     }
                 }
             }
-
-            SurvivorAPI.SurvivorCatalogReady += (sender, args) =>
-            {
-                foreach (SurvivorDef survivorDef in SurvivorAPI.SurvivorDefinitions)
-                {
-                    try
-                    {
-                        CustomSurvivor cSurv = CustomSurvivors.First(s => s.SurvivorIndex == survivorDef.survivorIndex);
-                        cSurv.OverrideSurvivorBase(survivorDef);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
-                    }
-                }
-            };
-
+            
             if (CreateReadme.Value)
             {
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",
                     markdown.ToString());
+            }
+        }
+
+        private void OnDestroy()
+        {
+            UpdateVanillaValues.Value = false;
+        }
+
+        private void OnApplicationQuit()
+        {
+            UpdateVanillaValues.Value = false;
+        }
+
+        private void Start()
+        {
+            foreach (SurvivorDef survivorDef in ((SurvivorDef[]) SurvivorCatalog.allSurvivorDefs))
+            {
+                try
+                {
+                    CustomSurvivor cSurv = CustomSurvivors.First(s => s.SurvivorIndex == survivorDef.survivorIndex);
+                    cSurv.OverrideSurvivorBase(survivorDef);
+                }
+                catch (InvalidOperationException)
+                {
+                    Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
+                }
             }
         }
 

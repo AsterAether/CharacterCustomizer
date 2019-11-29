@@ -1,6 +1,7 @@
 # Config Values
 ## General
 * **PrintReadme:** Outputs a file called "config_values.md" to the working directory, containing all config values formatted as Markdown.
+* **UpdateVanillaValues:** Write default values in descriptions of settings. Will flip to false after doing it once.
 ## Fixes
 * **FixSkillIconCooldownScaling:** Fix the display of cooldowns when cooldown scaling is applied
 # Engineer
@@ -41,7 +42,7 @@
 * **GrenadeMinFireAmount:** The minimum number of grenades the Engineer fires.
 * **GrenadeSetChargeCountToFireAmount:** Set the number of "clicks" you hear in the charging animation to the maximum grenade count.
 * **GrenadeTotalChargeDuration:** Maximum charge duration (logic) for grenades, in seconds.
-* **MineMaxDeployCount:** The maximum number of mines the Engineer can place.
+* **MineMaxDeployCount:** The maximum number of mines the Engineer can place. Vanilla value: 10
 * **PlaceBubbleShieldBaseMaxStock:** PlaceBubbleShield: Maximum number of charges this skill can carry.
 * **PlaceBubbleShieldBaseRechargeInterval:** PlaceBubbleShield: How long it takes for this skill to recharge after being used.
 * **PlaceBubbleShieldBeginSkillCooldownOnSkillEnd:** PlaceBubbleShield: Whether or not the cooldown waits until it leaves the set state
@@ -80,13 +81,13 @@
 * **PlaceTurretStockToConsume:** PlaceTurret: How much stock to deduct when the skill is activated.
 * **ShieldDuration:** The number of seconds the shield is active.
 * **ShieldEndlessDuration:** If the duration of the shield should be endless.
-* **ShieldMaxDeployCount:** The maximum number of shields the Engineer can place.
-* **TurretMaxDeployCount:** The maximum number of turrets the Engineer can place.
+* **ShieldMaxDeployCount:** The maximum number of shields the Engineer can place. Vanilla value: 1
+* **TurretMaxDeployCount:** The maximum number of turrets the Engineer can place. Vanilla value: 2
 # Commando
 * **BarrageBaseDurationBetweenShots:** Base duration between shots in the Barrage skill.
 * **BarrageBaseMaxStock:** Barrage: Maximum number of charges this skill can carry.
 * **BarrageBaseRechargeInterval:** Barrage: How long it takes for this skill to recharge after being used.
-* **BarrageBaseShotAmount:** How many shots the Barrage skill should fire
+* **BarrageBaseShotAmount:** How many shots the Barrage skill should when ATKSP = 1
 * **BarrageBeginSkillCooldownOnSkillEnd:** Barrage: Whether or not the cooldown waits until it leaves the set state
 * **BarrageCanceledFromSprinting:** Barrage: Sprinting will actively cancel this ability.
 * **BarrageIsBullets:** Barrage: Whether or not it has bullet reload behavior
@@ -95,8 +96,6 @@
 * **BarrageNoSprint:** Barrage: Whether or not the usage of this skill is mutually exclusive with sprinting.
 * **BarrageRechargeStock:** Barrage: How much stock to restore on a recharge.
 * **BarrageRequiredStock:** Barrage: How much stock is required to activate this skill.
-* **BarrageScaleCoefficient:** Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount + BCount * (ATKSP - 1) * Coeff
-* **BarrageScalesWithAttackSpeed:** If the barrage bullet count should scale with attack speed. Idea by @Twyla. Needs BarrageScaleModifier to be set.
 * **BarrageShootDelay:** Barrage: Time between bullets for bullet-style weapons
 * **BarrageStockToConsume:** Barrage: How much stock to deduct when the skill is activated.
 * **CommandoBaseAcceleration:** Commando: The base acceleration of your survivor
@@ -210,7 +209,6 @@
 * **FlamethrowerIgnitePercentChance:** The change to ignite per proc in percent.
 * **FlamethrowerIsBullets:** Flamethrower: Whether or not it has bullet reload behavior
 * **FlamethrowerIsCombatSkill:** Flamethrower: Whether or not this is considered a combat skill.
-* ~~**FlamethrowerMaxDistance:** The max distance of the Flamethrower~~ **Currently not functional**
 * **FlamethrowerMinimalDuration:** The minimal duration of the flamethrower
 * **FlamethrowerMustKeyPress:** Flamethrower: The skill can't be activated if the key is held.
 * **FlamethrowerNoSprint:** Flamethrower: Whether or not the usage of this skill is mutually exclusive with sprinting.
@@ -411,14 +409,12 @@
 * **DashCanceledFromSprinting:** Dash: Sprinting will actively cancel this ability.
 * **DashIsBullets:** Dash: Whether or not it has bullet reload behavior
 * **DashIsCombatSkill:** Dash: Whether or not this is considered a combat skill.
-* **DashMaxCount:** Maximum amount of dashes Mercenary can perform.
 * **DashMustKeyPress:** Dash: The skill can't be activated if the key is held.
 * **DashNoSprint:** Dash: Whether or not the usage of this skill is mutually exclusive with sprinting.
 * **DashRechargeStock:** Dash: How much stock to restore on a recharge.
 * **DashRequiredStock:** Dash: How much stock is required to activate this skill.
 * **DashShootDelay:** Dash: Time between bullets for bullet-style weapons
 * **DashStockToConsume:** Dash: How much stock to deduct when the skill is activated.
-* **DashTimeoutDuration:** Maximum timeout between dashes, in seconds
 * **EvisBaseMaxStock:** Evis: Maximum number of charges this skill can carry.
 * **EvisBaseRechargeInterval:** Evis: How long it takes for this skill to recharge after being used.
 * **EvisBeginSkillCooldownOnSkillEnd:** Evis: Whether or not the cooldown waits until it leaves the set state
@@ -613,3 +609,72 @@
 * **SonicBoomRequiredStock:** SonicBoom: How much stock is required to activate this skill.
 * **SonicBoomShootDelay:** SonicBoom: Time between bullets for bullet-style weapons
 * **SonicBoomStockToConsume:** SonicBoom: How much stock to deduct when the skill is activated.
+# Loader
+* **DashBaseMaxStock:** Dash: Maximum number of charges this skill can carry.
+* **DashBaseRechargeInterval:** Dash: How long it takes for this skill to recharge after being used.
+* **DashBeginSkillCooldownOnSkillEnd:** Dash: Whether or not the cooldown waits until it leaves the set state
+* **DashCanceledFromSprinting:** Dash: Sprinting will actively cancel this ability.
+* **DashIsBullets:** Dash: Whether or not it has bullet reload behavior
+* **DashIsCombatSkill:** Dash: Whether or not this is considered a combat skill.
+* **DashMustKeyPress:** Dash: The skill can't be activated if the key is held.
+* **DashNoSprint:** Dash: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **DashRechargeStock:** Dash: How much stock to restore on a recharge.
+* **DashRequiredStock:** Dash: How much stock is required to activate this skill.
+* **DashShootDelay:** Dash: Time between bullets for bullet-style weapons
+* **DashStockToConsume:** Dash: How much stock to deduct when the skill is activated.
+* **EvisBaseMaxStock:** Evis: Maximum number of charges this skill can carry.
+* **EvisBaseRechargeInterval:** Evis: How long it takes for this skill to recharge after being used.
+* **EvisBeginSkillCooldownOnSkillEnd:** Evis: Whether or not the cooldown waits until it leaves the set state
+* **EvisCanceledFromSprinting:** Evis: Sprinting will actively cancel this ability.
+* **EvisIsBullets:** Evis: Whether or not it has bullet reload behavior
+* **EvisIsCombatSkill:** Evis: Whether or not this is considered a combat skill.
+* **EvisMustKeyPress:** Evis: The skill can't be activated if the key is held.
+* **EvisNoSprint:** Evis: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **EvisRechargeStock:** Evis: How much stock to restore on a recharge.
+* **EvisRequiredStock:** Evis: How much stock is required to activate this skill.
+* **EvisShootDelay:** Evis: Time between bullets for bullet-style weapons
+* **EvisStockToConsume:** Evis: How much stock to deduct when the skill is activated.
+* **GroundLightBaseMaxStock:** GroundLight: Maximum number of charges this skill can carry.
+* **GroundLightBaseRechargeInterval:** GroundLight: How long it takes for this skill to recharge after being used.
+* **GroundLightBeginSkillCooldownOnSkillEnd:** GroundLight: Whether or not the cooldown waits until it leaves the set state
+* **GroundLightCanceledFromSprinting:** GroundLight: Sprinting will actively cancel this ability.
+* **GroundLightIsBullets:** GroundLight: Whether or not it has bullet reload behavior
+* **GroundLightIsCombatSkill:** GroundLight: Whether or not this is considered a combat skill.
+* **GroundLightMustKeyPress:** GroundLight: The skill can't be activated if the key is held.
+* **GroundLightNoSprint:** GroundLight: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **GroundLightRechargeStock:** GroundLight: How much stock to restore on a recharge.
+* **GroundLightRequiredStock:** GroundLight: How much stock is required to activate this skill.
+* **GroundLightShootDelay:** GroundLight: Time between bullets for bullet-style weapons
+* **GroundLightStockToConsume:** GroundLight: How much stock to deduct when the skill is activated.
+* **LoaderBaseAcceleration:** Loader: The base acceleration of your survivor
+* **LoaderBaseArmor:** Loader: The base armor of your survivor
+* **LoaderBaseAttackSpeed:** Loader: The base attack speed of your survivor
+* **LoaderBaseCrit:** Loader: The base crit chance of your survivor
+* **LoaderBaseDamage:** Loader: The base damage of your survivor
+* **LoaderBaseJumpCount:** Loader: The base jump count of your survivor
+* **LoaderBaseJumpPower:** Loader: The base jump power of your survivor
+* **LoaderBaseMaxHealth:** Loader: The base health of your survivor
+* **LoaderBaseMaxShield:** Loader: the base max shield of you survivor
+* **LoaderBaseMoveSpeed:** Loader: The base move speed of your survivor
+* **LoaderBaseRegen:** Loader: The base regen of your survivor
+* **LoaderLevelArmor:** Loader: The armor per level your survivor gets
+* **LoaderLevelAttackSpeed:** Loader: The attack speed per level your survivor gets
+* **LoaderLevelCrit:** Loader: The crit chance per level your survivor gets
+* **LoaderLevelDamage:** Loader: The damage per level your survivor gets
+* **LoaderLevelJumpPower:** Loader: The jump power per level your survivor gets
+* **LoaderLevelMaxHealth:** Loader: The max health per level your survivor gets.
+* **LoaderLevelMaxShield:** Loader: The max shield per level your survivor gets
+* **LoaderLevelMoveSpeed:** Loader: The move speed per level your survivor gets
+* **LoaderLevelRegen:** Loader: The regen per level your survivor gets.
+* **WhirlwindBaseMaxStock:** Whirlwind: Maximum number of charges this skill can carry.
+* **WhirlwindBaseRechargeInterval:** Whirlwind: How long it takes for this skill to recharge after being used.
+* **WhirlwindBeginSkillCooldownOnSkillEnd:** Whirlwind: Whether or not the cooldown waits until it leaves the set state
+* **WhirlwindCanceledFromSprinting:** Whirlwind: Sprinting will actively cancel this ability.
+* **WhirlwindIsBullets:** Whirlwind: Whether or not it has bullet reload behavior
+* **WhirlwindIsCombatSkill:** Whirlwind: Whether or not this is considered a combat skill.
+* **WhirlwindMustKeyPress:** Whirlwind: The skill can't be activated if the key is held.
+* **WhirlwindNoSprint:** Whirlwind: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **WhirlwindRechargeStock:** Whirlwind: How much stock to restore on a recharge.
+* **WhirlwindRequiredStock:** Whirlwind: How much stock is required to activate this skill.
+* **WhirlwindShootDelay:** Whirlwind: Time between bullets for bullet-style weapons
+* **WhirlwindStockToConsume:** Whirlwind: How much stock to deduct when the skill is activated.

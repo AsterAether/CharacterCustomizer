@@ -17,58 +17,58 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomArtificer : CustomSurvivor
         {
-            public ConfigWrapper<bool> FireboltAttackSpeedStockScaling;
+            public ConfigEntryDescriptionWrapper<bool> FireboltAttackSpeedStockScaling;
 
-            public ValueConfigWrapper<string> FireboltAttackSpeedStockScalingCoefficient;
+            public ConfigEntryDescriptionWrapper<float> FireboltAttackSpeedStockScalingCoefficient;
 
-            public ConfigWrapper<bool> FireboltAttackSpeedCooldownScaling;
+            public ConfigEntryDescriptionWrapper<bool> FireboltAttackSpeedCooldownScaling;
 
-            public ValueConfigWrapper<string> FireboltAttackSpeedCooldownScalingCoefficient;
+            public ConfigEntryDescriptionWrapper<float> FireboltAttackSpeedCooldownScalingCoefficient;
 
             public List<IFieldChanger> FireboltFields;
 
-            public FieldConfigWrapper<string> NovaBombMaxChargeDuration;
+            public FieldConfigWrapper<float> NovaBombMaxChargeDuration;
 
-            public FieldConfigWrapper<string> NovaBombMaxDamageCoefficient;
+            public FieldConfigWrapper<float> NovaBombMaxDamageCoefficient;
 
             public List<IFieldChanger> ChargeNovaBombFields;
 
-            public FieldConfigWrapper<string> FlamethrowerDuration;
+            public FieldConfigWrapper<float> FlamethrowerDuration;
 
-            public FieldConfigWrapper<string> FlamethrowerTickFrequency;
+            public FieldConfigWrapper<float> FlamethrowerTickFrequency;
 
-            public ConfigWrapper<bool> FlamethrowerTickFrequencyScaleWithAttackSpeed;
+            public ConfigEntryDescriptionWrapper<bool> FlamethrowerTickFrequencyScaleWithAttackSpeed;
 
             public float VanillaFlamethrowerTickFrequency;
 
-            public ValueConfigWrapper<string> FlamethrowerTickFrequencyScaleCoefficient;
+            public ConfigEntryDescriptionWrapper<float> FlamethrowerTickFrequencyScaleCoefficient;
 
-            public FieldConfigWrapper<string> FlamethrowerProcCoefficientPerTick;
+            public FieldConfigWrapper<float> FlamethrowerProcCoefficientPerTick;
 
-            public FieldConfigWrapper<string> FlamethrowerMaxDistance;
+            public FieldConfigWrapper<float> FlamethrowerMaxDistance;
 
-            public FieldConfigWrapper<string> FlamethrowerRadius;
+            public FieldConfigWrapper<float> FlamethrowerRadius;
 
-            public FieldConfigWrapper<string> FlamethrowerTotalDamageCoefficient;
+            public FieldConfigWrapper<float> FlamethrowerTotalDamageCoefficient;
 
-            public FieldConfigWrapper<string> FlamethrowerIgnitePercentChance;
+            public FieldConfigWrapper<float> FlamethrowerIgnitePercentChance;
 
-            public ConfigWrapper<bool> FlamethrowerDurationScaleDownWithAttackSpeed;
+            public ConfigEntryDescriptionWrapper<bool> FlamethrowerDurationScaleDownWithAttackSpeed;
 
-            public ValueConfigWrapper<string> FlamethrowerDurationScaleCoefficient;
+            public ConfigEntryDescriptionWrapper<float> FlamethrowerDurationScaleCoefficient;
 
-            public ValueConfigWrapper<string> FlamethrowerMinimalDuration;
+            public ConfigEntryDescriptionWrapper<float> FlamethrowerMinimalDuration;
 
             public float VanillaFlamethrowerDuration;
 
             public List<IFieldChanger> FlamethrowerFields;
 
 
-            public CustomArtificer() : base(SurvivorIndex.Mage, "Artificer",
+            public CustomArtificer(bool updateVanilla) : base(SurvivorIndex.Mage, "Artificer",
                 "FireFirebolt",
                 "NovaBomb",
                 "Wall",
-                "Flamethrower")
+                "Flamethrower", updateVanilla)
             {
             }
 
@@ -76,31 +76,30 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             {
                 // Firebolt
                 FireboltAttackSpeedStockScaling =
-                    WrapConfigStandardBool("FireboltAttackSpeedStockScaling",
+                    BindConfigBool("FireboltAttackSpeedStockScaling",
                         "If the charge count of the FireBolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedStockScalingCoefficent set to work.");
 
 
                 FireboltAttackSpeedStockScalingCoefficient =
-                    WrapConfigFloat("FireboltAttackSpeedStockScalingCoefficient",
+                    BindConfigFloat("FireboltAttackSpeedStockScalingCoefficient",
                         "Coefficient for charge AttackSpeed scaling, in percent. Formula: Stock + Stock * (ATKSP - 1) * Coeff.");
 
-                FireboltAttackSpeedCooldownScaling = WrapConfigStandardBool("FireboltAttackSpeedCooldownScaling",
+                FireboltAttackSpeedCooldownScaling = BindConfigBool("FireboltAttackSpeedCooldownScaling",
                     "If the cooldown of the Firebolt Skill should scale with AttackSpeed. Needs to have FireboltAttackSpeedCooldownScalingCoefficent set to work.");
 
 
-                FireboltAttackSpeedCooldownScalingCoefficient = WrapConfigFloat(
+                FireboltAttackSpeedCooldownScalingCoefficient = BindConfigFloat(
                     "FireboltAttackSpeedCooldownScalingCoefficient",
                     "Coefficient for cooldown AttackSpeed scaling, in percent. Formula: BaseCooldown * (1 / (1 + (ATKSP-1) * Coeff)) .");
 
                 // NovaBomb
 
-                NovaBombMaxChargeDuration = new FieldConfigWrapper<string>(WrapConfigFloat("NovaBombBaseChargeDuration",
-                    "Base max charging duration of the NovaBomb"), "baseChargeDuration", true);
+                NovaBombMaxChargeDuration = new FieldConfigWrapper<float>(BindConfigFloat("NovaBombBaseChargeDuration",
+                    "Base max charging duration of the NovaBomb"), "baseChargeDuration");
 
-                NovaBombMaxDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat(
-                        "NovaBombMaxDamageCoefficient",
-                        "Max damage coefficient of the NovaBomb"), "maxDamageCoefficient",
-                    true);
+                NovaBombMaxDamageCoefficient = new FieldConfigWrapper<float>(BindConfigFloat(
+                    "NovaBombMaxDamageCoefficient",
+                    "Max damage coefficient of the NovaBomb"), "maxDamageCoefficient");
 
                 ChargeNovaBombFields = new List<IFieldChanger>
                 {
@@ -110,22 +109,22 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
                 // Flamethrower
 
-                FlamethrowerProcCoefficientPerTick = new FieldConfigWrapper<string>(WrapConfigFloat(
+                FlamethrowerProcCoefficientPerTick = new FieldConfigWrapper<float>(BindConfigFloat(
                     "FlamethrowerProcCoefficientPerTick",
                     "The coefficient for items per proc of the flamethrower."), "procCoefficientPerTick", true);
 
                 // Not static anymore, needs to be fixed with Awake hook on the Mage Weapon:
-//                FlamethrowerMaxDistance = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerMaxDistance",
+//                FlamethrowerMaxDistance = new FieldConfigWrapper<float>(BindConfigFloat("FlamethrowerMaxDistance",
 //                    "The max distance of the Flamethrower"), "maxDistance", true);
 
-                FlamethrowerRadius = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerRadius",
+                FlamethrowerRadius = new FieldConfigWrapper<float>(BindConfigFloat("FlamethrowerRadius",
                     "The radius of the Flamethrower"), "radius", true);
 
-                FlamethrowerTotalDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat(
+                FlamethrowerTotalDamageCoefficient = new FieldConfigWrapper<float>(BindConfigFloat(
                     "FlamethrowerTotalDamageCoefficient",
                     "The total damage coefficient for the flamethrower"), "totalDamageCoefficient", true);
 
-                FlamethrowerIgnitePercentChance = new FieldConfigWrapper<string>(WrapConfigFloat(
+                FlamethrowerIgnitePercentChance = new FieldConfigWrapper<float>(BindConfigFloat(
                     "FlamethrowerIgnitePercentChance",
                     "The change to ignite per proc in percent."), "ignitePercentChance", true);
 
@@ -138,29 +137,28 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     FlamethrowerIgnitePercentChance
                 };
 
-                FlamethrowerDuration = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerDuration",
+                FlamethrowerDuration = new FieldConfigWrapper<float>(BindConfigFloat("FlamethrowerDuration",
                     "The duration of the flamethrower"), "baseFlamethrowerDuration", true);
 
-                FlamethrowerTickFrequency = new FieldConfigWrapper<string>(WrapConfigFloat("FlamethrowerTickFrequency",
+                FlamethrowerTickFrequency = new FieldConfigWrapper<float>(BindConfigFloat("FlamethrowerTickFrequency",
                     "The tick frequency of the flamethrower"), "tickFrequency", true);
 
-                FlamethrowerTickFrequencyScaleWithAttackSpeed = WrapConfigStandardBool(
+                FlamethrowerTickFrequencyScaleWithAttackSpeed = BindConfigBool(
                     "FlamethrowerTickFrequencyScaleWithAttackSpeed",
                     "If the tick frequency should scale with AttackSpeed. Needs FlamethrowerTickFrequencyScaleCoefficient to be set to work.");
 
-                FlamethrowerTickFrequencyScaleCoefficient = WrapConfigFloat("FlamethrowerTickFrequencyScaleCoefficient",
+                FlamethrowerTickFrequencyScaleCoefficient = BindConfigFloat("FlamethrowerTickFrequencyScaleCoefficient",
                     "The coefficient for the AttackSpeed scaling of the Flamethrower. Formula: TickFreq + Coeff * (ATKSP - 1) * TickFreq");
 
                 FlamethrowerDurationScaleDownWithAttackSpeed =
-                    WrapConfigStandardBool("FlamethrowerDurationScaleDownWithAttackSpeed",
+                    BindConfigBool("FlamethrowerDurationScaleDownWithAttackSpeed",
                         "If the flame thrower duration should get shorter with more attack speed. Needs FlamethrowerDurationScaleCoefficient to be set.");
 
-                FlamethrowerDurationScaleCoefficient = WrapConfigFloat("FlamethrowerDurationScaleCoefficient",
+                FlamethrowerDurationScaleCoefficient = BindConfigFloat("FlamethrowerDurationScaleCoefficient",
                     "The coefficient for flame thrower scaling. Formula: Duration - Coeff * (ATKSP - 1) * Duration. Minimum of FlamethrowerMinimalDuration seconds.");
 
-                FlamethrowerMinimalDuration = WrapConfigFloat("FlamethrowerMinimalDuration",
-                    "The minimal duration of the flamethrower",
-                    1f);
+                FlamethrowerMinimalDuration = BindConfigFloat("FlamethrowerMinimalDuration",
+                    "The minimal duration of the flamethrower", 1f);
             }
 
 
@@ -172,16 +170,18 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
                     Assembly assembly = self.GetType().Assembly;
 
-                    Type chargeNovaBomb = assembly.GetClass("EntityStates.Mage.Weapon", "ChargeNovabomb");
-
-                    ChargeNovaBombFields.ForEach(changer => changer.Apply(chargeNovaBomb));
-
                     Type flamethrower = assembly.GetClass("EntityStates.Mage.Weapon", "Flamethrower");
 
                     FlamethrowerFields.ForEach(changer => changer.Apply(flamethrower));
 
                     VanillaFlamethrowerTickFrequency = FlamethrowerTickFrequency.GetValue<float>(flamethrower);
                     VanillaFlamethrowerDuration = FlamethrowerDuration.GetValue<float>(flamethrower);
+                };
+
+                On.EntityStates.Mage.Weapon.ChargeNovabomb.OnEnter += (orig, self) =>
+                {
+                    ChargeNovaBombFields.ForEach(changer => changer.Apply(self));
+                    orig(self);
                 };
             }
 
@@ -193,8 +193,8 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                 bool runCooldownScaling = FireboltAttackSpeedCooldownScaling.Value &&
                                           FireboltAttackSpeedCooldownScalingCoefficient.IsNotDefault();
 
-                float cooldownCoeff = FireboltAttackSpeedCooldownScalingCoefficient.FloatValue;
-                float stockCoeff = FireboltAttackSpeedStockScalingCoefficient.FloatValue;
+                float cooldownCoeff = FireboltAttackSpeedCooldownScalingCoefficient.Value;
+                float stockCoeff = FireboltAttackSpeedStockScalingCoefficient.Value;
 
                 if (runStockScaling || runCooldownScaling)
                 {
@@ -246,12 +246,12 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     if (FlamethrowerTickFrequencyScaleWithAttackSpeed.Value &&
                         FlamethrowerTickFrequencyScaleCoefficient.IsNotDefault())
                     {
-                        float baseVal = FlamethrowerTickFrequency.ValueConfigWrapper.IsNotDefault()
-                            ? FlamethrowerTickFrequency.ValueConfigWrapper.FloatValue
+                        float baseVal = FlamethrowerTickFrequency.ConfigEntryDescriptionWrapper.IsNotDefault()
+                            ? FlamethrowerTickFrequency.ConfigEntryDescriptionWrapper.Value
                             : VanillaFlamethrowerTickFrequency;
 
                         float val = baseVal + (body.attackSpeed - 1) *
-                                    FlamethrowerTickFrequencyScaleCoefficient.FloatValue * baseVal
+                                    FlamethrowerTickFrequencyScaleCoefficient.Value * baseVal
                             ;
 
                         flamethrowerType.SetFieldValue("tickFrequency",
@@ -262,17 +262,17 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     if (FlamethrowerDurationScaleDownWithAttackSpeed.Value &&
                         FlamethrowerDurationScaleCoefficient.IsNotDefault())
                     {
-                        float baseVal = FlamethrowerDuration.ValueConfigWrapper.IsNotDefault()
-                            ? FlamethrowerDuration.ValueConfigWrapper.FloatValue
+                        float baseVal = FlamethrowerDuration.ConfigEntryDescriptionWrapper.IsNotDefault()
+                            ? FlamethrowerDuration.ConfigEntryDescriptionWrapper.Value
                             : VanillaFlamethrowerDuration;
 
                         float val = baseVal - (body.attackSpeed - 1) *
-                                    FlamethrowerDurationScaleCoefficient.FloatValue *
+                                    FlamethrowerDurationScaleCoefficient.Value *
                                     baseVal;
 
-                        if (val < FlamethrowerMinimalDuration.FloatValue)
+                        if (val < FlamethrowerMinimalDuration.Value)
                         {
-                            val = FlamethrowerMinimalDuration.FloatValue;
+                            val = FlamethrowerMinimalDuration.Value;
                         }
 
                         flamethrowerType.SetFieldValue("baseFlamethrowerDuration",

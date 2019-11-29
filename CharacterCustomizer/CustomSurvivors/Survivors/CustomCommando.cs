@@ -16,45 +16,37 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomCommando : CustomSurvivor
         {
-            public CustomCommando() : base(SurvivorIndex.Commando, "Commando",
+            public CustomCommando(bool updateVanilla) : base(SurvivorIndex.Commando, "Commando",
                 "FirePistol",
                 "FireFMJ",
                 "Roll",
-                "Barrage")
+                "Barrage", updateVanilla)
             {
             }
 
-            public ConfigWrapper<bool> PistolHitLowerBarrageCooldown;
+            public ConfigEntryDescriptionWrapper<bool> PistolHitLowerBarrageCooldown;
 
-            public ValueConfigWrapper<string> PistolHitLowerBarrageCooldownPercent;
+            public ConfigEntryDescriptionWrapper<float> PistolHitLowerBarrageCooldownPercent;
 
-            public FieldConfigWrapper<string> PistolDamageCoefficient;
+            public FieldConfigWrapper<float> PistolDamageCoefficient;
 
-            public FieldConfigWrapper<string> PistolBaseDuration;
+            public FieldConfigWrapper<float> PistolBaseDuration;
 
             public List<IFieldChanger> PistolFields;
 
-            public FieldConfigWrapper<string> LaserDamageCoefficient;
+            public FieldConfigWrapper<float> LaserDamageCoefficient;
 
             public List<IFieldChanger> LaserFields;
 
-            public ConfigWrapper<bool> DashResetsSecondCooldown;
+            public ConfigEntryDescriptionWrapper<bool> DashResetsSecondCooldown;
 
-            public ConfigWrapper<bool> DashInvulnerability;
+            public ConfigEntryDescriptionWrapper<bool> DashInvulnerability;
 
-            public ValueConfigWrapper<string> DashInvulnerabilityTimer;
+            public ConfigEntryDescriptionWrapper<float> DashInvulnerabilityTimer;
 
             public List<IFieldChanger> DashFields;
 
-            public ConfigWrapper<bool> BarrageScalesWithAttackSpeed;
-
-            public ValueConfigWrapper<string> BarrageScaleModifier;
-
-            public int VanillaBarrageBaseShotAmount;
-
-            public float VanillaBarrageBaseDurationBetweenShots;
-
-            public FieldConfigWrapper<string> BarrageBaseDurationBetweenShots;
+            public FieldConfigWrapper<float> BarrageBaseDurationBetweenShots;
 
             public FieldConfigWrapper<int> BarrageBaseShotAmount;
 
@@ -64,61 +56,60 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             {
                 // Pistol
 
-                PistolDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat("PistolDamageCoefficient",
+                PistolDamageCoefficient = new FieldConfigWrapper<float>(BindConfigFloat("PistolDamageCoefficient",
                     "Damage coefficient for the pistol, in percent."), "damageCoefficient", true);
 
                 PistolBaseDuration =
-                    new FieldConfigWrapper<string>(WrapConfigFloat("PistolBaseDuration",
+                    new FieldConfigWrapper<float>(BindConfigFloat("PistolBaseDuration",
                         "Base duration for the pistol shot, in percent. (Attack Speed)"), "baseDuration", true);
 
-                PistolFields = new List<IFieldChanger> {PistolBaseDuration, PistolDamageCoefficient};
+                PistolFields = new List<IFieldChanger>
+                {
+                    PistolBaseDuration,
+                    PistolDamageCoefficient
+                };
 
-                PistolHitLowerBarrageCooldownPercent = WrapConfigFloat("PistolHitLowerBarrageCooldownPercent",
+                PistolHitLowerBarrageCooldownPercent = BindConfigFloat("PistolHitLowerBarrageCooldownPercent",
                     "The amount in percent that the current cooldown of the Barrage Skill should be lowered by. Needs to have PistolHitLowerBarrageCooldownPercent set.");
 
 
                 PistolHitLowerBarrageCooldown =
-                    WrapConfigStandardBool("PistolHitLowerBarrageCooldown",
+                    BindConfigBool("PistolHitLowerBarrageCooldown",
                         "If the pistol hit should lower the Barrage Skill cooldown. Needs to have PistolHitLowerBarrageCooldownPercent set to work");
 
                 // Laser
 
-                LaserDamageCoefficient = new FieldConfigWrapper<string>(WrapConfigFloat("LaserDamageCoefficient",
-                    "Damage coefficient for the secondary laser, in percent."), "damageCoefficient", true);
+                LaserDamageCoefficient = new FieldConfigWrapper<float>(BindConfigFloat("LaserDamageCoefficient",
+                    "Damage coefficient for the secondary laser, in percent."), "damageCoefficient");
 
-                LaserFields = new List<IFieldChanger> {LaserDamageCoefficient};
+                LaserFields = new List<IFieldChanger>
+                {
+                    LaserDamageCoefficient
+                };
 
                 // Dash
 
                 DashResetsSecondCooldown =
-                    WrapConfigStandardBool("DashResetsSecondCooldown",
+                    BindConfigBool("DashResetsSecondCooldown",
                         "If the dash should reset the cooldown of the second ability.");
 
-                DashInvulnerability = WrapConfigStandardBool("DashInvulnerability",
+                DashInvulnerability = BindConfigBool("DashInvulnerability",
                     "If Commando should be invulnerable while dashing.");
 
-                DashInvulnerabilityTimer = WrapConfigFloat("DashInvulnerabilityTimer",
+                DashInvulnerabilityTimer = BindConfigFloat("DashInvulnerabilityTimer",
                     "How long Commando should be invincible for when dashing. Only active when DashInvulnerability is on. 0 = For the whole dash.");
 
 
                 // Barrage
 
-                BarrageScalesWithAttackSpeed = WrapConfigStandardBool("BarrageScalesWithAttackSpeed",
-                    "If the barrage bullet count should scale with attack speed. Idea by @Twyla. Needs BarrageScaleModifier to be set.");
-
-
-                BarrageScaleModifier = WrapConfigFloat("BarrageScaleCoefficient",
-                    "Coefficient for the AttackSpeed scale of Barrage bullet count, in percent. Formula: BCount + BCount * (ATKSP - 1) * Coeff");
-
-
                 BarrageBaseShotAmount =
                     new FieldConfigWrapper<int>(
-                        WrapConfigInt("BarrageBaseShotAmount", "How many shots the Barrage skill should fire"),
-                        "bulletCount", true);
+                        BindConfigInt("BarrageBaseShotAmount", "How many shots the Barrage skill should when ATKSP = 1"),
+                        "baseBulletCount", true);
 
 
                 BarrageBaseDurationBetweenShots =
-                    new FieldConfigWrapper<string>(WrapConfigFloat("BarrageBaseDurationBetweenShots",
+                    new FieldConfigWrapper<float>(BindConfigFloat("BarrageBaseDurationBetweenShots",
                         "Base duration between shots in the Barrage skill."), "baseDurationBetweenShots", true);
 
                 BarrageFields = new List<IFieldChanger> {BarrageBaseShotAmount, BarrageBaseDurationBetweenShots};
@@ -134,17 +125,8 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     Type firePistol = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FirePistol2");
 
                     PistolFields.ForEach(changer => changer.Apply(firePistol));
-
-                    Type fireLaser = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireFMJ");
-
-                    LaserFields.ForEach(changer => changer.Apply(fireLaser));
-
+                    
                     Type fireBarr = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireBarrage");
-
-                    VanillaBarrageBaseShotAmount =
-                        BarrageBaseShotAmount.GetValue<int>(fireBarr);
-
-                    VanillaBarrageBaseDurationBetweenShots = BarrageBaseDurationBetweenShots.GetValue<float>(fireBarr);
 
                     BarrageFields.ForEach(changer => changer.Apply(fireBarr));
                 };
@@ -152,39 +134,12 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
             public override void WriteNewHooks()
             {
-                if (BarrageScalesWithAttackSpeed.Value && BarrageScaleModifier.IsNotDefault())
+                On.EntityStates.Commando.CommandoWeapon.FireFMJ.OnEnter += (orig, self) =>
                 {
-                    On.EntityStates.Commando.CommandoWeapon.FireBarrage.OnEnter += (orig, self) =>
-                    {
-                        orig(self);
-
-                        Assembly assembly = self.GetType().Assembly;
-
-                        Type fireBarr = assembly.GetClass("EntityStates.Commando.CommandoWeapon", "FireBarrage");
-                        FieldInfo attackSpeed = typeof(BaseState).GetField("attackSpeedStat",
-                            BindingFlags.NonPublic | BindingFlags.Instance);
-
-                        FieldInfo durationBetweenShots = fireBarr.GetField("durationBetweenShots",
-                            BindingFlags.NonPublic | BindingFlags.Instance);
-
-                        float attackSpeedF = (float) attackSpeed?.GetValue(self);
-
-                        int baseShot = BarrageBaseShotAmount.ValueConfigWrapper.IsDefault()
-                            ? VanillaBarrageBaseShotAmount
-                            : BarrageBaseShotAmount.ValueConfigWrapper.Value;
-
-                        durationBetweenShots?.SetValue(self,
-                            (BarrageBaseDurationBetweenShots.ValueConfigWrapper.IsDefault()
-                                ? VanillaBarrageBaseDurationBetweenShots
-                                : BarrageBaseDurationBetweenShots.ValueConfigWrapper.FloatValue) / attackSpeedF /
-                            BarrageScaleModifier.FloatValue);
-
-                        fireBarr.SetFieldValue("bulletCount",
-                            baseShot + (int) ((attackSpeedF - 1) * BarrageScaleModifier.FloatValue * baseShot));
-                    };
-                }
-
-
+                    LaserFields.ForEach(changer => changer.Apply(self));
+                    orig(self);
+                };
+                
                 On.EntityStates.Commando.DodgeState.OnEnter += (orig, self) =>
                 {
                     orig(self);
@@ -215,7 +170,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                         else
                         {
                             self.outer.commonComponents.characterBody.AddTimedBuff(BuffIndex.HiddenInvincibility,
-                                DashInvulnerabilityTimer.FloatValue);
+                                DashInvulnerabilityTimer.Value);
                         }
                     }
                 };
@@ -259,7 +214,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                                     rechargeStopwatch.SetValue(special,
                                         (float) rechargeStopwatch.GetValue(special) +
                                         (float) finalRechargeInterval.GetValue(special) *
-                                        PistolHitLowerBarrageCooldownPercent.FloatValue);
+                                        PistolHitLowerBarrageCooldownPercent.Value);
                                 }
 
                                 return result;

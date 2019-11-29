@@ -10,17 +10,17 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomMulT : CustomSurvivor
         {
-            public FieldConfigWrapper<string> NailgunSpreadYaw;
+            public FieldConfigWrapper<float> NailgunSpreadYaw;
 
-            public FieldConfigWrapper<string> NailgunSpreadPitch;
+            public FieldConfigWrapper<float> NailgunSpreadPitch;
 
             public List<IFieldChanger> NailgunFields;
 
-            public CustomMulT() : base(SurvivorIndex.Toolbot, "MultT",
+            public CustomMulT(bool updateVanilla) : base(SurvivorIndex.Toolbot, "MultT",
                 "FireNailgun",
                 "StunDrone",
                 "ToolbotDash",
-                "Swap")
+                "Swap", updateVanilla)
             {
                 ExtraSkillNames.Add("FireSpear");
             }
@@ -28,13 +28,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             public override void InitConfigValues()
             {
                 NailgunSpreadYaw =
-                    new FieldConfigWrapper<string>(
-                        WrapConfigFloat("NailgunSpreadYaw", "Yaw spread of the nailgun, in percent"), "spreadYawScale",
+                    new FieldConfigWrapper<float>(
+                        BindConfigFloat("NailgunSpreadYaw", "Yaw spread of the nailgun, in percent"), "spreadYawScale",
                         true);
 
                 NailgunSpreadPitch =
-                    new FieldConfigWrapper<string>(
-                        WrapConfigFloat("NailgunSpreadPitch", "Pitch spread of the nailgun, in percent"),
+                    new FieldConfigWrapper<float>(
+                        BindConfigFloat("NailgunSpreadPitch", "Pitch spread of the nailgun, in percent"),
                         "spreadPitchScale", true);
 
                 NailgunFields = new List<IFieldChanger>

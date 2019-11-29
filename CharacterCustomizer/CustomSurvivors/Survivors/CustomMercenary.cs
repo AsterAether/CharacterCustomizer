@@ -10,41 +10,41 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         {
             public FieldConfigWrapper<int> DashMaxCount;
 
-            public FieldConfigWrapper<string> DashTimeoutDuration;
+            public FieldConfigWrapper<float> DashTimeoutDuration;
 
             public List<IFieldChanger> DashFields;
 
             public override void InitConfigValues()
             {
-                DashMaxCount = new FieldConfigWrapper<int>(WrapConfigInt("DashMaxCount",
-                    "Maximum amount of dashes Mercenary can perform."), "maxDashes");
-
-                DashTimeoutDuration = new FieldConfigWrapper<string>(WrapConfigFloat("DashTimeoutDuration",
-                    "Maximum timeout between dashes, in seconds"), "timeoutDuration");
-
-                DashFields = new List<IFieldChanger>
-                {
-                    DashMaxCount, DashTimeoutDuration
-                };
+//                DashMaxCount = new FieldConfigWrapper<int>(BindConfigInt("DashMaxCount",
+//                    "Maximum amount of dashes Mercenary can perform."), "maxDashes");
+//
+//                DashTimeoutDuration = new FieldConfigWrapper<float>(BindConfigFloat("DashTimeoutDuration",
+//                    "Maximum timeout between dashes, in seconds"), "timeoutDuration");
+//
+//                DashFields = new List<IFieldChanger>
+//                {
+//                    DashMaxCount, DashTimeoutDuration
+//                };
             }
 
-            public CustomMercenary() : base(SurvivorIndex.Merc, "Mercenary",
+            public CustomMercenary(bool updateVanilla) : base(SurvivorIndex.Merc, "Mercenary",
                 "GroundLight",
                 "Whirlwind",
                 "Dash",
-                "Evis")
+                "Evis", updateVanilla)
             {
             }
 
 
             public override void OverrideGameValues()
             {
-                On.RoR2.MercDashSkill.OnExecute += (orig, self) =>
-                {
-                    DashFields.ForEach(changer => changer.Apply(self));
-
-                    orig(self);
-                };
+//                On.RoR2.MercDashSkill.OnExecute += (orig, self) =>
+//                {
+//                    DashFields.ForEach(changer => changer.Apply(self));
+//
+//                    orig(self);
+//                };
             }
 
             public override void WriteNewHooks()

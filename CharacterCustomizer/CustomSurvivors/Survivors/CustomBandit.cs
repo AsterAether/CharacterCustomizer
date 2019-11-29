@@ -4,11 +4,11 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     public class CustomBandit : CustomSurvivor
     {
-        public CustomBandit() : base(SurvivorIndex.Bandit,"Bandit", 
+        public CustomBandit(bool updateVanilla) : base(SurvivorIndex.Bandit,"Bandit", 
             "FireShotgun", 
             "LightsOut", 
             "Cloak", 
-            "Grenade")
+            "Grenade", updateVanilla)
         {
         }
 

@@ -8,27 +8,27 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomHuntress : CustomSurvivor
         {
-            public FieldConfigWrapper<string> TrackingMaxDistance;
+            public FieldConfigWrapper<float> TrackingMaxDistance;
 
-            public FieldConfigWrapper<string> TrackingMaxAngle;
+            public FieldConfigWrapper<float> TrackingMaxAngle;
 
             public List<IFieldChanger> TrackingFields;
 
-            public CustomHuntress() : base(SurvivorIndex.Huntress, "Huntress",
+            public CustomHuntress(bool updateVanilla) : base(SurvivorIndex.Huntress, "Huntress",
                 "FireSeekingArrow",
                 "Glaive",
                 "Blink",
-                "ArrowRain")
+                "ArrowRain", updateVanilla)
             {
             }
 
             public override void InitConfigValues()
             {
-                TrackingMaxDistance = new FieldConfigWrapper<string>(WrapConfigFloat("TrackingMaxDistance",
+                TrackingMaxDistance = new FieldConfigWrapper<float>(BindConfigFloat("TrackingMaxDistance",
                     "The maximum distance the tracking of the huntress works."), "maxTrackingDistance");
 
 
-                TrackingMaxAngle = new FieldConfigWrapper<string>(WrapConfigFloat("TrackingMaxAngle",
+                TrackingMaxAngle = new FieldConfigWrapper<float>(BindConfigFloat("TrackingMaxAngle",
                     "The maximum angle the tracking of the huntress works."), "maxTrackingAngle");
 
                 TrackingFields = new List<IFieldChanger>
