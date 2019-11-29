@@ -67,6 +67,7 @@ Please use dots for separating the decimal values (0.1) and not commas (0,1).
 
 ## Changelog
 
+* **v0.3.2:** - Reverted multiple file change to be compatible with BepInEx.ConfigurationManager.
 * **v0.3.1:** - (NOT TESTED) Moved configuration to it's own folder and own file per survivor. Added missing config values, still experimental and not everything is tested!
 * **v0.3.0:** - (TEMPORARY UPDATE) Updated to newest BepInEx and RoR2 version. Only basic values for now, other settings coming as I fix them. Please ping me in the discord for anything not working as expected!
 * **v0.2.12** - Updated README to include explanation of config values.
