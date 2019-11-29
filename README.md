@@ -33,16 +33,6 @@ The configuration file is located in the config folder of BepInEx, called at.ast
 It initializes with all values set to their default values. If a value is left with the default one (0 in cases of numbers), 
 the executing code in the plugin will be skipped, and vanilla risk of rain behavior will be used.
 
-<!-- Description for multiple files
-The main configuration file is located at `at.aster.charactercustomizer.cfg` in the BepInEx configuration folder. 
-It houses some general settings.
-The configuration files for the survivors are in the `CustomSurvivors` folder, inside the BepInEx configuration folder.
-In this folder there is a `.cfg` file for every survivor, containing their settings.
-They initialize with all values set to their default values. If a value is left with the default
-one (0 in the case of numbers), the executing code in the plugin will be
-skipped, and vanilla Risk of Rain behavior will be used.
--->
-
 A sample config line would look like this:
 ```
 # Commando: The base health of your survivor. Vanilla value: 110
@@ -67,6 +57,7 @@ Please use dots for separating the decimal values (0.1) and not commas (0,1).
 
 ## Changelog
 
+* **v0.3.3:** - Readme update.
 * **v0.3.2:** - Reverted multiple file change to be compatible with BepInEx.ConfigurationManager.
 * **v0.3.1:** - (NOT TESTED) Moved configuration to it's own folder and own file per survivor. Added missing config values, still experimental and not everything is tested!
 * **v0.3.0:** - (TEMPORARY UPDATE) Updated to newest BepInEx and RoR2 version. Only basic values for now, other settings coming as I fix them. Please ping me in the discord for anything not working as expected!
