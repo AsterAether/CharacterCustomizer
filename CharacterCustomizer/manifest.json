@@ -6,6 +6,6 @@
   "dependencies": [
     "tristanmcpherson-R2API-2.3.0",
     "bbepis-BepInExPack-3.0.0",
-    "AsterAether-AetherLib-2.3.0"
+    "AsterAether-AetherLib-0.3.0"
   ]
 }
