@@ -5,11 +5,15 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     public class CustomLoader : CustomSurvivor
     {
         public CustomLoader(bool updateVanilla) : base(SurvivorIndex.Loader, "Loader",
-            "GroundLight",
-            "Whirlwind",
-            "Dash",
-            "Evis", updateVanilla)
+            "SwingFist",
+            "FireHook",
+            "ChargeFist",
+            "ThrowPylon", updateVanilla)
         {     
+            SetPrimarySkillReplaceOldName("GroundLight");
+            SetSecondarySkillReplaceOldName("Whirlwind");
+            SetUtilitySkillReplaceOldName("Dash");
+            SetSpecialSkillReplaceOldName("Evis");
         }
 
         public override void InitConfigValues()

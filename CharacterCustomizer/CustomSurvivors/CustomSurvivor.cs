@@ -30,6 +30,15 @@ namespace CharacterCustomizer.CustomSurvivors
         public string UtilitySkillName { get; }
 
         public string SpecialSkillName { get; }
+        
+        public string PrimarySkillReplaceOld { get; private set; }
+
+        public string SecondarySkillReplaceOld { get; private set;}
+
+        public string UtilitySkillReplaceOld { get; private set;}
+
+        public string SpecialSkillReplaceOld { get; private set;}
+        
 
         public SurvivorIndex SurvivorIndex { get; }
 
@@ -63,6 +72,29 @@ namespace CharacterCustomizer.CustomSurvivors
             SpecialSkillName = specialSkillName;
         }
 
+        protected void SetPrimarySkillReplaceOldName(string old)
+        {
+            PrimarySkillReplaceOld = old;
+        }
+        
+        
+        protected void SetSecondarySkillReplaceOldName(string old)
+        {
+            SecondarySkillReplaceOld = old;
+        }
+        
+        
+        protected void SetUtilitySkillReplaceOldName(string old)
+        {
+            UtilitySkillReplaceOld = old;
+        }
+        
+        
+        protected void SetSpecialSkillReplaceOldName(string old)
+        {
+            SpecialSkillReplaceOld = old;
+        }
+
         public void InitVariables(ConfigFile file, ManualLogSource logger)
         {
             Config = file;
@@ -73,10 +105,10 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public void InitBaseConfigValues()
         {
-            PrimarySkill = new CustomSkillDefinition(this, PrimarySkillName);
-            SecondarySkill = new CustomSkillDefinition(this, SecondarySkillName);
-            UtilitySkill = new CustomSkillDefinition(this, UtilitySkillName);
-            SpecialSkill = new CustomSkillDefinition(this, SpecialSkillName);
+            PrimarySkill = new CustomSkillDefinition(this, PrimarySkillName, PrimarySkillReplaceOld);
+            SecondarySkill = new CustomSkillDefinition(this, SecondarySkillName, SecondarySkillReplaceOld);
+            UtilitySkill = new CustomSkillDefinition(this, UtilitySkillName, UtilitySkillReplaceOld);
+            SpecialSkill = new CustomSkillDefinition(this, SpecialSkillName, SpecialSkillReplaceOld);
             foreach (string skillName in ExtraSkillNames)
             {
                 ExtraSkills.Add(new CustomSkillDefinition(this, skillName));
@@ -95,6 +127,10 @@ namespace CharacterCustomizer.CustomSurvivors
             {
                 foreach (CustomSkillDefinition skillDef in skillDefs)
                 {
+                    if (skillDef.ReplaceOld != null && genericSkill.skillName == skillDef.ReplaceOld)
+                    {
+                        genericSkill.skillName = skillDef.SkillName;
+                    }
                     if (genericSkill.skillName == skillDef.SkillName)
                     {
                         skillDef.AllFields.ForEach(changer =>

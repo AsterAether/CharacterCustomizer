@@ -57,6 +57,7 @@ Please use dots for separating the decimal values (0.1) and not commas (0,1).
 
 ## Changelog
 
+* **v0.3.4:** - Fixed Loader skill names in config.
 * **v0.3.3:** - Readme update.
 * **v0.3.2:** - Reverted multiple file change to be compatible with BepInEx.ConfigurationManager.
 * **v0.3.1:** - (NOT TESTED) Moved configuration to it's own folder and own file per survivor. Added missing config values, still experimental and not everything is tested!

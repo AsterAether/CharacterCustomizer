@@ -7,6 +7,8 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public string SkillName { get; }
 
+        public string ReplaceOld { get; set; }
+
         public FieldConfigWrapper<float> BaseRechargeInterval { get; }
         public FieldConfigWrapper<int> BaseMaxStock { get; }
         public FieldConfigWrapper<float> ShootDelay { get; }
@@ -22,9 +24,10 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public List<IFieldChanger> AllFields { get; }
 
-        public CustomSkillDefinition(CustomSurvivor survivor, string skillName)
+        public CustomSkillDefinition(CustomSurvivor survivor, string skillName, string replaceOld = null)
         {
             SkillName = skillName;
+            ReplaceOld = replaceOld;
 
             BaseRechargeInterval = new FieldConfigWrapper<float>(survivor.BindConfig(
                     skillName + "BaseRechargeInterval",

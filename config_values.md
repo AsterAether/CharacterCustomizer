@@ -610,42 +610,30 @@
 * **SonicBoomShootDelay:** SonicBoom: Time between bullets for bullet-style weapons
 * **SonicBoomStockToConsume:** SonicBoom: How much stock to deduct when the skill is activated.
 # Loader
-* **DashBaseMaxStock:** Dash: Maximum number of charges this skill can carry.
-* **DashBaseRechargeInterval:** Dash: How long it takes for this skill to recharge after being used.
-* **DashBeginSkillCooldownOnSkillEnd:** Dash: Whether or not the cooldown waits until it leaves the set state
-* **DashCanceledFromSprinting:** Dash: Sprinting will actively cancel this ability.
-* **DashIsBullets:** Dash: Whether or not it has bullet reload behavior
-* **DashIsCombatSkill:** Dash: Whether or not this is considered a combat skill.
-* **DashMustKeyPress:** Dash: The skill can't be activated if the key is held.
-* **DashNoSprint:** Dash: Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **DashRechargeStock:** Dash: How much stock to restore on a recharge.
-* **DashRequiredStock:** Dash: How much stock is required to activate this skill.
-* **DashShootDelay:** Dash: Time between bullets for bullet-style weapons
-* **DashStockToConsume:** Dash: How much stock to deduct when the skill is activated.
-* **EvisBaseMaxStock:** Evis: Maximum number of charges this skill can carry.
-* **EvisBaseRechargeInterval:** Evis: How long it takes for this skill to recharge after being used.
-* **EvisBeginSkillCooldownOnSkillEnd:** Evis: Whether or not the cooldown waits until it leaves the set state
-* **EvisCanceledFromSprinting:** Evis: Sprinting will actively cancel this ability.
-* **EvisIsBullets:** Evis: Whether or not it has bullet reload behavior
-* **EvisIsCombatSkill:** Evis: Whether or not this is considered a combat skill.
-* **EvisMustKeyPress:** Evis: The skill can't be activated if the key is held.
-* **EvisNoSprint:** Evis: Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **EvisRechargeStock:** Evis: How much stock to restore on a recharge.
-* **EvisRequiredStock:** Evis: How much stock is required to activate this skill.
-* **EvisShootDelay:** Evis: Time between bullets for bullet-style weapons
-* **EvisStockToConsume:** Evis: How much stock to deduct when the skill is activated.
-* **GroundLightBaseMaxStock:** GroundLight: Maximum number of charges this skill can carry.
-* **GroundLightBaseRechargeInterval:** GroundLight: How long it takes for this skill to recharge after being used.
-* **GroundLightBeginSkillCooldownOnSkillEnd:** GroundLight: Whether or not the cooldown waits until it leaves the set state
-* **GroundLightCanceledFromSprinting:** GroundLight: Sprinting will actively cancel this ability.
-* **GroundLightIsBullets:** GroundLight: Whether or not it has bullet reload behavior
-* **GroundLightIsCombatSkill:** GroundLight: Whether or not this is considered a combat skill.
-* **GroundLightMustKeyPress:** GroundLight: The skill can't be activated if the key is held.
-* **GroundLightNoSprint:** GroundLight: Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **GroundLightRechargeStock:** GroundLight: How much stock to restore on a recharge.
-* **GroundLightRequiredStock:** GroundLight: How much stock is required to activate this skill.
-* **GroundLightShootDelay:** GroundLight: Time between bullets for bullet-style weapons
-* **GroundLightStockToConsume:** GroundLight: How much stock to deduct when the skill is activated.
+* **ChargeFistBaseMaxStock:** ChargeFist: Maximum number of charges this skill can carry.
+* **ChargeFistBaseRechargeInterval:** ChargeFist: How long it takes for this skill to recharge after being used.
+* **ChargeFistBeginSkillCooldownOnSkillEnd:** ChargeFist: Whether or not the cooldown waits until it leaves the set state
+* **ChargeFistCanceledFromSprinting:** ChargeFist: Sprinting will actively cancel this ability.
+* **ChargeFistIsBullets:** ChargeFist: Whether or not it has bullet reload behavior
+* **ChargeFistIsCombatSkill:** ChargeFist: Whether or not this is considered a combat skill.
+* **ChargeFistMustKeyPress:** ChargeFist: The skill can't be activated if the key is held.
+* **ChargeFistNoSprint:** ChargeFist: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **ChargeFistRechargeStock:** ChargeFist: How much stock to restore on a recharge.
+* **ChargeFistRequiredStock:** ChargeFist: How much stock is required to activate this skill.
+* **ChargeFistShootDelay:** ChargeFist: Time between bullets for bullet-style weapons
+* **ChargeFistStockToConsume:** ChargeFist: How much stock to deduct when the skill is activated.
+* **FireHookBaseMaxStock:** FireHook: Maximum number of charges this skill can carry.
+* **FireHookBaseRechargeInterval:** FireHook: How long it takes for this skill to recharge after being used.
+* **FireHookBeginSkillCooldownOnSkillEnd:** FireHook: Whether or not the cooldown waits until it leaves the set state
+* **FireHookCanceledFromSprinting:** FireHook: Sprinting will actively cancel this ability.
+* **FireHookIsBullets:** FireHook: Whether or not it has bullet reload behavior
+* **FireHookIsCombatSkill:** FireHook: Whether or not this is considered a combat skill.
+* **FireHookMustKeyPress:** FireHook: The skill can't be activated if the key is held.
+* **FireHookNoSprint:** FireHook: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FireHookRechargeStock:** FireHook: How much stock to restore on a recharge.
+* **FireHookRequiredStock:** FireHook: How much stock is required to activate this skill.
+* **FireHookShootDelay:** FireHook: Time between bullets for bullet-style weapons
+* **FireHookStockToConsume:** FireHook: How much stock to deduct when the skill is activated.
 * **LoaderBaseAcceleration:** Loader: The base acceleration of your survivor
 * **LoaderBaseArmor:** Loader: The base armor of your survivor
 * **LoaderBaseAttackSpeed:** Loader: The base attack speed of your survivor
@@ -666,15 +654,27 @@
 * **LoaderLevelMaxShield:** Loader: The max shield per level your survivor gets
 * **LoaderLevelMoveSpeed:** Loader: The move speed per level your survivor gets
 * **LoaderLevelRegen:** Loader: The regen per level your survivor gets.
-* **WhirlwindBaseMaxStock:** Whirlwind: Maximum number of charges this skill can carry.
-* **WhirlwindBaseRechargeInterval:** Whirlwind: How long it takes for this skill to recharge after being used.
-* **WhirlwindBeginSkillCooldownOnSkillEnd:** Whirlwind: Whether or not the cooldown waits until it leaves the set state
-* **WhirlwindCanceledFromSprinting:** Whirlwind: Sprinting will actively cancel this ability.
-* **WhirlwindIsBullets:** Whirlwind: Whether or not it has bullet reload behavior
-* **WhirlwindIsCombatSkill:** Whirlwind: Whether or not this is considered a combat skill.
-* **WhirlwindMustKeyPress:** Whirlwind: The skill can't be activated if the key is held.
-* **WhirlwindNoSprint:** Whirlwind: Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **WhirlwindRechargeStock:** Whirlwind: How much stock to restore on a recharge.
-* **WhirlwindRequiredStock:** Whirlwind: How much stock is required to activate this skill.
-* **WhirlwindShootDelay:** Whirlwind: Time between bullets for bullet-style weapons
-* **WhirlwindStockToConsume:** Whirlwind: How much stock to deduct when the skill is activated.
+* **SwingFistBaseMaxStock:** SwingFist: Maximum number of charges this skill can carry.
+* **SwingFistBaseRechargeInterval:** SwingFist: How long it takes for this skill to recharge after being used.
+* **SwingFistBeginSkillCooldownOnSkillEnd:** SwingFist: Whether or not the cooldown waits until it leaves the set state
+* **SwingFistCanceledFromSprinting:** SwingFist: Sprinting will actively cancel this ability.
+* **SwingFistIsBullets:** SwingFist: Whether or not it has bullet reload behavior
+* **SwingFistIsCombatSkill:** SwingFist: Whether or not this is considered a combat skill.
+* **SwingFistMustKeyPress:** SwingFist: The skill can't be activated if the key is held.
+* **SwingFistNoSprint:** SwingFist: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **SwingFistRechargeStock:** SwingFist: How much stock to restore on a recharge.
+* **SwingFistRequiredStock:** SwingFist: How much stock is required to activate this skill.
+* **SwingFistShootDelay:** SwingFist: Time between bullets for bullet-style weapons
+* **SwingFistStockToConsume:** SwingFist: How much stock to deduct when the skill is activated.
+* **ThrowPylonBaseMaxStock:** ThrowPylon: Maximum number of charges this skill can carry.
+* **ThrowPylonBaseRechargeInterval:** ThrowPylon: How long it takes for this skill to recharge after being used.
+* **ThrowPylonBeginSkillCooldownOnSkillEnd:** ThrowPylon: Whether or not the cooldown waits until it leaves the set state
+* **ThrowPylonCanceledFromSprinting:** ThrowPylon: Sprinting will actively cancel this ability.
+* **ThrowPylonIsBullets:** ThrowPylon: Whether or not it has bullet reload behavior
+* **ThrowPylonIsCombatSkill:** ThrowPylon: Whether or not this is considered a combat skill.
+* **ThrowPylonMustKeyPress:** ThrowPylon: The skill can't be activated if the key is held.
+* **ThrowPylonNoSprint:** ThrowPylon: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **ThrowPylonRechargeStock:** ThrowPylon: How much stock to restore on a recharge.
+* **ThrowPylonRequiredStock:** ThrowPylon: How much stock is required to activate this skill.
+* **ThrowPylonShootDelay:** ThrowPylon: Time between bullets for bullet-style weapons
+* **ThrowPylonStockToConsume:** ThrowPylon: How much stock to deduct when the skill is activated.
