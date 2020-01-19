@@ -1,6 +1,6 @@
 {
   "name": "CharacterCustomizer",
-  "version_number": "0.3.7",
+  "version_number": "<version>",
   "website_url": "https://github.com/AsterAether/CharacterCustomizer",
   "description": "Customize your Survivors by simply changing a value in a config file!",
   "dependencies": [
