@@ -57,6 +57,7 @@ Please use dots for separating the decimal values (0.1) and not commas (0,1).
 
 ## Changelog
 
+v **v0.3.6:** - Readme update and new RoR2 version with good body doggo customization.
 * **v0.3.4:** - Fixed Loader skill names in config.
 * **v0.3.3:** - Readme update.
 * **v0.3.2:** - Reverted multiple file change to be compatible with BepInEx.ConfigurationManager.
