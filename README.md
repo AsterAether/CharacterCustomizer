@@ -27,7 +27,8 @@ Customize your Survivors by simply changing a value in a config file!
 ## Configuration
 
 It is highly recommended to use [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager) to edit the configuration values in-game with the F1 key.
-**You will need to restart the game after changing the values though.**
+**Live update is supported for basic values in skills and survivor body (Cooldown of skills or MaxHealth for example). You will need to restart your run though for the changes to take effect.**
+**You will need to restart the game after changing other values that affect gameplay though.**
 
 The configuration file is located in the config folder of BepInEx, called at.aster.CharacterCustomizer.cfg. 
 It initializes with all values set to their default values. If a value is left with the default one (0 in cases of numbers), 
@@ -57,7 +58,8 @@ Please use dots for separating the decimal values (0.1) and not commas (0,1).
 
 ## Changelog
 
-v **v0.3.6:** - Readme update and new RoR2 version with good body doggo customization.
+* **v0.3.7:** - Now with live update of config values when using [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager)! And Commando Barrage scaling fix.
+* **v0.3.6:** - Readme update and new RoR2 version with good body doggo customization.
 * **v0.3.4:** - Fixed Loader skill names in config.
 * **v0.3.3:** - Readme update.
 * **v0.3.2:** - Reverted multiple file change to be compatible with BepInEx.ConfigurationManager.
