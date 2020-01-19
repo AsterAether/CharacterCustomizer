@@ -197,8 +197,6 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                 if (PistolHitLowerBarrageCooldown.Value && PistolHitLowerBarrageCooldownPercent.IsNotDefault())
                 {
                     Type gsType = typeof(GenericSkill);
-                    FieldInfo rechargeStopwatch = gsType.GetField("rechargeStopwatch",
-                        BindingFlags.NonPublic | BindingFlags.Instance);
                     FieldInfo finalRechargeInterval = gsType.GetField("finalRechargeInterval",
                         BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -216,10 +214,9 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                                 {
                                     SkillLocator skillLocator = ba.owner.GetComponent<SkillLocator>();
                                     GenericSkill special = skillLocator.special;
-                                    rechargeStopwatch.SetValue(special,
-                                        (float) rechargeStopwatch.GetValue(special) +
+                                    special.rechargeStopwatch = special.rechargeStopwatch +
                                         (float) finalRechargeInterval.GetValue(special) *
-                                        PistolHitLowerBarrageCooldownPercent.Value);
+                                        PistolHitLowerBarrageCooldownPercent.Value;
                                 }
 
                                 return result;

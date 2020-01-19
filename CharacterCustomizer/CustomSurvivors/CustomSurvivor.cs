@@ -58,6 +58,8 @@ namespace CharacterCustomizer.CustomSurvivors
         public List<string> ExtraSkillNames = new List<string>();
 
         public CustomBodyDefinition BodyDefinition { get; private set; }
+        
+        public SurvivorDef SurvivorDef { get; set; }
 
         private bool _updateVanillaValues;
 
@@ -93,19 +95,57 @@ namespace CharacterCustomizer.CustomSurvivors
         public void InitBaseConfigValues()
         {
             PrimarySkill = new CustomSkillDefinition(this, PrimarySkillName.CommonName, PrimarySkillName.SkillNameToken);
+            PrimarySkill.OnFieldChanged += OnSkillChanged;
             SecondarySkill = new CustomSkillDefinition(this, SecondarySkillName.CommonName, PrimarySkillName.SkillNameToken);
+            SecondarySkill.OnFieldChanged += OnSkillChanged;
             UtilitySkill = new CustomSkillDefinition(this, UtilitySkillName.CommonName, PrimarySkillName.SkillNameToken);
+            UtilitySkill.OnFieldChanged += OnSkillChanged;
             SpecialSkill = new CustomSkillDefinition(this, SpecialSkillName.CommonName, PrimarySkillName.SkillNameToken);
+            SpecialSkill.OnFieldChanged += OnSkillChanged;
             foreach (string skillName in ExtraSkillNames)
             {
                 ExtraSkills.Add(new CustomSkillDefinition(this, skillName));
             }
 
+            foreach (var skill in ExtraSkills)
+            {
+                skill.OnFieldChanged += OnSkillChanged;
+            }
+
             BodyDefinition = new CustomBodyDefinition(this, CharacterName);
+            BodyDefinition.OnFieldChanged += OnBodyChanged;
+        }
+
+        private void OnBodyChanged(CustomBodyDefinition skillDefinition, IFieldChanger changed)
+        {
+            CharacterBody body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
+            BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
+        }
+        
+        private void OnSkillChanged(CustomSkillDefinition skillDefinition, IFieldChanger changed)
+        {
+            List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>(ExtraSkills);
+            skillDefs.AddRange(new[] {PrimarySkill, SecondarySkill, UtilitySkill, SpecialSkill});
+
+            GenericSkill[] skills = SurvivorDef.bodyPrefab.GetComponents<GenericSkill>();
+            foreach (GenericSkill genericSkill in skills)
+            {
+                foreach (CustomSkillDefinition skillDef in skillDefs)
+                {
+                    if (genericSkill.skillFamily.defaultSkillDef.skillNameToken == skillDef.SkillNameToken)
+                    {
+                        skillDef.AllFields.ForEach(changer =>
+                        {
+                            changer.Apply(genericSkill.skillFamily.defaultSkillDef);
+                        });
+                    }
+                }
+            }
         }
 
         public void OverrideSurvivorBase(SurvivorDef survivor)
         {
+            SurvivorDef = survivor;
             List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>(ExtraSkills);
             skillDefs.AddRange(new[] {PrimarySkill, SecondarySkill, UtilitySkill, SpecialSkill});
 

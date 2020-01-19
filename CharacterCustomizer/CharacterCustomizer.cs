@@ -24,7 +24,7 @@ namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("at.aster.aetherlib")]
-    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "<version>")]
+    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "0.3.7")]
     public class CharacterCustomizer : BaseUnityPlugin
     {
         private List<CustomSurvivor> CustomSurvivors { get; set; }
@@ -32,7 +32,6 @@ namespace CharacterCustomizer
         public ConfigEntry<bool> CreateReadme;
         public ConfigEntry<bool> FixSkillIconCooldownScaling;
         public ConfigEntry<bool> UpdateVanillaValues;
-
         public void InitConfig()
         {
             CreateReadme = Config.Bind(

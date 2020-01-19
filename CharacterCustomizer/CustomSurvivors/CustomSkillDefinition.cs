@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AetherLib.Util.Config;
+using BepInEx.Configuration;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -23,6 +24,11 @@ namespace CharacterCustomizer.CustomSurvivors
         public FieldConfigWrapper<bool> IsBullets { get; }
 
         public List<IFieldChanger> AllFields { get; }
+
+        public delegate void CustomFieldChanged(CustomSkillDefinition skillDefinition, IFieldChanger changed);
+
+        public CustomFieldChanged OnFieldChanged;
+
 
         public CustomSkillDefinition(CustomSurvivor survivor, string skillNameToken, string commonName = null)
         {
@@ -117,6 +123,17 @@ namespace CharacterCustomizer.CustomSurvivors
                 CanceledFromSprinting,
                 IsBullets
             };
+
+            foreach (var fieldChanger in AllFields)
+            {
+                fieldChanger.AddFieldChangedListener(InternalFieldChanged);
+            }
         }
+
+        private void InternalFieldChanged(IFieldChanger changer)
+        {
+            OnFieldChanged.Invoke(this, changer);
+        }
+        
     }
 }

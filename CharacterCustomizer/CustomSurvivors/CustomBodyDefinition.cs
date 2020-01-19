@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using AetherLib.Util.Config;
+using UnityEngine;
+using Logger = BepInEx.Logging.Logger;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
@@ -29,6 +32,10 @@ namespace CharacterCustomizer.CustomSurvivors
         public FieldConfigWrapper<float> LevelArmor { get; }
 
         public List<IFieldChanger> AllFields { get; }
+
+        public delegate void CustomFieldChanged(CustomBodyDefinition skillDefinition, IFieldChanger changed);
+
+        public CustomFieldChanged OnFieldChanged;
 
         public CustomBodyDefinition(CustomSurvivor survivor, string survivorName)
         {
@@ -178,6 +185,16 @@ namespace CharacterCustomizer.CustomSurvivors
                 LevelCrit,
                 LevelArmor
             };
+
+            foreach (var fieldChanger in AllFields)
+            {
+                fieldChanger.AddFieldChangedListener(InternalFieldChanged);
+            }
+        }
+
+        private void InternalFieldChanged(IFieldChanger changer)
+        {
+            OnFieldChanged.Invoke(this, changer);
         }
     }
 }
