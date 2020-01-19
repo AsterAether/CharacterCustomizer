@@ -65,10 +65,15 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
 
             public CustomArtificer(bool updateVanilla) : base(SurvivorIndex.Mage, "Artificer",
+                "MAGE_PRIMARY_FIRE_NAME",
                 "FireFirebolt",
+                "MAGE_SECONDARY_LIGHTNING_NAME",
                 "NovaBomb",
+                "MAGE_UTILITY_ICE_NAME",
                 "Wall",
-                "Flamethrower", updateVanilla)
+                "MAGE_SPECIAL_FIRE_NAME",
+                "Flamethrower",
+                updateVanilla)
             {
             }
 
@@ -225,7 +230,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                                     if (runStockScaling)
                                     {
                                         primary.SetBonusStockFromBody(
-                                            (int) ((attackSpeed - 1) * stockCoeff * primary.baseMaxStock));
+                                            (int) ((attackSpeed - 1) * stockCoeff * primary.skillDef.baseMaxStock));
                                     }
                                 }
                             });

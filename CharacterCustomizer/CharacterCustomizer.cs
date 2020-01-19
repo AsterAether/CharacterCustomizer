@@ -46,7 +46,7 @@ namespace CharacterCustomizer
                 "FixSkillIconCooldownScaling",
                 true,
                 "Fix the display of cooldowns when cooldown scaling is applied");
-            
+
             UpdateVanillaValues = Config.Bind(
                 "General",
                 "UpdateVanillaValues",
@@ -69,7 +69,8 @@ namespace CharacterCustomizer
                 new CustomMercenary(UpdateVanillaValues.Value),
                 new CustomBandit(UpdateVanillaValues.Value),
                 new CustomTreebot(UpdateVanillaValues.Value),
-                new CustomLoader(UpdateVanillaValues.Value)
+                new CustomLoader(UpdateVanillaValues.Value),
+                new CustomCroco(UpdateVanillaValues.Value)
             };
 
             StringBuilder markdown = new StringBuilder("# Config Values\n");
@@ -105,7 +106,7 @@ namespace CharacterCustomizer
                     }
                 }
             }
-            
+
             if (CreateReadme.Value)
             {
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",

@@ -29,9 +29,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             }
 
             public CustomMercenary(bool updateVanilla) : base(SurvivorIndex.Merc, "Mercenary",
+                "MERC_PRIMARY_NAME",
                 "GroundLight",
-                "Whirlwind",
+                "MERC_SECONDARY_NAME",
+                "Whirwind",
+                "MERC_UTILITY_NAME",
                 "Dash",
+                "MERC_SPECIAL_NAME",
                 "Evis", updateVanilla)
             {
             }

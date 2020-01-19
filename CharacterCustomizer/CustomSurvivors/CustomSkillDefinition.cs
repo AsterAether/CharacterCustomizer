@@ -5,9 +5,9 @@ namespace CharacterCustomizer.CustomSurvivors
 {
     public class CustomSkillDefinition
     {
-        public string SkillName { get; }
+        public string SkillNameToken { get; }
 
-        public string ReplaceOld { get; set; }
+        public string CommonName { get; set; }
 
         public FieldConfigWrapper<float> BaseRechargeInterval { get; }
         public FieldConfigWrapper<int> BaseMaxStock { get; }
@@ -24,81 +24,81 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public List<IFieldChanger> AllFields { get; }
 
-        public CustomSkillDefinition(CustomSurvivor survivor, string skillName, string replaceOld = null)
+        public CustomSkillDefinition(CustomSurvivor survivor, string skillNameToken, string commonName = null)
         {
-            SkillName = skillName;
-            ReplaceOld = replaceOld;
+            SkillNameToken = skillNameToken;
+            CommonName = commonName;
 
             BaseRechargeInterval = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    skillName + "BaseRechargeInterval",
+                    commonName + "BaseRechargeInterval",
                     0f,
-                    skillName + ": How long it takes for this skill to recharge after being used."),
+                    commonName + ": How long it takes for this skill to recharge after being used."),
                 "baseRechargeInterval");
 
             ShootDelay = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    skillName + "ShootDelay",
+                    commonName + "ShootDelay",
                     0f,
-                    skillName + ": Time between bullets for bullet-style weapons"),
+                    commonName + ": Time between bullets for bullet-style weapons"),
                 "shootDelay");
 
             BaseMaxStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    skillName + "BaseMaxStock",
+                    commonName + "BaseMaxStock",
                     0,
-                    skillName + ": Maximum number of charges this skill can carry."),
+                    commonName + ": Maximum number of charges this skill can carry."),
                 "baseMaxStock");
 
             RechargeStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    skillName + "RechargeStock",
+                    commonName + "RechargeStock",
                     0,
-                    skillName + ": How much stock to restore on a recharge."),
+                    commonName + ": How much stock to restore on a recharge."),
                 "rechargeStock");
 
             IsCombatSkill = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "IsCombatSkill",
+                    commonName + "IsCombatSkill",
                     false,
-                    skillName + ": Whether or not this is considered a combat skill."),
+                    commonName + ": Whether or not this is considered a combat skill."),
                 "isCombatSkill");
 
             NoSprint = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "NoSprint",
+                    commonName + "NoSprint",
                     false,
-                    skillName + ": Whether or not the usage of this skill is mutually exclusive with sprinting."),
+                    commonName + ": Whether or not the usage of this skill is mutually exclusive with sprinting."),
                 "noSprint");
 
             RequiredStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    skillName + "RequiredStock",
+                    commonName + "RequiredStock",
                     0,
-                    skillName + ": How much stock is required to activate this skill."),
+                    commonName + ": How much stock is required to activate this skill."),
                 "requiredStock");
 
             StockToConsume = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    skillName + "StockToConsume",
+                    commonName + "StockToConsume",
                     0,
-                    skillName + ": How much stock to deduct when the skill is activated."),
+                    commonName + ": How much stock to deduct when the skill is activated."),
                 "stockToConsume");
 
             MustKeyPress = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "MustKeyPress",
+                    commonName + "MustKeyPress",
                     false,
-                    skillName + ": The skill can't be activated if the key is held."),
+                    commonName + ": The skill can't be activated if the key is held."),
                 "mustKeyPress");
 
             BeginSkillCooldownOnSkillEnd = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "BeginSkillCooldownOnSkillEnd",
+                    commonName + "BeginSkillCooldownOnSkillEnd",
                     false,
-                    skillName + ": Whether or not the cooldown waits until it leaves the set state"),
+                    commonName + ": Whether or not the cooldown waits until it leaves the set state"),
                 "beginSkillCooldownOnSkillEnd");
 
             CanceledFromSprinting = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "CanceledFromSprinting",
+                    commonName + "CanceledFromSprinting",
                     false,
-                    skillName + ": Sprinting will actively cancel this ability."),
+                    commonName + ": Sprinting will actively cancel this ability."),
                 "canceledFromSprinting");
 
             IsBullets = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    skillName + "IsBullets",
+                    commonName + "IsBullets",
                     false,
-                    skillName + ": Whether or not it has bullet reload behavior"),
+                    commonName + ": Whether or not it has bullet reload behavior"),
                 "isBullets");
 
 

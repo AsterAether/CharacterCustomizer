@@ -16,9 +16,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         public class CustomEngineer : CustomSurvivor
         {
             public CustomEngineer(bool updateVanilla) : base(RoR2.SurvivorIndex.Engi, "Engineer",
+                "ENGI_PRIMARY_NAME",
                 "FireGrenade",
+                "ENGI_SECONDARY_NAME",
                 "PlaceMine",
+                "ENGI_UTILITY_NAME",
                 "PlaceBubbleShield",
+                "ENGI_SPECIAL_NAME",
                 "PlaceTurret", updateVanilla)
             {
             }
@@ -192,7 +196,8 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
                     if (GrenadeSetChargeCountToFireAmount.Value &&
                         GrenadeMaxFireAmount.ConfigEntryDescriptionWrapper.IsNotDefault())
                     {
-                        chargeGrenades.SetFieldValue("maxCharges", GrenadeMaxFireAmount.ConfigEntryDescriptionWrapper.Value);
+                        chargeGrenades.SetFieldValue("maxCharges",
+                            GrenadeMaxFireAmount.ConfigEntryDescriptionWrapper.Value);
                     }
                 };
             }

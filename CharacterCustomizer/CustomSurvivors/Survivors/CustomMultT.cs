@@ -17,12 +17,16 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             public List<IFieldChanger> NailgunFields;
 
             public CustomMulT(bool updateVanilla) : base(SurvivorIndex.Toolbot, "MultT",
+                "TOOLBOT_PRIMARY_NAME",
                 "FireNailgun",
+                "TOOLBOT_SECONDARY_NAME",
                 "StunDrone",
+                "TOOLBOT_UTILITY_NAME",
                 "ToolbotDash",
+                "TOOLBOT_SPECIAL_NAME",
                 "Swap", updateVanilla)
             {
-                ExtraSkillNames.Add("FireSpear");
+                ExtraSkillNames.Add("TOOLBOT_PRIMARY_ALT1_NAME");
             }
 
             public override void InitConfigValues()

@@ -17,10 +17,15 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         public class CustomCommando : CustomSurvivor
         {
             public CustomCommando(bool updateVanilla) : base(SurvivorIndex.Commando, "Commando",
+                "COMMANDO_PRIMARY_NAME",
                 "FirePistol",
+                "COMMANDO_SECONDARY_NAME",
                 "FireFMJ",
+                "COMMANDO_UTILITY_NAME",
                 "Roll",
-                "Barrage", updateVanilla)
+                "COMMANDO_SPECIAL_NAME",
+                "Barrage",
+                updateVanilla)
             {
             }
 

@@ -15,9 +15,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             public List<IFieldChanger> TrackingFields;
 
             public CustomHuntress(bool updateVanilla) : base(SurvivorIndex.Huntress, "Huntress",
+                "HUNTRESS_PRIMARY_NAME",
                 "FireSeekingArrow",
+                "HUNTRESS_SECONDARY_NAME",
                 "Glaive",
+                "HUNTRESS_UTILITY_NAME",
                 "Blink",
+                "HUNTRESS_SPECIAL_NAME",
                 "ArrowRain", updateVanilla)
             {
             }
