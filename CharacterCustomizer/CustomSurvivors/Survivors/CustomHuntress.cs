@@ -6,21 +6,18 @@ using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
-    namespace Huntress
+    public class CustomHuntress : CustomSurvivor
     {
-        public class CustomHuntress : CustomSurvivor
+        public CustomHuntress(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(
+            SurvivorIndex.Huntress, "Huntress", "HUNTRESS",
+            updateVanilla, file, logger)
         {
-            public CustomHuntress(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Huntress, "Huntress", "HUNTRESS",
-                updateVanilla, file, logger)
-            {
-                AddPrimarySkill("Strafe");
-                AddSecondarySkill("LaserGlaive");
-                AddUtilitySkill("Blink");
-                AddUtilitySkill("PhaseBlink", "ALT1");
-                AddSpecialSkill("ArrowRain");
-                AddSpecialSkill("Ballista", "ALT1");
-            }
-            
+            AddPrimarySkill("Strafe");
+            AddSecondarySkill("LaserGlaive");
+            AddUtilitySkill("Blink");
+            AddUtilitySkill("PhaseBlink", "ALT1");
+            AddSpecialSkill("ArrowRain");
+            AddSpecialSkill("Ballista", "ALT1");
         }
     }
 }

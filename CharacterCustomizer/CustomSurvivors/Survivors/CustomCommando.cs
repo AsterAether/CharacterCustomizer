@@ -12,21 +12,18 @@ using UnityEngine;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
-    namespace Commando
+    public class CustomCommando : CustomSurvivor
     {
-        public class CustomCommando : CustomSurvivor
+        public CustomCommando(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(
+            SurvivorIndex.Commando, "Commando", "COMMANDO",
+            updateVanilla, file, logger)
         {
-            public CustomCommando(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(
-                SurvivorIndex.Commando, "Commando", "COMMANDO",
-                updateVanilla, file, logger)
-            {
-                AddPrimarySkill("DoubleTap");
-                AddSecondarySkill("PhaseRound");
-                AddSecondarySkill("PhaseBlast", "ALT1");
-                AddUtilitySkill("TacticalDive");
-                AddSpecialSkill("SuppressiveFire");
-                AddSpecialSkill("FragGrenade", "ALT1");
-            }
+            AddPrimarySkill("DoubleTap");
+            AddSecondarySkill("PhaseRound");
+            AddSecondarySkill("PhaseBlast", "ALT1");
+            AddUtilitySkill("TacticalDive");
+            AddSpecialSkill("SuppressiveFire");
+            AddSpecialSkill("FragGrenade", "ALT1");
         }
     }
 }

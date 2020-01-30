@@ -6,8 +6,9 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     public class CustomTreebot : CustomSurvivor
     {
-        public CustomTreebot(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Treebot, "REX", "TREEBOT",
-             updateVanilla, file, logger)
+        public CustomTreebot(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Treebot,
+            "REX", "TREEBOT",
+            updateVanilla, file, logger)
         {
             AddPrimarySkill("Inject");
             AddSecondarySkill("Drill");

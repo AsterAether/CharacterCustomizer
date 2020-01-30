@@ -11,20 +11,18 @@ using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
-    namespace Engineer
+    public class CustomEngineer : CustomSurvivor
     {
-        public class CustomEngineer : CustomSurvivor
+        public CustomEngineer(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(
+            RoR2.SurvivorIndex.Engi, "Engineer", "ENGI",
+            updateVanilla, file, logger)
         {
-            public CustomEngineer(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(RoR2.SurvivorIndex.Engi, "Engineer", "ENGI",
-                 updateVanilla, file, logger)
-            {
-                AddPrimarySkill("BouncingGrenades");
-                AddSecondarySkill("PressureMine");
-                AddSecondarySkill("SpiderMine", "ALT1");
-                AddUtilitySkill("BubbleShield");
-                AddSpecialSkill("GaussTurrent");
-                AddSpecialSkill("CarbonizerTurret", "ALT1");
-            }
+            AddPrimarySkill("BouncingGrenades");
+            AddSecondarySkill("PressureMine");
+            AddSecondarySkill("SpiderMine", "ALT1");
+            AddUtilitySkill("BubbleShield");
+            AddSpecialSkill("GaussTurrent");
+            AddSpecialSkill("CarbonizerTurret", "ALT1");
         }
     }
 }

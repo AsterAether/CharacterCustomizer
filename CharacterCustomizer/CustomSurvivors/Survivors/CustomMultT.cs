@@ -8,23 +8,19 @@ using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
-    namespace MulT
+    public class CustomMulT : CustomSurvivor
     {
-        public class CustomMulT : CustomSurvivor
+        public CustomMulT(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Toolbot,
+            "MultT", "TOOLBOT",
+            updateVanilla, file, logger)
         {
-
-            public CustomMulT(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Toolbot, "MultT", "TOOLBOT",
-                 updateVanilla, file, logger)
-            {
-                AddPrimarySkill("AutoNailgun");
-                AddPrimarySkill("RebarPuncher", "ALT1");
-                AddPrimarySkill("ScrapLauncher", "ALT2");
-                AddPrimarySkill("PowerSaw", "ALT3");
-                AddSecondarySkill("BlastCanister");
-                AddUtilitySkill("TransportMode");
-                AddSpecialSkill("Retool");
-            }
-            
+            AddPrimarySkill("AutoNailgun");
+            AddPrimarySkill("RebarPuncher", "ALT1");
+            AddPrimarySkill("ScrapLauncher", "ALT2");
+            AddPrimarySkill("PowerSaw", "ALT3");
+            AddSecondarySkill("BlastCanister");
+            AddUtilitySkill("TransportMode");
+            AddSpecialSkill("Retool");
         }
     }
 }

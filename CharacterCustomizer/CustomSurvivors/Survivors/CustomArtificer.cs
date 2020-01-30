@@ -13,24 +13,21 @@ using UnityEngine;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
-    namespace Artificer
+    public class CustomArtificer : CustomSurvivor
     {
-        public class CustomArtificer : CustomSurvivor
+        public CustomArtificer(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Mage,
+            "Artificer", "MAGE", updateVanilla, file, logger)
         {
-            public CustomArtificer(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Mage, "Artificer","MAGE", updateVanilla, file, logger)
-            {
-                AddPrimarySkill("FlameBolt", "FIRE");
-                AddPrimarySkill("PlasmaBolt", "LIGHTNING");
-                
-                AddSecondarySkill("NanoBomb", "LIGHTNING");
-                AddSecondarySkill("NanoSpear", "ICE");
-                
-                AddUtilitySkill("Snapfreeze", "ICE");
+            AddPrimarySkill("FlameBolt", "FIRE");
+            AddPrimarySkill("PlasmaBolt", "LIGHTNING");
 
-                AddSpecialSkill("Flamethrower", "FIRE");
-                AddSpecialSkill("IonSurge", "LIGHTNING");
-            }
+            AddSecondarySkill("NanoBomb", "LIGHTNING");
+            AddSecondarySkill("NanoSpear", "ICE");
 
+            AddUtilitySkill("Snapfreeze", "ICE");
+
+            AddSpecialSkill("Flamethrower", "FIRE");
+            AddSpecialSkill("IonSurge", "LIGHTNING");
         }
     }
 }
