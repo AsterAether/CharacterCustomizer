@@ -31,6 +31,7 @@ namespace CharacterCustomizer
         public ConfigEntry<bool> CreateReadme;
         public ConfigEntry<bool> FixSkillIconCooldownScaling;
         public ConfigEntry<bool> UpdateVanillaValues;
+
         public void InitConfig()
         {
             CreateReadme = Config.Bind(
@@ -80,28 +81,25 @@ namespace CharacterCustomizer
 
                 markdown.AppendLine("## Fixes");
                 markdown.AppendLine(FixSkillIconCooldownScaling.ToMarkdownString());
-                
+
                 foreach (var customSurvivor in CustomSurvivors)
                 {
-                    if (CreateReadme.Value)
+                    markdown.AppendLine("# " + customSurvivor.BodyDefinition.CommonName);
+                    List<string> markdownLines = new List<string>();
+
+                    foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
                     {
-                        markdown.AppendLine("# " + customSurvivor.BodyDefinition.CommonName);
-                        List<string> markdownLines = new List<string>();
+                        markdownLines.Add(markdownDef.ToMarkdownString());
+                    }
 
-                        foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
-                        {
-                            markdownLines.Add(markdownDef.ToMarkdownString());
-                        }
+                    markdownLines.Sort();
 
-                        markdownLines.Sort();
-
-                        foreach (var markdownLine in markdownLines)
-                        {
-                            markdown.AppendLine(markdownLine);
-                        }
+                    foreach (var markdownLine in markdownLines)
+                    {
+                        markdown.AppendLine(markdownLine);
                     }
                 }
-                
+
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",
                     markdown.ToString());
             }
