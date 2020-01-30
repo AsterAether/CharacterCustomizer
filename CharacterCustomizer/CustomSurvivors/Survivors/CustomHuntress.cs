@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using AetherLib.Util.Config;
+using BepInEx.Configuration;
+using BepInEx.Logging;
+using CharacterCustomizer.Util.Config;
 using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
@@ -8,52 +10,17 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomHuntress : CustomSurvivor
         {
-            public FieldConfigWrapper<float> TrackingMaxDistance;
-
-            public FieldConfigWrapper<float> TrackingMaxAngle;
-
-            public List<IFieldChanger> TrackingFields;
-
-            public CustomHuntress(bool updateVanilla) : base(SurvivorIndex.Huntress, "Huntress",
-                "HUNTRESS_PRIMARY_NAME",
-                "FireSeekingArrow",
-                "HUNTRESS_SECONDARY_NAME",
-                "Glaive",
-                "HUNTRESS_UTILITY_NAME",
-                "Blink",
-                "HUNTRESS_SPECIAL_NAME",
-                "ArrowRain", updateVanilla)
+            public CustomHuntress(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Huntress, "Huntress", "HUNTRESS",
+                updateVanilla, file, logger)
             {
+                AddPrimarySkill("Strafe");
+                AddSecondarySkill("LaserGlaive");
+                AddUtilitySkill("Blink");
+                AddUtilitySkill("PhaseBlink", "ALT1");
+                AddSpecialSkill("ArrowRain");
+                AddSpecialSkill("Ballista", "ALT1");
             }
-
-            public override void InitConfigValues()
-            {
-                TrackingMaxDistance = new FieldConfigWrapper<float>(BindConfigFloat("TrackingMaxDistance",
-                    "The maximum distance the tracking of the huntress works."), "maxTrackingDistance");
-
-
-                TrackingMaxAngle = new FieldConfigWrapper<float>(BindConfigFloat("TrackingMaxAngle",
-                    "The maximum angle the tracking of the huntress works."), "maxTrackingAngle");
-
-                TrackingFields = new List<IFieldChanger>
-                {
-                    TrackingMaxAngle, TrackingMaxDistance
-                };
-            }
-
-            public override void OverrideGameValues()
-            {
-                On.RoR2.HuntressTracker.Awake += (orig, self) =>
-                {
-                    orig(self);
-
-                    TrackingFields.ForEach(changer => changer.Apply(self));
-                };
-            }
-
-            public override void WriteNewHooks()
-            {
-            }
+            
         }
     }
 }

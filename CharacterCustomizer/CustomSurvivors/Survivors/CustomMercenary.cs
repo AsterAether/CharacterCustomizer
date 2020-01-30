@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using AetherLib.Util.Config;
+using BepInEx.Configuration;
+using BepInEx.Logging;
+using CharacterCustomizer.Util.Config;
 using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
@@ -8,52 +10,18 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
     {
         public class CustomMercenary : CustomSurvivor
         {
-            public FieldConfigWrapper<int> DashMaxCount;
-
-            public FieldConfigWrapper<float> DashTimeoutDuration;
-
-            public List<IFieldChanger> DashFields;
-
-            public override void InitConfigValues()
+           
+            public CustomMercenary(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Merc, "Mercenary", "MERC",
+                updateVanilla, file, logger)
             {
-//                DashMaxCount = new FieldConfigWrapper<int>(BindConfigInt("DashMaxCount",
-//                    "Maximum amount of dashes Mercenary can perform."), "maxDashes");
-//
-//                DashTimeoutDuration = new FieldConfigWrapper<float>(BindConfigFloat("DashTimeoutDuration",
-//                    "Maximum timeout between dashes, in seconds"), "timeoutDuration");
-//
-//                DashFields = new List<IFieldChanger>
-//                {
-//                    DashMaxCount, DashTimeoutDuration
-//                };
+                AddPrimarySkill("LaserSword");
+                AddSecondarySkill("Whirlwind");
+                AddSecondarySkill("RisingThunder", "ALT1");
+                AddUtilitySkill("BlindingAssault");
+                AddSpecialSkill("Eviscerate");
+                AddSpecialSkill("SlicingWinds", "ALT1");
             }
-
-            public CustomMercenary(bool updateVanilla) : base(SurvivorIndex.Merc, "Mercenary",
-                "MERC_PRIMARY_NAME",
-                "GroundLight",
-                "MERC_SECONDARY_NAME",
-                "Whirwind",
-                "MERC_UTILITY_NAME",
-                "Dash",
-                "MERC_SPECIAL_NAME",
-                "Evis", updateVanilla)
-            {
-            }
-
-
-            public override void OverrideGameValues()
-            {
-//                On.RoR2.MercDashSkill.OnExecute += (orig, self) =>
-//                {
-//                    DashFields.ForEach(changer => changer.Apply(self));
-//
-//                    orig(self);
-//                };
-            }
-
-            public override void WriteNewHooks()
-            {
-            }
+            
         }
     }
 }

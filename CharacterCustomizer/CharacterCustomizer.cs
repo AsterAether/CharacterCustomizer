@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AetherLib.Util.Config;
 using BepInEx;
 using BepInEx.Configuration;
 using CharacterCustomizer.CustomSurvivors;
@@ -13,6 +12,7 @@ using CharacterCustomizer.CustomSurvivors.Survivors.Engineer;
 using CharacterCustomizer.CustomSurvivors.Survivors.Huntress;
 using CharacterCustomizer.CustomSurvivors.Survivors.Mercenary;
 using CharacterCustomizer.CustomSurvivors.Survivors.MulT;
+using CharacterCustomizer.Util.Config;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
@@ -23,7 +23,6 @@ using UnityEngine;
 namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInDependency("at.aster.aetherlib")]
     [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "<version>")]
     public class CharacterCustomizer : BaseUnityPlugin
     {
@@ -38,7 +37,7 @@ namespace CharacterCustomizer
                 "General",
                 "PrintReadme",
                 false,
-                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown.");
+                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown. (Only used for development purposes)");
 
             FixSkillIconCooldownScaling = Config.Bind(
                 "Fixes",
@@ -60,54 +59,49 @@ namespace CharacterCustomizer
 
             CustomSurvivors = new List<CustomSurvivor>
             {
-                new CustomEngineer(UpdateVanillaValues.Value),
-                new CustomCommando(UpdateVanillaValues.Value),
-                new CustomArtificer(UpdateVanillaValues.Value),
-                new CustomMulT(UpdateVanillaValues.Value),
-                new CustomHuntress(UpdateVanillaValues.Value),
-                new CustomMercenary(UpdateVanillaValues.Value),
-                new CustomBandit(UpdateVanillaValues.Value),
-                new CustomTreebot(UpdateVanillaValues.Value),
-                new CustomLoader(UpdateVanillaValues.Value),
-                new CustomCroco(UpdateVanillaValues.Value)
+                new CustomEngineer(UpdateVanillaValues.Value, Config, Logger),
+                new CustomCommando(UpdateVanillaValues.Value, Config, Logger),
+                new CustomArtificer(UpdateVanillaValues.Value, Config, Logger),
+                new CustomMulT(UpdateVanillaValues.Value, Config, Logger),
+                new CustomHuntress(UpdateVanillaValues.Value, Config, Logger),
+                new CustomMercenary(UpdateVanillaValues.Value, Config, Logger),
+                new CustomTreebot(UpdateVanillaValues.Value, Config, Logger),
+                new CustomLoader(UpdateVanillaValues.Value, Config, Logger),
+                new CustomCroco(UpdateVanillaValues.Value, Config, Logger)
             };
-
-            StringBuilder markdown = new StringBuilder("# Config Values\n");
-
-            markdown.AppendLine("## General");
-            markdown.AppendLine(CreateReadme.ToMarkdownString());
-            markdown.AppendLine(UpdateVanillaValues.ToMarkdownString());
-
-            markdown.AppendLine("## Fixes");
-            markdown.AppendLine(FixSkillIconCooldownScaling.ToMarkdownString());
-
-            foreach (var customSurvivor in CustomSurvivors)
-            {
-                customSurvivor.InitVariables(Config, Logger);
-
-                customSurvivor.Patch();
-
-                if (CreateReadme.Value)
-                {
-                    markdown.AppendLine("# " + customSurvivor.CharacterName);
-                    List<string> markdownLines = new List<string>();
-
-                    foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
-                    {
-                        markdownLines.Add(markdownDef.ToMarkdownString());
-                    }
-
-                    markdownLines.Sort();
-
-                    foreach (var markdownLine in markdownLines)
-                    {
-                        markdown.AppendLine(markdownLine);
-                    }
-                }
-            }
 
             if (CreateReadme.Value)
             {
+                StringBuilder markdown = new StringBuilder("# Config Values\n");
+
+                markdown.AppendLine("## General");
+                markdown.AppendLine(CreateReadme.ToMarkdownString());
+                markdown.AppendLine(UpdateVanillaValues.ToMarkdownString());
+
+                markdown.AppendLine("## Fixes");
+                markdown.AppendLine(FixSkillIconCooldownScaling.ToMarkdownString());
+                
+                foreach (var customSurvivor in CustomSurvivors)
+                {
+                    if (CreateReadme.Value)
+                    {
+                        markdown.AppendLine("# " + customSurvivor.BodyDefinition.CommonName);
+                        List<string> markdownLines = new List<string>();
+
+                        foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
+                        {
+                            markdownLines.Add(markdownDef.ToMarkdownString());
+                        }
+
+                        markdownLines.Sort();
+
+                        foreach (var markdownLine in markdownLines)
+                        {
+                            markdown.AppendLine(markdownLine);
+                        }
+                    }
+                }
+                
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",
                     markdown.ToString());
             }

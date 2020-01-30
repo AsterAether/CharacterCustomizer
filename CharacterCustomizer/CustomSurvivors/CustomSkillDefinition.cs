@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using AetherLib.Util.Config;
 using BepInEx.Configuration;
+using CharacterCustomizer.Util.Config;
 
 namespace CharacterCustomizer.CustomSurvivors
 {

@@ -1,32 +1,19 @@
+using BepInEx.Configuration;
+using BepInEx.Logging;
 using RoR2;
 
 namespace CharacterCustomizer.CustomSurvivors.Survivors
 {
     public class CustomCroco : CustomSurvivor
     {
-        public CustomCroco(bool updateVanilla) : base(SurvivorIndex.Croco, "Croco",
-            "CROCO_PRIMARY_NAME",
-            "Slash",
-            "CROCO_SECONDARY_NAME",
-            "Neurotoxin",
-            "CROCO_UTILITY_NAME",
-            "CausticLeap",
-            "CROCO_SPECIAL_NAME",
-            "Epidemic",
-            updateVanilla)
+        public CustomCroco(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Croco, "Acrid", "CROCO", updateVanilla, file, logger)
         {
-        }
-
-        public override void InitConfigValues()
-        {
-        }
-
-        public override void OverrideGameValues()
-        {
-        }
-
-        public override void WriteNewHooks()
-        {
+            AddPrimarySkill("ViciousWounds");
+            AddSecondarySkill("Neurotoxin");
+            AddUtilitySkill("CausticLeap");
+            AddUtilitySkill("FrenziedLeap", "ALT1");
+            
+            AddSpecialSkill("Epidemic");
         }
     }
 }

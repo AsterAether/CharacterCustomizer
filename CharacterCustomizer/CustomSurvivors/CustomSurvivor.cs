@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using AetherLib.Util.Config;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using CharacterCustomizer.Util.Config;
 using R2API;
 using RoR2;
 using UnityEngine;
@@ -17,128 +17,87 @@ namespace CharacterCustomizer.CustomSurvivors
     {
         public readonly List<IMarkdownString> MarkdownConfigEntries = new List<IMarkdownString>();
 
-        public struct CustomSkillNameDef
-        {
-            public readonly string CommonName;
-            public readonly string SkillNameToken;
+        private ConfigFile Config { get; set; }
 
-            public CustomSkillNameDef(string commonName, string skillNameToken)
-            {
-                CommonName = commonName;
-                SkillNameToken = skillNameToken;
-            }
-        }
-        
-        protected ConfigFile Config { get; private set; }
+        private ManualLogSource Logger { get; set; }
 
-        protected ManualLogSource Logger { get; private set; }
+        public readonly List<CustomSkillDefinition> PrimarySkills = new List<CustomSkillDefinition>();
 
-        public string CharacterName { get; }
+        public readonly List<CustomSkillDefinition> SecondarySkills = new List<CustomSkillDefinition>();
 
-        public CustomSkillNameDef PrimarySkillName { get; }
+        public readonly List<CustomSkillDefinition> UtilitySkills = new List<CustomSkillDefinition>();
 
-        public CustomSkillNameDef SecondarySkillName { get; }
+        public readonly List<CustomSkillDefinition> SpecialSkills = new List<CustomSkillDefinition>();
 
-        public CustomSkillNameDef UtilitySkillName { get; }
-
-        public CustomSkillNameDef SpecialSkillName { get; }
-        
         public SurvivorIndex SurvivorIndex { get; }
 
-        public CustomSkillDefinition PrimarySkill { get; private set; }
-
-        public CustomSkillDefinition SecondarySkill { get; private set; }
-
-        public CustomSkillDefinition UtilitySkill { get; private set; }
-
-        public CustomSkillDefinition SpecialSkill { get; private set; }
-
-        public List<CustomSkillDefinition> ExtraSkills = new List<CustomSkillDefinition>();
-
-        public List<string> ExtraSkillNames = new List<string>();
-
+        public string CharacterName { get; }
         public CustomBodyDefinition BodyDefinition { get; private set; }
-        
-        public SurvivorDef SurvivorDef { get; set; }
+
+        public SurvivorDef SurvivorDef { get; private set; }
 
         private bool _updateVanillaValues;
 
-        protected CustomSurvivor(SurvivorIndex index, string characterName, 
-            string primarySkillName,
-            string primaryCommonName,
-            string secondarySkillName,
-            string secondaryCommonName,
-            string utilitySkillName,
-            string utilityCommonName,
-            string specialSkillName,
-            string specialCommonName,
-            bool updateVanillaValues)
+        protected CustomSurvivor(SurvivorIndex index, string characterName, string survivorNameToken,
+            bool updateVanillaValues, ConfigFile configFile, ManualLogSource logger)
         {
             _updateVanillaValues = updateVanillaValues;
             SurvivorIndex = index;
+            Config = configFile;
+            Logger = logger;
 
             CharacterName = characterName;
-            PrimarySkillName = new CustomSkillNameDef(primarySkillName, primaryCommonName);
-            SecondarySkillName = new CustomSkillNameDef(secondarySkillName, secondaryCommonName);
-            UtilitySkillName = new CustomSkillNameDef(utilitySkillName, utilityCommonName);
-            SpecialSkillName = new CustomSkillNameDef(specialSkillName, specialCommonName);
-        }
-
-        public void InitVariables(ConfigFile file, ManualLogSource logger)
-        {
-            Config = file;
-            // Used for creating a file per survivor, though that breaks compatibility with BepInEx.ConfigurationManager, which is the better solution to editing anyway
-            // Config = new ConfigFile(Path.Combine(Paths.ConfigPath, "CustomSurvivors", CharacterName + ".cfg"), true);
-            Logger = logger;
-        }
-
-        public void InitBaseConfigValues()
-        {
-            PrimarySkill = new CustomSkillDefinition(this, PrimarySkillName.CommonName, PrimarySkillName.SkillNameToken);
-            PrimarySkill.OnFieldChanged += OnSkillChanged;
-            SecondarySkill = new CustomSkillDefinition(this, SecondarySkillName.CommonName, PrimarySkillName.SkillNameToken);
-            SecondarySkill.OnFieldChanged += OnSkillChanged;
-            UtilitySkill = new CustomSkillDefinition(this, UtilitySkillName.CommonName, PrimarySkillName.SkillNameToken);
-            UtilitySkill.OnFieldChanged += OnSkillChanged;
-            SpecialSkill = new CustomSkillDefinition(this, SpecialSkillName.CommonName, PrimarySkillName.SkillNameToken);
-            SpecialSkill.OnFieldChanged += OnSkillChanged;
-            foreach (string skillName in ExtraSkillNames)
-            {
-                ExtraSkills.Add(new CustomSkillDefinition(this, skillName));
-            }
-
-            foreach (var skill in ExtraSkills)
-            {
-                skill.OnFieldChanged += OnSkillChanged;
-            }
-
-            BodyDefinition = new CustomBodyDefinition(this, CharacterName);
+            BodyDefinition = new CustomBodyDefinition(this, characterName, survivorNameToken);
             BodyDefinition.OnFieldChanged += OnBodyChanged;
         }
+
+        protected void AddPrimarySkill(string commonName, string alt = null)
+        {
+            CustomSkillDefinition skill = new CustomSkillDefinition(this,
+                BodyDefinition.SurvivorNameToken + "_PRIMARY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
+            skill.OnFieldChanged += OnSkillChanged;
+            PrimarySkills.Add(skill);
+        }
+
+        protected void AddSecondarySkill(string commonName, string alt = null)
+        {
+            CustomSkillDefinition skill = new CustomSkillDefinition(this,
+                BodyDefinition.SurvivorNameToken + "_SECONDARY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
+            skill.OnFieldChanged += OnSkillChanged;
+            SecondarySkills.Add(skill);
+        }
+
+        protected void AddUtilitySkill(string commonName, string alt = null)
+        {
+            CustomSkillDefinition skill = new CustomSkillDefinition(this,
+                BodyDefinition.SurvivorNameToken + "_UTILITY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
+            skill.OnFieldChanged += OnSkillChanged;
+            UtilitySkills.Add(skill);
+        }
+
+        protected void AddSpecialSkill(string commonName, string alt = null)
+        {
+            CustomSkillDefinition skill = new CustomSkillDefinition(this,
+                BodyDefinition.SurvivorNameToken + "_SPECIAL_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
+            skill.OnFieldChanged += OnSkillChanged;
+            SpecialSkills.Add(skill);
+        }
+
 
         private void OnBodyChanged(CustomBodyDefinition skillDefinition, IFieldChanger changed)
         {
             CharacterBody body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
             BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
         }
-        
-        private void OnSkillChanged(CustomSkillDefinition skillDefinition, IFieldChanger changed)
-        {
-            List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>(ExtraSkills);
-            skillDefs.AddRange(new[] {PrimarySkill, SecondarySkill, UtilitySkill, SpecialSkill});
 
+        private void OnSkillChanged(CustomSkillDefinition skillDef, IFieldChanger changed)
+        {
             GenericSkill[] skills = SurvivorDef.bodyPrefab.GetComponents<GenericSkill>();
             foreach (GenericSkill genericSkill in skills)
             {
-                foreach (CustomSkillDefinition skillDef in skillDefs)
+                if (genericSkill.skillFamily.defaultSkillDef.skillNameToken == skillDef.SkillNameToken)
                 {
-                    if (genericSkill.skillFamily.defaultSkillDef.skillNameToken == skillDef.SkillNameToken)
-                    {
-                        skillDef.AllFields.ForEach(changer =>
-                        {
-                            changer.Apply(genericSkill.skillFamily.defaultSkillDef);
-                        });
-                    }
+                    skillDef.AllFields.ForEach(changer => { changer.Apply(genericSkill.skillFamily.defaultSkillDef); });
                 }
             }
         }
@@ -146,8 +105,11 @@ namespace CharacterCustomizer.CustomSurvivors
         public void OverrideSurvivorBase(SurvivorDef survivor)
         {
             SurvivorDef = survivor;
-            List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>(ExtraSkills);
-            skillDefs.AddRange(new[] {PrimarySkill, SecondarySkill, UtilitySkill, SpecialSkill});
+            List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>();
+            skillDefs.AddRange(PrimarySkills);
+            skillDefs.AddRange(SecondarySkills);
+            skillDefs.AddRange(UtilitySkills);
+            skillDefs.AddRange(SpecialSkills);
 
             GenericSkill[] skills = survivor.bodyPrefab.GetComponents<GenericSkill>();
             foreach (GenericSkill genericSkill in skills)
@@ -168,20 +130,6 @@ namespace CharacterCustomizer.CustomSurvivors
             BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
         }
 
-        public void Patch()
-        {
-            InitBaseConfigValues();
-            InitConfigValues();
-
-            OverrideGameValues();
-            WriteNewHooks();
-        }
-
-        public abstract void InitConfigValues();
-
-        public abstract void OverrideGameValues();
-
-        public abstract void WriteNewHooks();
 
         public ConfigEntryDescriptionWrapper<T> BindConfig<T>(string key, T defaultVal,
             string description)
