@@ -5,6 +5,6 @@
   "description": "Customize your Survivors by simply changing a value in a config file!",
   "dependencies": [
     "tristanmcpherson-R2API-2.3.22",
-    "bbepis-BepInExPack-3.0.0",
+    "bbepis-BepInExPack-3.0.0"
   ]
 }
