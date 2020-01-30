@@ -134,6 +134,7 @@ namespace CharacterCustomizer.CustomSurvivors
         public ConfigEntryDescriptionWrapper<T> BindConfig<T>(string key, T defaultVal,
             string description)
         {
+            // Vanilla values need to be updated every time in the description when the game starts, only the boolean values don't need to be overwritten anymore, so tell that the config wrapper with the boolean
             ConfigEntryDescriptionWrapper<T> entry =
                 new ConfigEntryDescriptionWrapper<T>(Config.Bind(CharacterName, key, defaultVal, description),
                     _updateVanillaValues);
