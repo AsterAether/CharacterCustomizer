@@ -24,7 +24,7 @@ Customize your Survivors by simply changing a value in a config file!
 ## Configuration
 
 It is highly recommended to use [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager) to edit the configuration values in-game with the F1 key.
-**Live update is supported for ALL values! You will need to restart your run though for the changes to take effect.**
+**Live update is supported for ALL values! With the ConfigManager you can even change values while in-game.**
 
 The configuration file is located in the config folder of BepInEx, called at.aster.charactercustomizer.cfg. 
 It initializes with all values set to their default values. If a value is left with the default one (0 in cases of numbers), 

@@ -12,12 +12,14 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             SurvivorIndex.Huntress, "Huntress", "HUNTRESS",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("Strafe");
-            AddSecondarySkill("LaserGlaive");
-            AddUtilitySkill("Blink");
-            AddUtilitySkill("PhaseBlink", "ALT1");
-            AddSpecialSkill("ArrowRain");
-            AddSpecialSkill("Ballista", "ALT1");
+            AddSkill("Strafe", 100);
+            AddSkill("Volley", 97);
+            AddSkill("LaserGlaive", 101);
+            AddSkill("Blink", 99);
+            AddSkill("PhaseBlink", 102);
+            AddSkill("ArrowRain", 98);
+            AddSkill("Ballista", 95);
+            AddSkill("FireBallistaShot", 96);
         }
     }
 }

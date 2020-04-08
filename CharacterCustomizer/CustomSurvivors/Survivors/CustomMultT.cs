@@ -14,13 +14,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             "MultT", "TOOLBOT",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("AutoNailgun");
-            AddPrimarySkill("RebarPuncher", "ALT1");
-            AddPrimarySkill("ScrapLauncher", "ALT2");
-            AddPrimarySkill("PowerSaw", "ALT3");
-            AddSecondarySkill("BlastCanister");
-            AddUtilitySkill("TransportMode");
-            AddSpecialSkill("Retool");
+            AddSkill("AutoNailgun", 175);
+            AddSkill("RebarPuncher", 176);
+            AddSkill("ScrapLauncher", 174);
+            AddSkill("PowerSaw", 173);
+            AddSkill("BlastCanister", 177);
+            AddSkill("TransportMode", 179);
+            AddSkill("Retool", 178);
         }
     }
 }

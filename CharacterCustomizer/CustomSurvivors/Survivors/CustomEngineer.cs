@@ -17,12 +17,14 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             RoR2.SurvivorIndex.Engi, "Engineer", "ENGI",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("BouncingGrenades");
-            AddSecondarySkill("PressureMine");
-            AddSecondarySkill("SpiderMine", "ALT1");
-            AddUtilitySkill("BubbleShield");
-            AddSpecialSkill("GaussTurrent");
-            AddSpecialSkill("CarbonizerTurret", "ALT1");
+            AddSkill("BouncingGrenades", 66);
+            AddSkill("PressureMine", 68);
+            AddSkill("SpiderMine", 69);
+            AddSkill("BubbleShield", 67);
+            AddSkill("Harpoons", 74);
+            AddSkill("HarpoonTargeting", 73);
+            AddSkill("GaussTurret", 70);
+            AddSkill("CarbonizerTurret", 71);
         }
     }
 }

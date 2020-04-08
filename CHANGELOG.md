@@ -1,5 +1,6 @@
 # Changelog
 
+* **v1.0.1:** - Rewrote internal structure (again), and updated everything to new Artifact version of RoR2
 * **v1.0.0:** - Rewrote internal structure to deprecate AetherLib, updated codebase to allow multiple skills per slot per survivor. Moved extra changes to new project [CharacterCustomizerPlus](https://github.com/AsterAether/CharacterCustomizerPlus).
 * **v0.3.7:** - Now with live update of config values when using [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager)! And Commando Barrage scaling fix.
 * **v0.3.6:** - Readme update and new RoR2 version with good body doggo customization.

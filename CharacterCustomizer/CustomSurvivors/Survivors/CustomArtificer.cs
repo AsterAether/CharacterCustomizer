@@ -18,16 +18,16 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         public CustomArtificer(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Mage,
             "Artificer", "MAGE", updateVanilla, file, logger)
         {
-            AddPrimarySkill("FlameBolt", "FIRE");
-            AddPrimarySkill("PlasmaBolt", "LIGHTNING");
+            AddSkill("FlameBolt", 123);
+            AddSkill("PlasmaBolt", 125);
 
-            AddSecondarySkill("NanoBomb", "LIGHTNING");
-            AddSecondarySkill("NanoSpear", "ICE");
+            AddSkill("NanoBomb", 129);
+            AddSkill("NanoSpear", 128);
 
-            AddUtilitySkill("Snapfreeze", "ICE");
+            AddSkill("Snapfreeze", 130);
 
-            AddSpecialSkill("Flamethrower", "FIRE");
-            AddSpecialSkill("IonSurge", "LIGHTNING");
+            AddSkill("Flamethrower", 126);
+            AddSkill("IonSurge", 127);
         }
     }
 }

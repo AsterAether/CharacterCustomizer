@@ -10,12 +10,12 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             "REX", "TREEBOT",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("Inject");
-            AddSecondarySkill("Drill");
-            AddSecondarySkill("SeedBarrage", "ALT1");
-            AddUtilitySkill("Disperse");
-            AddUtilitySkill("BrambleVolley", "ALT1");
-            AddSpecialSkill("TanglingGrowth");
+            AddSkill("Inject", 183);
+            AddSkill("Drill", 181);
+            AddSkill("SeedBarrage", 180);
+            AddSkill("Disperse", 185);
+            AddSkill("BrambleVolley", 184);
+            AddSkill("TanglingGrowth", 182);
         }
     }
 }

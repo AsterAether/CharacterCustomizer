@@ -9,12 +9,16 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         public CustomCroco(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Croco,
             "Acrid", "CROCO", updateVanilla, file, logger)
         {
-            AddPrimarySkill("ViciousWounds");
-            AddSecondarySkill("Neurotoxin");
-            AddUtilitySkill("CausticLeap");
-            AddUtilitySkill("FrenziedLeap", "ALT1");
+            AddSkill("Poison", 53);
+            AddSkill("Blight", 52);
 
-            AddSpecialSkill("Epidemic");
+            AddSkill("ViciousWounds", 54);
+            AddSkill("Neurotoxin", 55);
+            AddSkill("Bite", 48);
+            AddSkill("CausticLeap", 51);
+            AddSkill("FrenziedLeap", 49);
+
+            AddSkill("Epidemic", 50);
         }
     }
 }

@@ -12,12 +12,12 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             "Mercenary", "MERC",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("LaserSword");
-            AddSecondarySkill("Whirlwind");
-            AddSecondarySkill("RisingThunder", "ALT1");
-            AddUtilitySkill("BlindingAssault");
-            AddSpecialSkill("Eviscerate");
-            AddSpecialSkill("SlicingWinds", "ALT1");
+            AddSkill("LaserSword", 138);
+            AddSkill("Whirlwind", 140);
+            AddSkill("RisingThunder", 139);
+            AddSkill("BlindingAssault", 135);
+            AddSkill("Eviscerate", 136);
+            AddSkill("SlicingWinds", 137);
         }
     }
 }

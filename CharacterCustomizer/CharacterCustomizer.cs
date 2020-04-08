@@ -111,6 +111,11 @@ namespace CharacterCustomizer
 
         private void Start()
         {
+            ApplyValues();
+        }
+
+        private void ApplyValues()
+        {
             foreach (SurvivorDef survivorDef in ((SurvivorDef[]) SurvivorCatalog.allSurvivorDefs))
             {
                 try

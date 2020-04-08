@@ -18,12 +18,13 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             SurvivorIndex.Commando, "Commando", "COMMANDO",
             updateVanilla, file, logger)
         {
-            AddPrimarySkill("DoubleTap");
-            AddSecondarySkill("PhaseRound");
-            AddSecondarySkill("PhaseBlast", "ALT1");
-            AddUtilitySkill("TacticalDive");
-            AddSpecialSkill("SuppressiveFire");
-            AddSpecialSkill("FragGrenade", "ALT1");
+            AddSkill("DoubleTap", 38);
+            AddSkill("PhaseRound", 37);
+            AddSkill("PhaseBlast", 39);
+            AddSkill("TacticalDive", 40);
+            AddSkill("Slide", 42);
+            AddSkill("SuppressiveFire", 36);
+            AddSkill("FragGrenade", 43);
         }
     }
 }

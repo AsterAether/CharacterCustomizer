@@ -8,6 +8,7 @@ using BepInEx.Logging;
 using CharacterCustomizer.Util.Config;
 using R2API;
 using RoR2;
+using RoR2.Skills;
 using UnityEngine;
 using Path = System.IO.Path;
 
@@ -21,13 +22,7 @@ namespace CharacterCustomizer.CustomSurvivors
 
         private ManualLogSource Logger { get; set; }
 
-        public readonly List<CustomSkillDefinition> PrimarySkills = new List<CustomSkillDefinition>();
-
-        public readonly List<CustomSkillDefinition> SecondarySkills = new List<CustomSkillDefinition>();
-
-        public readonly List<CustomSkillDefinition> UtilitySkills = new List<CustomSkillDefinition>();
-
-        public readonly List<CustomSkillDefinition> SpecialSkills = new List<CustomSkillDefinition>();
+        public readonly List<CustomSkillDefinition> Skills = new List<CustomSkillDefinition>();
 
         public SurvivorIndex SurvivorIndex { get; }
 
@@ -48,86 +43,87 @@ namespace CharacterCustomizer.CustomSurvivors
 
             CharacterName = characterName;
             BodyDefinition = new CustomBodyDefinition(this, characterName, survivorNameToken);
-            BodyDefinition.OnFieldChanged += OnBodyChanged;
+            BodyDefinition.OnFieldChanged += OnBodyChangedPlaceholder;
         }
 
-        protected void AddPrimarySkill(string commonName, string alt = null)
+        protected void AddSkill(string commonName, int skillIndex)
         {
-            CustomSkillDefinition skill = new CustomSkillDefinition(this,
-                BodyDefinition.SurvivorNameToken + "_PRIMARY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
-            skill.OnFieldChanged += OnSkillChanged;
-            PrimarySkills.Add(skill);
+            CustomSkillDefinition skill = new CustomSkillDefinition(this, skillIndex, commonName);
+            skill.OnFieldChanged += OnSkillChangedPlaceholder;
+            Skills.Add(skill);
         }
 
-        protected void AddSecondarySkill(string commonName, string alt = null)
+        private void OnBodyChangedPlaceholder(CustomBodyDefinition skillDefinition, IFieldChanger changed)
         {
-            CustomSkillDefinition skill = new CustomSkillDefinition(this,
-                BodyDefinition.SurvivorNameToken + "_SECONDARY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
-            skill.OnFieldChanged += OnSkillChanged;
-            SecondarySkills.Add(skill);
         }
 
-        protected void AddUtilitySkill(string commonName, string alt = null)
+        private void OnSkillChangedPlaceholder(CustomSkillDefinition skillDef, IFieldChanger changed)
         {
-            CustomSkillDefinition skill = new CustomSkillDefinition(this,
-                BodyDefinition.SurvivorNameToken + "_UTILITY_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
-            skill.OnFieldChanged += OnSkillChanged;
-            UtilitySkills.Add(skill);
         }
-
-        protected void AddSpecialSkill(string commonName, string alt = null)
-        {
-            CustomSkillDefinition skill = new CustomSkillDefinition(this,
-                BodyDefinition.SurvivorNameToken + "_SPECIAL_" + (alt != null ? alt + "_" : "") + "NAME", commonName);
-            skill.OnFieldChanged += OnSkillChanged;
-            SpecialSkills.Add(skill);
-        }
-
 
         private void OnBodyChanged(CustomBodyDefinition skillDefinition, IFieldChanger changed)
         {
             CharacterBody body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
-            BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
+            changed.Apply(body);
+
+            GameObject[] liveBodies = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var liveBody in liveBodies)
+            {
+                if (liveBody.name == SurvivorDef.bodyPrefab.name + "(Clone)")
+                {
+                    var liveChar = liveBody.GetComponent<CharacterBody>();
+                    changed.Apply(liveChar);
+                    liveChar.RecalculateStats();
+
+                    Logger.LogInfo("Recalculated live body stats of " + SurvivorDef.name);
+                }
+            }
         }
 
         private void OnSkillChanged(CustomSkillDefinition skillDef, IFieldChanger changed)
         {
-            GenericSkill[] skills = SurvivorDef.bodyPrefab.GetComponents<GenericSkill>();
-            foreach (GenericSkill genericSkill in skills)
+            var def = SkillCatalog.GetSkillDef(skillDef.SkillIndex);
+            changed.Apply(def);
+            Logger.LogInfo("Skill '" + skillDef.CommonName + "' of Survivor '" + SurvivorDef.name +
+                           "' overwritten");
+
+            GameObject[] liveBodies = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var liveBody in liveBodies)
             {
-                if (genericSkill.skillFamily.defaultSkillDef.skillNameToken == skillDef.SkillNameToken)
+                if (liveBody.name == SurvivorDef.bodyPrefab.name + "(Clone)")
                 {
-                    skillDef.AllFields.ForEach(changer => { changer.Apply(genericSkill.skillFamily.defaultSkillDef); });
+                    foreach (GenericSkill genericSkill in liveBody.GetComponents<GenericSkill>())
+                    {
+                        genericSkill.RecalculateValues();
+                    }
+
+                    Logger.LogInfo("Recalculated live skills of " + SurvivorDef.name);
                 }
             }
         }
 
         public void OverrideSurvivorBase(SurvivorDef survivor)
         {
+            Logger.LogInfo("Overriding " + survivor.name);
             SurvivorDef = survivor;
-            List<CustomSkillDefinition> skillDefs = new List<CustomSkillDefinition>();
-            skillDefs.AddRange(PrimarySkills);
-            skillDefs.AddRange(SecondarySkills);
-            skillDefs.AddRange(UtilitySkills);
-            skillDefs.AddRange(SpecialSkills);
 
             GenericSkill[] skills = survivor.bodyPrefab.GetComponents<GenericSkill>();
-            foreach (GenericSkill genericSkill in skills)
+
+            foreach (var customSkillDefinition in Skills)
             {
-                foreach (CustomSkillDefinition skillDef in skillDefs)
-                {
-                    if (genericSkill.skillFamily.defaultSkillDef.skillNameToken == skillDef.SkillNameToken)
-                    {
-                        skillDef.AllFields.ForEach(changer =>
-                        {
-                            changer.Apply(genericSkill.skillFamily.defaultSkillDef);
-                        });
-                    }
-                }
+                var def = SkillCatalog.GetSkillDef(customSkillDefinition.SkillIndex);
+                customSkillDefinition.AllFields.ForEach(changer => { changer.Apply(def); });
+                Logger.LogInfo("Skill: " + customSkillDefinition.CommonName +
+                               " overwritten");
+                customSkillDefinition.OnFieldChanged -= OnSkillChangedPlaceholder;
+                customSkillDefinition.OnFieldChanged += OnSkillChanged;
             }
 
             CharacterBody body = survivor.bodyPrefab.GetComponent<CharacterBody>();
             BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
+
+            BodyDefinition.OnFieldChanged -= OnBodyChangedPlaceholder;
+            BodyDefinition.OnFieldChanged += OnBodyChanged;
         }
 
 

@@ -9,12 +9,12 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
         public CustomLoader(bool updateVanilla, ConfigFile file, ManualLogSource logger) : base(SurvivorIndex.Loader,
             "Loader", "LOADER", updateVanilla, file, logger)
         {
-            AddPrimarySkill("Knuckleboom");
-            AddSecondarySkill("GrappleFist");
-            AddSecondarySkill("SpikedFist", "ALT1");
-            AddUtilitySkill("ChargedGauntlet");
-            AddUtilitySkill("ThunderGauntlet", "ALT1");
-            AddSpecialSkill("Pylon");
+            AddSkill("Knuckleboom", 119);
+            AddSkill("GrappleFist", 117);
+            AddSkill("SpikedFist", 118);
+            AddSkill("ChargedGauntlet", 115);
+            AddSkill("ThunderGauntlet", 116);
+            AddSkill("Pylon", 120);
         }
     }
 }

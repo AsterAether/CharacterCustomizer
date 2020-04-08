@@ -6,7 +6,7 @@ namespace CharacterCustomizer.CustomSurvivors
 {
     public class CustomSkillDefinition
     {
-        public string SkillNameToken { get; }
+        public int SkillIndex { get; }
 
         public string CommonName { get; set; }
 
@@ -30,9 +30,9 @@ namespace CharacterCustomizer.CustomSurvivors
         public CustomFieldChanged OnFieldChanged;
 
 
-        public CustomSkillDefinition(CustomSurvivor survivor, string skillNameToken, string commonName = null)
+        public CustomSkillDefinition(CustomSurvivor survivor, int skillIndex, string commonName = null)
         {
-            SkillNameToken = skillNameToken;
+            SkillIndex = skillIndex;
             CommonName = commonName;
 
             BaseRechargeInterval = new FieldConfigWrapper<float>(survivor.BindConfig(

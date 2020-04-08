@@ -61,18 +61,42 @@
 * **EngineerLevelMaxShield:** Engineer: The max shield per level your survivor gets
 * **EngineerLevelMoveSpeed:** Engineer: The move speed per level your survivor gets
 * **EngineerLevelRegen:** Engineer: The regen per level your survivor gets.
-* **GaussTurrentBaseMaxStock:** GaussTurrent: Maximum number of charges this skill can carry.
-* **GaussTurrentBaseRechargeInterval:** GaussTurrent: How long it takes for this skill to recharge after being used.
-* **GaussTurrentBeginSkillCooldownOnSkillEnd:** GaussTurrent: Whether or not the cooldown waits until it leaves the set state
-* **GaussTurrentCanceledFromSprinting:** GaussTurrent: Sprinting will actively cancel this ability.
-* **GaussTurrentIsBullets:** GaussTurrent: Whether or not it has bullet reload behavior
-* **GaussTurrentIsCombatSkill:** GaussTurrent: Whether or not this is considered a combat skill.
-* **GaussTurrentMustKeyPress:** GaussTurrent: The skill can't be activated if the key is held.
-* **GaussTurrentNoSprint:** GaussTurrent: Whether or not the usage of this skill is mutually exclusive with sprinting.
-* **GaussTurrentRechargeStock:** GaussTurrent: How much stock to restore on a recharge.
-* **GaussTurrentRequiredStock:** GaussTurrent: How much stock is required to activate this skill.
-* **GaussTurrentShootDelay:** GaussTurrent: Time between bullets for bullet-style weapons
-* **GaussTurrentStockToConsume:** GaussTurrent: How much stock to deduct when the skill is activated.
+* **GaussTurretBaseMaxStock:** GaussTurret: Maximum number of charges this skill can carry.
+* **GaussTurretBaseRechargeInterval:** GaussTurret: How long it takes for this skill to recharge after being used.
+* **GaussTurretBeginSkillCooldownOnSkillEnd:** GaussTurret: Whether or not the cooldown waits until it leaves the set state
+* **GaussTurretCanceledFromSprinting:** GaussTurret: Sprinting will actively cancel this ability.
+* **GaussTurretIsBullets:** GaussTurret: Whether or not it has bullet reload behavior
+* **GaussTurretIsCombatSkill:** GaussTurret: Whether or not this is considered a combat skill.
+* **GaussTurretMustKeyPress:** GaussTurret: The skill can't be activated if the key is held.
+* **GaussTurretNoSprint:** GaussTurret: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **GaussTurretRechargeStock:** GaussTurret: How much stock to restore on a recharge.
+* **GaussTurretRequiredStock:** GaussTurret: How much stock is required to activate this skill.
+* **GaussTurretShootDelay:** GaussTurret: Time between bullets for bullet-style weapons
+* **GaussTurretStockToConsume:** GaussTurret: How much stock to deduct when the skill is activated.
+* **HarpoonsBaseMaxStock:** Harpoons: Maximum number of charges this skill can carry.
+* **HarpoonsBaseRechargeInterval:** Harpoons: How long it takes for this skill to recharge after being used.
+* **HarpoonsBeginSkillCooldownOnSkillEnd:** Harpoons: Whether or not the cooldown waits until it leaves the set state
+* **HarpoonsCanceledFromSprinting:** Harpoons: Sprinting will actively cancel this ability.
+* **HarpoonsIsBullets:** Harpoons: Whether or not it has bullet reload behavior
+* **HarpoonsIsCombatSkill:** Harpoons: Whether or not this is considered a combat skill.
+* **HarpoonsMustKeyPress:** Harpoons: The skill can't be activated if the key is held.
+* **HarpoonsNoSprint:** Harpoons: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **HarpoonsRechargeStock:** Harpoons: How much stock to restore on a recharge.
+* **HarpoonsRequiredStock:** Harpoons: How much stock is required to activate this skill.
+* **HarpoonsShootDelay:** Harpoons: Time between bullets for bullet-style weapons
+* **HarpoonsStockToConsume:** Harpoons: How much stock to deduct when the skill is activated.
+* **HarpoonTargetingBaseMaxStock:** HarpoonTargeting: Maximum number of charges this skill can carry.
+* **HarpoonTargetingBaseRechargeInterval:** HarpoonTargeting: How long it takes for this skill to recharge after being used.
+* **HarpoonTargetingBeginSkillCooldownOnSkillEnd:** HarpoonTargeting: Whether or not the cooldown waits until it leaves the set state
+* **HarpoonTargetingCanceledFromSprinting:** HarpoonTargeting: Sprinting will actively cancel this ability.
+* **HarpoonTargetingIsBullets:** HarpoonTargeting: Whether or not it has bullet reload behavior
+* **HarpoonTargetingIsCombatSkill:** HarpoonTargeting: Whether or not this is considered a combat skill.
+* **HarpoonTargetingMustKeyPress:** HarpoonTargeting: The skill can't be activated if the key is held.
+* **HarpoonTargetingNoSprint:** HarpoonTargeting: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **HarpoonTargetingRechargeStock:** HarpoonTargeting: How much stock to restore on a recharge.
+* **HarpoonTargetingRequiredStock:** HarpoonTargeting: How much stock is required to activate this skill.
+* **HarpoonTargetingShootDelay:** HarpoonTargeting: Time between bullets for bullet-style weapons
+* **HarpoonTargetingStockToConsume:** HarpoonTargeting: How much stock to deduct when the skill is activated.
 * **PressureMineBaseMaxStock:** PressureMine: Maximum number of charges this skill can carry.
 * **PressureMineBaseRechargeInterval:** PressureMine: How long it takes for this skill to recharge after being used.
 * **PressureMineBeginSkillCooldownOnSkillEnd:** PressureMine: Whether or not the cooldown waits until it leaves the set state
@@ -166,6 +190,18 @@
 * **PhaseRoundRequiredStock:** PhaseRound: How much stock is required to activate this skill.
 * **PhaseRoundShootDelay:** PhaseRound: Time between bullets for bullet-style weapons
 * **PhaseRoundStockToConsume:** PhaseRound: How much stock to deduct when the skill is activated.
+* **SlideBaseMaxStock:** Slide: Maximum number of charges this skill can carry.
+* **SlideBaseRechargeInterval:** Slide: How long it takes for this skill to recharge after being used.
+* **SlideBeginSkillCooldownOnSkillEnd:** Slide: Whether or not the cooldown waits until it leaves the set state
+* **SlideCanceledFromSprinting:** Slide: Sprinting will actively cancel this ability.
+* **SlideIsBullets:** Slide: Whether or not it has bullet reload behavior
+* **SlideIsCombatSkill:** Slide: Whether or not this is considered a combat skill.
+* **SlideMustKeyPress:** Slide: The skill can't be activated if the key is held.
+* **SlideNoSprint:** Slide: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **SlideRechargeStock:** Slide: How much stock to restore on a recharge.
+* **SlideRequiredStock:** Slide: How much stock is required to activate this skill.
+* **SlideShootDelay:** Slide: Time between bullets for bullet-style weapons
+* **SlideStockToConsume:** Slide: How much stock to deduct when the skill is activated.
 * **SuppressiveFireBaseMaxStock:** SuppressiveFire: Maximum number of charges this skill can carry.
 * **SuppressiveFireBaseRechargeInterval:** SuppressiveFire: How long it takes for this skill to recharge after being used.
 * **SuppressiveFireBeginSkillCooldownOnSkillEnd:** SuppressiveFire: Whether or not the cooldown waits until it leaves the set state
@@ -437,6 +473,18 @@
 * **BlinkRequiredStock:** Blink: How much stock is required to activate this skill.
 * **BlinkShootDelay:** Blink: Time between bullets for bullet-style weapons
 * **BlinkStockToConsume:** Blink: How much stock to deduct when the skill is activated.
+* **FireBallistaShotBaseMaxStock:** FireBallistaShot: Maximum number of charges this skill can carry.
+* **FireBallistaShotBaseRechargeInterval:** FireBallistaShot: How long it takes for this skill to recharge after being used.
+* **FireBallistaShotBeginSkillCooldownOnSkillEnd:** FireBallistaShot: Whether or not the cooldown waits until it leaves the set state
+* **FireBallistaShotCanceledFromSprinting:** FireBallistaShot: Sprinting will actively cancel this ability.
+* **FireBallistaShotIsBullets:** FireBallistaShot: Whether or not it has bullet reload behavior
+* **FireBallistaShotIsCombatSkill:** FireBallistaShot: Whether or not this is considered a combat skill.
+* **FireBallistaShotMustKeyPress:** FireBallistaShot: The skill can't be activated if the key is held.
+* **FireBallistaShotNoSprint:** FireBallistaShot: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **FireBallistaShotRechargeStock:** FireBallistaShot: How much stock to restore on a recharge.
+* **FireBallistaShotRequiredStock:** FireBallistaShot: How much stock is required to activate this skill.
+* **FireBallistaShotShootDelay:** FireBallistaShot: Time between bullets for bullet-style weapons
+* **FireBallistaShotStockToConsume:** FireBallistaShot: How much stock to deduct when the skill is activated.
 * **HuntressBaseAcceleration:** Huntress: The base acceleration of your survivor
 * **HuntressBaseArmor:** Huntress: The base armor of your survivor
 * **HuntressBaseAttackSpeed:** Huntress: The base attack speed of your survivor
@@ -493,6 +541,18 @@
 * **StrafeRequiredStock:** Strafe: How much stock is required to activate this skill.
 * **StrafeShootDelay:** Strafe: Time between bullets for bullet-style weapons
 * **StrafeStockToConsume:** Strafe: How much stock to deduct when the skill is activated.
+* **VolleyBaseMaxStock:** Volley: Maximum number of charges this skill can carry.
+* **VolleyBaseRechargeInterval:** Volley: How long it takes for this skill to recharge after being used.
+* **VolleyBeginSkillCooldownOnSkillEnd:** Volley: Whether or not the cooldown waits until it leaves the set state
+* **VolleyCanceledFromSprinting:** Volley: Sprinting will actively cancel this ability.
+* **VolleyIsBullets:** Volley: Whether or not it has bullet reload behavior
+* **VolleyIsCombatSkill:** Volley: Whether or not this is considered a combat skill.
+* **VolleyMustKeyPress:** Volley: The skill can't be activated if the key is held.
+* **VolleyNoSprint:** Volley: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **VolleyRechargeStock:** Volley: How much stock to restore on a recharge.
+* **VolleyRequiredStock:** Volley: How much stock is required to activate this skill.
+* **VolleyShootDelay:** Volley: Time between bullets for bullet-style weapons
+* **VolleyStockToConsume:** Volley: How much stock to deduct when the skill is activated.
 # Mercenary
 * **BlindingAssaultBaseMaxStock:** BlindingAssault: Maximum number of charges this skill can carry.
 * **BlindingAssaultBaseRechargeInterval:** BlindingAssault: How long it takes for this skill to recharge after being used.
@@ -793,6 +853,30 @@
 * **AcridLevelMaxShield:** Acrid: The max shield per level your survivor gets
 * **AcridLevelMoveSpeed:** Acrid: The move speed per level your survivor gets
 * **AcridLevelRegen:** Acrid: The regen per level your survivor gets.
+* **BiteBaseMaxStock:** Bite: Maximum number of charges this skill can carry.
+* **BiteBaseRechargeInterval:** Bite: How long it takes for this skill to recharge after being used.
+* **BiteBeginSkillCooldownOnSkillEnd:** Bite: Whether or not the cooldown waits until it leaves the set state
+* **BiteCanceledFromSprinting:** Bite: Sprinting will actively cancel this ability.
+* **BiteIsBullets:** Bite: Whether or not it has bullet reload behavior
+* **BiteIsCombatSkill:** Bite: Whether or not this is considered a combat skill.
+* **BiteMustKeyPress:** Bite: The skill can't be activated if the key is held.
+* **BiteNoSprint:** Bite: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **BiteRechargeStock:** Bite: How much stock to restore on a recharge.
+* **BiteRequiredStock:** Bite: How much stock is required to activate this skill.
+* **BiteShootDelay:** Bite: Time between bullets for bullet-style weapons
+* **BiteStockToConsume:** Bite: How much stock to deduct when the skill is activated.
+* **BlightBaseMaxStock:** Blight: Maximum number of charges this skill can carry.
+* **BlightBaseRechargeInterval:** Blight: How long it takes for this skill to recharge after being used.
+* **BlightBeginSkillCooldownOnSkillEnd:** Blight: Whether or not the cooldown waits until it leaves the set state
+* **BlightCanceledFromSprinting:** Blight: Sprinting will actively cancel this ability.
+* **BlightIsBullets:** Blight: Whether or not it has bullet reload behavior
+* **BlightIsCombatSkill:** Blight: Whether or not this is considered a combat skill.
+* **BlightMustKeyPress:** Blight: The skill can't be activated if the key is held.
+* **BlightNoSprint:** Blight: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **BlightRechargeStock:** Blight: How much stock to restore on a recharge.
+* **BlightRequiredStock:** Blight: How much stock is required to activate this skill.
+* **BlightShootDelay:** Blight: Time between bullets for bullet-style weapons
+* **BlightStockToConsume:** Blight: How much stock to deduct when the skill is activated.
 * **CausticLeapBaseMaxStock:** CausticLeap: Maximum number of charges this skill can carry.
 * **CausticLeapBaseRechargeInterval:** CausticLeap: How long it takes for this skill to recharge after being used.
 * **CausticLeapBeginSkillCooldownOnSkillEnd:** CausticLeap: Whether or not the cooldown waits until it leaves the set state
@@ -841,6 +925,18 @@
 * **NeurotoxinRequiredStock:** Neurotoxin: How much stock is required to activate this skill.
 * **NeurotoxinShootDelay:** Neurotoxin: Time between bullets for bullet-style weapons
 * **NeurotoxinStockToConsume:** Neurotoxin: How much stock to deduct when the skill is activated.
+* **PoisonBaseMaxStock:** Poison: Maximum number of charges this skill can carry.
+* **PoisonBaseRechargeInterval:** Poison: How long it takes for this skill to recharge after being used.
+* **PoisonBeginSkillCooldownOnSkillEnd:** Poison: Whether or not the cooldown waits until it leaves the set state
+* **PoisonCanceledFromSprinting:** Poison: Sprinting will actively cancel this ability.
+* **PoisonIsBullets:** Poison: Whether or not it has bullet reload behavior
+* **PoisonIsCombatSkill:** Poison: Whether or not this is considered a combat skill.
+* **PoisonMustKeyPress:** Poison: The skill can't be activated if the key is held.
+* **PoisonNoSprint:** Poison: Whether or not the usage of this skill is mutually exclusive with sprinting.
+* **PoisonRechargeStock:** Poison: How much stock to restore on a recharge.
+* **PoisonRequiredStock:** Poison: How much stock is required to activate this skill.
+* **PoisonShootDelay:** Poison: Time between bullets for bullet-style weapons
+* **PoisonStockToConsume:** Poison: How much stock to deduct when the skill is activated.
 * **ViciousWoundsBaseMaxStock:** ViciousWounds: Maximum number of charges this skill can carry.
 * **ViciousWoundsBaseRechargeInterval:** ViciousWounds: How long it takes for this skill to recharge after being used.
 * **ViciousWoundsBeginSkillCooldownOnSkillEnd:** ViciousWounds: Whether or not the cooldown waits until it leaves the set state
