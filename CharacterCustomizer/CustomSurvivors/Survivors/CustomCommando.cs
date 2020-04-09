@@ -22,7 +22,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             AddSkill("PhaseRound", 37);
             AddSkill("PhaseBlast", 39);
             AddSkill("TacticalDive", 40);
-            AddSkill("Slide", 42);
+            AddSkill("TacticalSlide", 42);
             AddSkill("SuppressiveFire", 36);
             AddSkill("FragGrenade", 43);
         }

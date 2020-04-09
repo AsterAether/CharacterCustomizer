@@ -13,7 +13,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             updateVanilla, file, logger)
         {
             AddSkill("Strafe", 100);
-            AddSkill("Volley", 97);
+            AddSkill("Flurry", 97);
             AddSkill("LaserGlaive", 101);
             AddSkill("Blink", 99);
             AddSkill("PhaseBlink", 102);

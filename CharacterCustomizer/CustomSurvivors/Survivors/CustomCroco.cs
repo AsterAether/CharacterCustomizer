@@ -14,7 +14,7 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
 
             AddSkill("ViciousWounds", 54);
             AddSkill("Neurotoxin", 55);
-            AddSkill("Bite", 48);
+            AddSkill("RavenousBite", 48);
             AddSkill("CausticLeap", 51);
             AddSkill("FrenziedLeap", 49);
 

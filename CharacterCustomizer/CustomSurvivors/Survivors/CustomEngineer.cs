@@ -21,8 +21,8 @@ namespace CharacterCustomizer.CustomSurvivors.Survivors
             AddSkill("PressureMine", 68);
             AddSkill("SpiderMine", 69);
             AddSkill("BubbleShield", 67);
-            AddSkill("Harpoons", 74);
-            AddSkill("HarpoonTargeting", 73);
+            AddSkill("ThermalHarpoons", 74);
+            AddSkill("ThermalHarpoonTargeting", 73);
             AddSkill("GaussTurret", 70);
             AddSkill("CarbonizerTurret", 71);
         }
