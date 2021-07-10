@@ -1,24 +1,10 @@
 {
-  "ManifestVersion": 2,
-  "AuthorName": "Aster",
-  "Name": "Aster-CharacterCustomizer",
-  "DisplayName": "CharacterCustomizer",
-  "Version": "<version>",
-  "Licence": "",
-  "WebsiteURL": "https://github.com/AsterAether/CharacterCustomizer",
-  "Description": "Customize your Survivors by simply changing a value in a config file!",
-  "GameVersion": "N/A",
-  "Dependencies": [
+  "name": "CharacterCustomizer",
+  "version_number": "<version>",
+  "website_url": "https://github.com/AsterAether/CharacterCustomizer",
+  "description": "Customize your Survivors by simply changing a value in a config file!",
+  "dependencies": [
     "tristanmcpherson-R2API-3.0.44",
     "bbepis-BepInExPack-5.4.9"
-  ],
-  "OptionalDependencies": [],
-  "Incompatibilities": [],
-  "NetworkMode": "both",
-  "PackageType": "mod",
-  "InstallMode": "managed",
-  "Loaders": [
-    "bepinex"
-  ],
-  "ExtraData": {}
+  ]
 }
