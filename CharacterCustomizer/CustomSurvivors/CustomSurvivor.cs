@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -14,44 +15,68 @@ using Path = System.IO.Path;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
-    public abstract class CustomSurvivor
+    public class CustomSurvivor
     {
-        public readonly List<IMarkdownString> MarkdownConfigEntries = new List<IMarkdownString>();
-
+        public ConfigEntry<bool> Enabled { get; private set; }
+        public ConfigEntry<bool> UpdateVanillaValues { get; private set; }
         private ConfigFile Config { get; set; }
 
         private ManualLogSource Logger { get; set; }
 
-        public readonly List<CustomSkillDefinition> Skills = new List<CustomSkillDefinition>();
+        public readonly Dictionary<int, CustomSkillDefinition> Skills = new Dictionary<int, CustomSkillDefinition>();
 
-        public SurvivorIndex SurvivorIndex { get; }
 
-        public string CharacterName { get; }
         public CustomBodyDefinition BodyDefinition { get; private set; }
 
         public SurvivorDef SurvivorDef { get; private set; }
 
-        private bool _updateVanillaValues;
+        public string CommonName { get; private set; }
 
-        protected CustomSurvivor(SurvivorIndex index, string characterName, string survivorNameToken,
-            bool updateVanillaValues, ConfigFile configFile, ManualLogSource logger)
+        public CustomSurvivor(SurvivorDef survivorDef, ConfigFile configFile, ManualLogSource logger)
         {
-            _updateVanillaValues = updateVanillaValues;
-            SurvivorIndex = index;
             Config = configFile;
             Logger = logger;
 
-            CharacterName = characterName;
-            BodyDefinition = new CustomBodyDefinition(this, characterName, survivorNameToken);
+            SurvivorDef = survivorDef;
+
+            CommonName = Regex.Replace(Language.english.GetLocalizedStringByToken(survivorDef.displayNameToken),
+                @"[^A-Za-z]+", string.Empty);
+
+            Enabled = Config.Bind(
+                CommonName,
+                CommonName + " Enabled",
+                false,
+                "If changes for this character are enabled. Set to true to generate options on next startup!");
+
+            if (!Enabled.Value) return;
+
+            UpdateVanillaValues = Config.Bind(
+                CommonName,
+                CommonName + " UpdateVanillaValues",
+                true,
+                "Write default values in descriptions of settings. Will flip to false after doing it once.");
+
+            BodyDefinition = new CustomBodyDefinition(this);
             BodyDefinition.OnFieldChanged += OnBodyChangedPlaceholder;
+
+
+            var skills = survivorDef.bodyPrefab.GetComponents<GenericSkill>();
+            foreach (var genericSkill in skills)
+            {
+                foreach (var variant in genericSkill.skillFamily.variants)
+                {
+                    if (Skills.ContainsKey(variant.skillDef.skillIndex)) continue;
+
+                    var skill = new CustomSkillDefinition(this, variant.skillDef.skillIndex,
+                        Regex.Replace(Language.english.GetLocalizedStringByToken(variant.skillDef.skillNameToken),
+                            @"[^A-Za-z]+", string.Empty)
+                    );
+                    skill.OnFieldChanged += OnSkillChangedPlaceholder;
+                    Skills.Add(skill.SkillIndex, skill);
+                }
+            }
         }
 
-        protected void AddSkill(string commonName, int skillIndex)
-        {
-            CustomSkillDefinition skill = new CustomSkillDefinition(this, skillIndex, commonName);
-            skill.OnFieldChanged += OnSkillChangedPlaceholder;
-            Skills.Add(skill);
-        }
 
         private void OnBodyChangedPlaceholder(CustomBodyDefinition skillDefinition, IFieldChanger changed)
         {
@@ -63,20 +88,18 @@ namespace CharacterCustomizer.CustomSurvivors
 
         private void OnBodyChanged(CustomBodyDefinition skillDefinition, IFieldChanger changed)
         {
-            CharacterBody body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
+            var body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
             changed.Apply(body);
 
-            GameObject[] liveBodies = GameObject.FindGameObjectsWithTag("Player");
+            var liveBodies = GameObject.FindGameObjectsWithTag("Player");
             foreach (var liveBody in liveBodies)
             {
-                if (liveBody.name == SurvivorDef.bodyPrefab.name + "(Clone)")
-                {
-                    var liveChar = liveBody.GetComponent<CharacterBody>();
-                    changed.Apply(liveChar);
-                    liveChar.RecalculateStats();
+                if (liveBody.name != SurvivorDef.bodyPrefab.name + "(Clone)") continue;
+                var liveChar = liveBody.GetComponent<CharacterBody>();
+                changed.Apply(liveChar);
+                liveChar.RecalculateStats();
 
-                    Logger.LogInfo("Recalculated live body stats of " + SurvivorDef.name);
-                }
+                Logger.LogInfo("Recalculated live body stats of " + SurvivorDef.cachedName);
             }
         }
 
@@ -84,7 +107,7 @@ namespace CharacterCustomizer.CustomSurvivors
         {
             var def = SkillCatalog.GetSkillDef(skillDef.SkillIndex);
             changed.Apply(def);
-            Logger.LogInfo("Skill '" + skillDef.CommonName + "' of Survivor '" + SurvivorDef.name +
+            Logger.LogInfo("Skill '" + skillDef.CommonName + "' of Survivor '" + SurvivorDef.cachedName +
                            "' overwritten");
 
             GameObject[] liveBodies = GameObject.FindGameObjectsWithTag("Player");
@@ -97,33 +120,36 @@ namespace CharacterCustomizer.CustomSurvivors
                         genericSkill.RecalculateValues();
                     }
 
-                    Logger.LogInfo("Recalculated live skills of " + SurvivorDef.name);
+                    Logger.LogInfo("Recalculated live skills of " + SurvivorDef.cachedName);
                 }
             }
         }
 
-        public void OverrideSurvivorBase(SurvivorDef survivor)
+        public void OverrideSurvivorBase()
         {
-            Logger.LogInfo("Overriding " + survivor.name);
-            SurvivorDef = survivor;
+            Logger.LogInfo("Overriding " + CommonName);
 
-            GenericSkill[] skills = survivor.bodyPrefab.GetComponents<GenericSkill>();
-
-            foreach (var customSkillDefinition in Skills)
+            foreach (var customSkillDefinition in Skills.Values)
             {
                 var def = SkillCatalog.GetSkillDef(customSkillDefinition.SkillIndex);
                 customSkillDefinition.AllFields.ForEach(changer => { changer.Apply(def); });
                 Logger.LogInfo("Skill: " + customSkillDefinition.CommonName +
                                " overwritten");
-                customSkillDefinition.OnFieldChanged -= OnSkillChangedPlaceholder;
-                customSkillDefinition.OnFieldChanged += OnSkillChanged;
+                // customSkillDefinition.OnFieldChanged -= OnSkillChangedPlaceholder;
+                // customSkillDefinition.OnFieldChanged += OnSkillChanged;
             }
 
-            CharacterBody body = survivor.bodyPrefab.GetComponent<CharacterBody>();
+            var body = SurvivorDef.bodyPrefab.GetComponent<CharacterBody>();
             BodyDefinition.AllFields.ForEach(changer => { changer.Apply(body); });
 
-            BodyDefinition.OnFieldChanged -= OnBodyChangedPlaceholder;
-            BodyDefinition.OnFieldChanged += OnBodyChanged;
+            // BodyDefinition.OnFieldChanged -= OnBodyChangedPlaceholder;
+            // BodyDefinition.OnFieldChanged += OnBodyChanged;
+        }
+
+        public void OnStop()
+        {
+            if (UpdateVanillaValues != null)
+                UpdateVanillaValues.Value = false;
         }
 
 
@@ -131,26 +157,9 @@ namespace CharacterCustomizer.CustomSurvivors
             string description)
         {
             // Vanilla values need to be updated every time in the description when the game starts, only the boolean values don't need to be overwritten anymore, so tell that the config wrapper with the boolean
-            ConfigEntryDescriptionWrapper<T> entry =
-                new ConfigEntryDescriptionWrapper<T>(Config.Bind(CharacterName, key, defaultVal, description),
-                    _updateVanillaValues);
-            MarkdownConfigEntries.Add(entry);
-            return entry;
-        }
-
-        public ConfigEntryDescriptionWrapper<bool> BindConfigBool(string key, string description, bool defVal = false)
-        {
-            return BindConfig(key, defVal, description);
-        }
-
-        public ConfigEntryDescriptionWrapper<float> BindConfigFloat(string key, string description, float defVal = 0f)
-        {
-            return BindConfig(key, defVal, description);
-        }
-
-        public ConfigEntryDescriptionWrapper<int> BindConfigInt(string key, string description, int defVal = 0)
-        {
-            return BindConfig(key, defVal, description);
+            return new ConfigEntryDescriptionWrapper<T>(
+                Config.Bind(CommonName, key, defaultVal, description),
+                UpdateVanillaValues.Value);
         }
     }
 }

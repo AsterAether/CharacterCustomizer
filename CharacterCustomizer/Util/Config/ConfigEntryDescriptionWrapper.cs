@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace CharacterCustomizer.Util.Config
 {
-    public class ConfigEntryDescriptionWrapper<T> : IMarkdownString
+    public class ConfigEntryDescriptionWrapper<T>
     {
         private bool _updatedDescription;
         private bool _updateBoolValue;
@@ -41,11 +41,6 @@ namespace CharacterCustomizer.Util.Config
             }
 
             return false;
-        }
-
-        public string ToMarkdownString()
-        {
-            return "* **" + Entry.Definition.Key + ":** " + Entry.Description.Description;
         }
 
         public void UpdateDescription(T vanillaValue, bool ignoreAlreadyUpdated = false)

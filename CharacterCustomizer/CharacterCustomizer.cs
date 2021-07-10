@@ -1,150 +1,61 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BepInEx;
 using BepInEx.Configuration;
 using CharacterCustomizer.CustomSurvivors;
-using CharacterCustomizer.CustomSurvivors.Survivors;
-using CharacterCustomizer.Util.Config;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
+using R2API.Utils;
 using RoR2;
+using RoR2.ContentManagement;
+using RoR2.Skills;
 using RoR2.UI;
 using UnityEngine;
+using SkillCatalog = IL.RoR2.Skills.SkillCatalog;
 
 namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("at.aster.charactercustomizer", "CharacterCustomizer", "<version>")]
+    [BepInPlugin("Aster.CharacterCustomizer", "CharacterCustomizer", "<version>")]
+    [R2APISubmoduleDependency(nameof(SurvivorAPI))]
     public class CharacterCustomizer : BaseUnityPlugin
     {
-        private List<CustomSurvivor> CustomSurvivors { get; set; }
 
-        public ConfigEntry<bool> CreateReadme;
-        public ConfigEntry<bool> FixSkillIconCooldownScaling;
-        public ConfigEntry<bool> UpdateVanillaValues;
+        private List<CustomSurvivor> _survivors = new List<CustomSurvivor>();
 
-        public void InitConfig()
+        private IEnumerator AfterLoad(On.RoR2.RoR2Application.orig_OnLoad orig, RoR2Application self)
         {
-            CreateReadme = Config.Bind(
-                "General",
-                "PrintReadme",
-                false,
-                "Outputs a file called \"config_values.md\" to the working directory, containing all config values formatted as Markdown. (Only used for development purposes)");
-
-            FixSkillIconCooldownScaling = Config.Bind(
-                "Fixes",
-                "FixSkillIconCooldownScaling",
-                true,
-                "Fix the display of cooldowns when cooldown scaling is applied");
-
-            UpdateVanillaValues = Config.Bind(
-                "General",
-                "UpdateVanillaValues",
-                true,
-                "Write default values in descriptions of settings. Will flip to false after doing it once.");
+            yield return orig(self);
+            foreach (SurvivorDef survivorDef in ContentManager.survivorDefs)
+            {
+                var customSurvivor = new CustomSurvivor(survivorDef, Config, Logger);
+                if (customSurvivor.Enabled.Value)
+                    customSurvivor.OverrideSurvivorBase();
+                _survivors.Add(customSurvivor);
+            }
         }
 
         public void Awake()
         {
-            InitConfig();
-            ApplyFixes();
-
-            CustomSurvivors = new List<CustomSurvivor>
-            {
-                new CustomEngineer(UpdateVanillaValues.Value, Config, Logger),
-                new CustomCommando(UpdateVanillaValues.Value, Config, Logger),
-                new CustomArtificer(UpdateVanillaValues.Value, Config, Logger),
-                new CustomMulT(UpdateVanillaValues.Value, Config, Logger),
-                new CustomHuntress(UpdateVanillaValues.Value, Config, Logger),
-                new CustomMercenary(UpdateVanillaValues.Value, Config, Logger),
-                new CustomTreebot(UpdateVanillaValues.Value, Config, Logger),
-                new CustomLoader(UpdateVanillaValues.Value, Config, Logger),
-                new CustomCroco(UpdateVanillaValues.Value, Config, Logger)
-            };
-
-            if (CreateReadme.Value)
-            {
-                StringBuilder markdown = new StringBuilder("# Config Values\n");
-
-                markdown.AppendLine("## General");
-                markdown.AppendLine(CreateReadme.ToMarkdownString());
-                markdown.AppendLine(UpdateVanillaValues.ToMarkdownString());
-
-                markdown.AppendLine("## Fixes");
-                markdown.AppendLine(FixSkillIconCooldownScaling.ToMarkdownString());
-
-                foreach (var customSurvivor in CustomSurvivors)
-                {
-                    markdown.AppendLine("# " + customSurvivor.BodyDefinition.CommonName);
-                    List<string> markdownLines = new List<string>();
-
-                    foreach (IMarkdownString markdownDef in customSurvivor.MarkdownConfigEntries)
-                    {
-                        markdownLines.Add(markdownDef.ToMarkdownString());
-                    }
-
-                    markdownLines.Sort();
-
-                    foreach (var markdownLine in markdownLines)
-                    {
-                        markdown.AppendLine(markdownLine);
-                    }
-                }
-
-                System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\config_values.md",
-                    markdown.ToString());
-            }
+            On.RoR2.RoR2Application.OnLoad += AfterLoad;
         }
 
         private void OnDestroy()
         {
-            UpdateVanillaValues.Value = false;
+            _survivors.ForEach(survivor => survivor.OnStop());
+            Config.Save();
         }
 
         private void OnApplicationQuit()
         {
-            UpdateVanillaValues.Value = false;
+            _survivors.ForEach(survivor => survivor.OnStop());
+            Config.Save();
         }
 
-        private void Start()
-        {
-            ApplyValues();
-        }
-
-        private void ApplyValues()
-        {
-            foreach (SurvivorDef survivorDef in ((SurvivorDef[]) SurvivorCatalog.allSurvivorDefs))
-            {
-                try
-                {
-                    CustomSurvivor cSurv = CustomSurvivors.First(s => s.SurvivorIndex == survivorDef.survivorIndex);
-                    cSurv.OverrideSurvivorBase(survivorDef);
-                }
-                catch (InvalidOperationException)
-                {
-                    Logger.LogError("No custom survivor for " + survivorDef.survivorIndex);
-                }
-            }
-        }
-
-        public void ApplyFixes()
-        {
-            if (FixSkillIconCooldownScaling.Value)
-            {
-                IL.RoR2.UI.SkillIcon.Update += il =>
-                {
-                    ILCursor c = new ILCursor(il);
-                    c.GotoNext(MoveType.After, i => i.MatchStloc(1));
-                    c.Emit(OpCodes.Ldarg_0);
-                    c.Emit<SkillIcon>(OpCodes.Ldfld, "targetSkill");
-                    c.EmitDelegate<Func<GenericSkill, float>>(skill => Mathf.Min(skill.baseRechargeInterval,
-                        Mathf.Max(0.5f, skill.baseRechargeInterval * skill.cooldownScale)));
-                    c.Emit(OpCodes.Stloc_1);
-                };
-            }
-        }
+       
     }
 }

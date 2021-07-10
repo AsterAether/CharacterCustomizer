@@ -1,5 +1,6 @@
 # Changelog
 
+* **v2.0.0:** - Big rewrite and update to newest RoR2 version.
 * **v1.0.2:** - Naming changes of config values, to the real names of skills used in the game.
 * **v1.0.1:** - Rewrote internal structure (again), and updated everything to new Artifact version of RoR2
 * **v1.0.0:** - Rewrote internal structure to deprecate AetherLib, updated codebase to allow multiple skills per slot per survivor. Moved extra changes to new project [CharacterCustomizerPlus](https://github.com/AsterAether/CharacterCustomizerPlus).

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using CharacterCustomizer.Util.Config;
+using RoR2;
 using UnityEngine;
 using Logger = BepInEx.Logging.Logger;
 
@@ -8,9 +11,6 @@ namespace CharacterCustomizer.CustomSurvivors
 {
     public class CustomBodyDefinition
     {
-        public string CommonName { get; }
-        
-        public string SurvivorNameToken { get; }
         public FieldConfigWrapper<float> BaseMaxHealth { get; }
         public FieldConfigWrapper<float> BaseRegen { get; }
         public FieldConfigWrapper<float> BaseMaxShield { get; }
@@ -39,129 +39,127 @@ namespace CharacterCustomizer.CustomSurvivors
 
         public CustomFieldChanged OnFieldChanged;
 
-        public CustomBodyDefinition(CustomSurvivor survivor, string commonName, string survivorNameToken)
+        public CustomBodyDefinition(CustomSurvivor survivor)
         {
-            CommonName = commonName;
-            SurvivorNameToken = survivorNameToken;
-
+            
             BaseMaxHealth = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseMaxHealth",
+                    survivor.CommonName + " BaseMaxHealth",
                     0f,
-                    commonName + ": The base health of your survivor"),
+                    survivor.CommonName + ": The base health of your survivor"),
                 "baseMaxHealth");
 
             BaseRegen = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseRegen",
+                    survivor.CommonName + " BaseRegen",
                     0f,
-                    commonName + ": The base regen of your survivor"),
+                    survivor.CommonName + ": The base regen of your survivor"),
                 "baseRegen");
 
             BaseMaxShield = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseMaxShield",
+                    survivor.CommonName + " BaseMaxShield",
                     0f,
-                    commonName + ": the base max shield of you survivor"),
+                    survivor.CommonName + ": the base max shield of you survivor"),
                 "baseMaxShield");
 
             BaseMoveSpeed = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseMoveSpeed",
+                    survivor.CommonName + " BaseMoveSpeed",
                     0f,
-                    commonName + ": The base move speed of your survivor"),
+                    survivor.CommonName + ": The base move speed of your survivor"),
                 "baseMoveSpeed");
 
             BaseAcceleration = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseAcceleration",
+                    survivor.CommonName + " BaseAcceleration",
                     0f,
-                    commonName + ": The base acceleration of your survivor"),
+                    survivor.CommonName + ": The base acceleration of your survivor"),
                 "baseAcceleration");
 
             BaseJumpPower = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseJumpPower",
+                    survivor.CommonName + " BaseJumpPower",
                     0f,
-                    commonName + ": The base jump power of your survivor"),
+                    survivor.CommonName + ": The base jump power of your survivor"),
                 "baseJumpPower");
 
             BaseDamage = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseDamage",
+                    survivor.CommonName + " BaseDamage",
                     0f,
-                    commonName + ": The base damage of your survivor"),
+                    survivor.CommonName + ": The base damage of your survivor"),
                 "baseDamage");
 
             BaseAttackSpeed = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseAttackSpeed",
+                    survivor.CommonName + " BaseAttackSpeed",
                     0f,
-                    commonName + ": The base attack speed of your survivor"),
+                    survivor.CommonName + ": The base attack speed of your survivor"),
                 "baseAttackSpeed");
 
             BaseCrit = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseCrit",
+                    survivor.CommonName + " BaseCrit",
                     0f,
-                    commonName + ": The base crit chance of your survivor"),
+                    survivor.CommonName + ": The base crit chance of your survivor"),
                 "baseCrit");
 
             BaseArmor = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "BaseArmor",
+                    survivor.CommonName + " BaseArmor",
                     0f,
-                    commonName + ": The base armor of your survivor"),
+                    survivor.CommonName + ": The base armor of your survivor"),
                 "baseArmor");
 
             BaseJumpCount = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    commonName + "BaseJumpCount",
+                    survivor.CommonName + " BaseJumpCount",
                     0,
-                    commonName + ": The base jump count of your survivor"),
+                    survivor.CommonName + ": The base jump count of your survivor"),
                 "baseJumpCount");
 
             LevelMaxHealth = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelMaxHealth",
+                    survivor.CommonName + " LevelMaxHealth",
                     0f,
-                    commonName + ": The max health per level your survivor gets."),
+                    survivor.CommonName + ": The max health per level your survivor gets."),
                 "levelMaxHealth");
 
             LevelRegen = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelRegen",
+                    survivor.CommonName + " LevelRegen",
                     0f,
-                    commonName + ": The regen per level your survivor gets."),
+                    survivor.CommonName + ": The regen per level your survivor gets."),
                 "levelRegen");
 
             LevelMaxShield = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelMaxShield",
+                    survivor.CommonName + " LevelMaxShield",
                     0f,
-                    commonName + ": The max shield per level your survivor gets"),
+                    survivor.CommonName + ": The max shield per level your survivor gets"),
                 "levelMaxShield");
 
             LevelMoveSpeed = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelMoveSpeed",
+                    survivor.CommonName + " LevelMoveSpeed",
                     0f,
-                    commonName + ": The move speed per level your survivor gets"),
+                    survivor.CommonName + ": The move speed per level your survivor gets"),
                 "levelMoveSpeed");
 
             LevelJumpPower = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelJumpPower",
+                    survivor.CommonName + " LevelJumpPower",
                     0f,
-                    commonName + ": The jump power per level your survivor gets"),
+                    survivor.CommonName + ": The jump power per level your survivor gets"),
                 "levelJumpPower");
 
             LevelDamage = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelDamage",
+                    survivor.CommonName + " LevelDamage",
                     0f,
-                    commonName + ": The damage per level your survivor gets"),
+                    survivor.CommonName + ": The damage per level your survivor gets"),
                 "levelDamage");
 
             LevelAttackSpeed = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelAttackSpeed",
+                    survivor.CommonName + " LevelAttackSpeed",
                     0f,
-                    commonName + ": The attack speed per level your survivor gets"),
+                    survivor.CommonName + ": The attack speed per level your survivor gets"),
                 "levelAttackSpeed");
 
             LevelCrit = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelCrit",
+                    survivor.CommonName + " LevelCrit",
                     0f,
-                    commonName + ": The crit chance per level your survivor gets"),
+                    survivor.CommonName + ": The crit chance per level your survivor gets"),
                 "levelCrit");
 
             LevelArmor = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + "LevelArmor",
+                    survivor.CommonName + " LevelArmor",
                     0f,
-                    commonName + ": The armor per level your survivor gets"),
+                    survivor.CommonName + ": The armor per level your survivor gets"),
                 "levelArmor");
 
             AllFields = new List<IFieldChanger>
