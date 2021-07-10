@@ -26,8 +26,6 @@ the executing code in the plugin will be skipped, and vanilla risk of rain behav
 
 A sample config line would look like this:
 ```
-[Captain]
-
 ## If changes for this character are enabled. Set to true to generate options on next startup!
 # Setting type: Boolean
 # Default value: false

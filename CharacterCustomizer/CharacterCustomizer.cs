@@ -25,7 +25,7 @@ namespace CharacterCustomizer
     public class CharacterCustomizer : BaseUnityPlugin
     {
 
-        private List<CustomSurvivor> _survivors = new List<CustomSurvivor>();
+        private readonly List<CustomSurvivor> _survivors = new List<CustomSurvivor>();
 
         private IEnumerator AfterLoad(On.RoR2.RoR2Application.orig_OnLoad orig, RoR2Application self)
         {
