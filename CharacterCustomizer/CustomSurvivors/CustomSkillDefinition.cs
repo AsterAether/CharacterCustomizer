@@ -7,144 +7,103 @@ using CharacterCustomizer.Util.Config;
 
 namespace CharacterCustomizer.CustomSurvivors
 {
-    public class CustomSkillDefinition
+    public sealed class CustomSkillDefinition : FieldChangerBag
     {
         public int SkillIndex { get; }
 
-        public string CommonName { get; set; }
-
-        public FieldConfigWrapper<float> BaseRechargeInterval { get; }
-        public FieldConfigWrapper<int> BaseMaxStock { get; }
-        public FieldConfigWrapper<int> RechargeStock { get; }
-        public FieldConfigWrapper<int> RequiredStock { get; }
-        public FieldConfigWrapper<int> StockToConsume { get; }
-        public FieldConfigWrapper<bool> ResetCooldownTimerOnUse { get; }
-        public FieldConfigWrapper<bool> IsCombatSkill { get; }
-        public FieldConfigWrapper<bool> CancelSprintingOnActivation { get; }
-        public FieldConfigWrapper<bool> MustKeyPress { get; }
-        public FieldConfigWrapper<bool> BeginSkillCooldownOnSkillEnd { get; }
-        public FieldConfigWrapper<bool> CanceledFromSprinting { get; }
-        public FieldConfigWrapper<bool> ForceSprintDuringState { get; }
-        public FieldConfigWrapper<bool> DontAllowPastMaxStocks { get; }
-
-        public List<IFieldChanger> AllFields { get; }
+        public string CommonName { get; }
 
         public delegate void CustomFieldChanged(CustomSkillDefinition skillDefinition, IFieldChanger changed);
 
         public CustomFieldChanged OnFieldChanged;
 
 
-        public CustomSkillDefinition(CustomSurvivor survivor, int skillIndex, string commonName)
+        public CustomSkillDefinition(IConfigProvider configProvider, int skillIndex, string commonName): base(configProvider)
         {
             SkillIndex = skillIndex;
             CommonName = commonName;
 
-            BaseRechargeInterval = new FieldConfigWrapper<float>(survivor.BindConfig(
-                    commonName + " BaseRechargeInterval",
-                    0f,
-                    commonName + ": How long it takes for this skill to recharge after being used."),
+            AddFieldConfig<float>(
+                "BaseRechargeInterval",
+                "How long it takes for this skill to recharge after being used.",
                 "baseRechargeInterval");
 
-            BaseMaxStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    commonName + " BaseMaxStock",
-                    0,
-                    commonName + ": Maximum number of charges this skill can carry."),
+            AddFieldConfig<int>(
+                "BaseMaxStock",
+                "Maximum number of charges this skill can carry.",
                 "baseMaxStock");
 
-            RechargeStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    commonName + " RechargeStock",
-                    0,
-                    commonName + ": How much stock to restore on a recharge."),
+            AddFieldConfig<int>(
+                "RechargeStock",
+                "How much stock to restore on a recharge.",
                 "rechargeStock");
 
-            IsCombatSkill = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " IsCombatSkill",
-                    false,
-                    commonName + ": Whether or not this is considered a combat skill."),
+            AddFieldConfig<bool>(
+                "IsCombatSkill",
+                "Whether or not this is considered a combat skill.",
                 "isCombatSkill");
 
-            CancelSprintingOnActivation = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " CancelSprintingOnActivation",
-                    false,
-                    commonName + ": Whether or not activating the skill forces off sprinting."),
+            AddFieldConfig<bool>(
+                "CancelSprintingOnActivation",
+                "Whether or not activating the skill forces off sprinting.",
                 "cancelSprintingOnActivation");
 
-            RequiredStock = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    commonName + " RequiredStock",
-                    0,
-                    commonName + ": How much stock is required to activate this skill."),
+            AddFieldConfig<int>(
+                "RequiredStock",
+                "How much stock is required to activate this skill.",
                 "requiredStock");
 
-            StockToConsume = new FieldConfigWrapper<int>(survivor.BindConfig(
-                    commonName + " StockToConsume",
-                    0,
-                    commonName + ": How much stock to deduct when the skill is activated."),
+            AddFieldConfig<int>(
+                "StockToConsume",
+                "How much stock to deduct when the skill is activated.",
                 "stockToConsume");
 
-            MustKeyPress = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " MustKeyPress",
-                    false,
-                    commonName + ": The skill can't be activated if the key is held."),
+            AddFieldConfig<bool>(
+                "MustKeyPress",
+                "The skill can't be activated if the key is held.",
                 "mustKeyPress");
 
-            BeginSkillCooldownOnSkillEnd = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " BeginSkillCooldownOnSkillEnd",
-                    false,
-                    commonName + ": Whether or not the cooldown waits until it leaves the set state"),
+            AddFieldConfig<bool>(
+                "BeginSkillCooldownOnSkillEnd",
+                "Whether or not the cooldown waits until it leaves the set state",
                 "beginSkillCooldownOnSkillEnd");
 
-            CanceledFromSprinting = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " CanceledFromSprinting",
-                    false,
-                    commonName + ": Sprinting will actively cancel this ability."),
+            AddFieldConfig<bool>(
+                "CanceledFromSprinting",
+                "Sprinting will actively cancel this ability.",
                 "canceledFromSprinting");
 
-            ResetCooldownTimerOnUse = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " ResetCooldownTimerOnUse",
-                    false,
-                    commonName + ": Whether or not it resets any progress on cooldowns."),
+            AddFieldConfig<bool>(
+                "ResetCooldownTimerOnUse",
+                "Whether or not it resets any progress on cooldowns.",
                 "resetCooldownTimerOnUse");
-            
-            ForceSprintDuringState = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " ForceSprintDuringState",
-                    false,
-                    commonName + ": Whether or not this skill is considered 'mobility'. Currently just forces sprint."),
+
+            AddFieldConfig<bool>(
+                "ForceSprintDuringState",
+                "Whether or not this skill is considered 'mobility'. Currently just forces sprint.",
                 "forceSprintDuringState");
-            
-            DontAllowPastMaxStocks = new FieldConfigWrapper<bool>(survivor.BindConfig(
-                    commonName + " DontAllowPastMaxStocks",
-                    false,
-                    commonName + ": Whether or not this skill can hold past it's maximum stock."),
+
+            AddFieldConfig<bool>(
+                "DontAllowPastMaxStocks",
+                "Whether or not this skill can hold past it's maximum stock.",
                 "dontAllowPastMaxStocks");
 
 
-            AllFields = new List<IFieldChanger>
-            {
-                BaseRechargeInterval,
-                BaseMaxStock,
-                RechargeStock,
-                IsCombatSkill,
-                RequiredStock,
-                StockToConsume,
-                MustKeyPress,
-                BeginSkillCooldownOnSkillEnd,
-                CanceledFromSprinting,
-                DontAllowPastMaxStocks,
-                ForceSprintDuringState,
-                ResetCooldownTimerOnUse,
-                CancelSprintingOnActivation
-            };
-
-            foreach (var fieldChanger in AllFields)
+            foreach (var fieldChanger in _fieldChangers)
             {
                 fieldChanger.AddFieldChangedListener(InternalFieldChanged);
             }
         }
+        
+        public override void AddFieldConfig<T>(string key, string description, string fieldName,
+            bool staticField = false)
+        {
+            base.AddFieldConfig<T>(CommonName + " " + key, CommonName + ": " + description, fieldName, staticField);
+        }
 
         private void InternalFieldChanged(IFieldChanger changer)
         {
-            OnFieldChanged.Invoke(this, changer);
+            OnFieldChanged?.Invoke(this, changer);
         }
-        
     }
 }

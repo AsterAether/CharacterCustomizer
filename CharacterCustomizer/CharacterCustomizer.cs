@@ -1,36 +1,43 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BepInEx;
 using BepInEx.Configuration;
 using CharacterCustomizer.CustomSurvivors;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using R2API;
 using R2API.Utils;
 using RoR2;
 using RoR2.ContentManagement;
-using RoR2.Skills;
-using RoR2.UI;
 using UnityEngine;
-using SkillCatalog = IL.RoR2.Skills.SkillCatalog;
 
 namespace CharacterCustomizer
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Aster.CharacterCustomizer", "CharacterCustomizer", "<version>")]
+    [BepInPlugin("AsterAether.CharacterCustomizer", "CharacterCustomizer", "<version>")]
     [R2APISubmoduleDependency(nameof(SurvivorAPI))]
     public class CharacterCustomizer : BaseUnityPlugin
     {
-
         private readonly List<CustomSurvivor> _survivors = new List<CustomSurvivor>();
+        private ConfigEntry<KeyCode> ReloadConfigButton { get; set; }
+
+        public void Awake()
+        {
+            ReloadConfigButton = Config.Bind(
+                "General",
+                "ReloadConfigButton",
+                KeyCode.F8,
+                "Loads the config from disk and applies all changes.");
+            
+            On.RoR2.RoR2Application.OnLoad += AfterLoad;
+        }
 
         private IEnumerator AfterLoad(On.RoR2.RoR2Application.orig_OnLoad orig, RoR2Application self)
         {
             yield return orig(self);
-            foreach (SurvivorDef survivorDef in ContentManager.survivorDefs)
+
+            ApplyGeneralSettings();
+
+            foreach (var survivorDef in ContentManager.survivorDefs)
             {
                 var customSurvivor = new CustomSurvivor(survivorDef, Config, Logger);
                 if (customSurvivor.Enabled.Value)
@@ -39,9 +46,16 @@ namespace CharacterCustomizer
             }
         }
 
-        public void Awake()
+        private void ApplyGeneralSettings()
         {
-            On.RoR2.RoR2Application.OnLoad += AfterLoad;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(ReloadConfigButton.Value))
+            {
+                Config.Reload();
+            }
         }
 
         private void OnDestroy()
@@ -55,7 +69,5 @@ namespace CharacterCustomizer
             _survivors.ForEach(survivor => survivor.OnStop());
             Config.Save();
         }
-
-       
     }
 }
