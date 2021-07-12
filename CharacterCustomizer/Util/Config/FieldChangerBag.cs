@@ -7,41 +7,46 @@ namespace CharacterCustomizer.Util.Config
     public class FieldChangerBag
     {
         protected readonly IConfigProvider _configProvider;
-        protected readonly List<IFieldChanger> _fieldChangers;
+        protected readonly Dictionary<string, IFieldChanger> _fieldChangers;
 
         public FieldChangerBag(IConfigProvider configProvider)
         {
             _configProvider = configProvider;
-            _fieldChangers = new List<IFieldChanger>();
+            _fieldChangers = new Dictionary<string, IFieldChanger>();
         }
 
-        public virtual void AddFieldConfig<T>(string key, string description, string fieldName, bool staticField = false)
+        public virtual void AddFieldConfig<T>(string key, string description, string fieldName,
+            bool staticField = false)
         {
-            _fieldChangers.Add(new FieldConfigWrapper<T>(_configProvider.BindConfig<T>(key, description), fieldName, staticField));
+            _fieldChangers.Add(fieldName,
+                new FieldConfigWrapper<T>(_configProvider.BindConfig<T>(key, description), fieldName, staticField));
         }
 
         public void Apply(Type type)
         {
-            _fieldChangers.ForEach(changer => changer.Apply(type));
+            foreach (var changer in _fieldChangers.Values)
+            {
+                changer.Apply(type);
+            }
         }
 
         public void Apply(object o)
         {
-            _fieldChangers.ForEach(changer => changer.Apply(o));
+            foreach (var changer in _fieldChangers.Values)
+            {
+                changer.Apply(o);
+            }
         }
 
         public ConfigEntryDescriptionWrapper<T> GetWrapperByFieldName<T>(string fieldName)
         {
-            foreach (var fieldChanger in _fieldChangers)
+            if (_fieldChangers[fieldName] is FieldConfigWrapper<T> wrapper && wrapper.FieldName.Equals(fieldName))
             {
-                if (fieldChanger is FieldConfigWrapper<T> wrapper && wrapper.FieldName.Equals(fieldName))
-                {
-                    return wrapper.ConfigEntryDescriptionWrapper;
-                }
+                return wrapper.ConfigEntryDescriptionWrapper;
             }
-
+            
             throw new ArgumentException($"No field changer for name {fieldName}");
-        } 
+        }
 
         public T GetValueByFieldName<T>(string fieldName)
         {

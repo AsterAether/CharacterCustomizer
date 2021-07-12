@@ -1,5 +1,6 @@
 # Changelog
 
+* **v2.0.3:** - Internal bugfix.
 * **v2.0.2:** - Internal rewrites and re-added life update.
 * **v2.0.1:** - Re-added missing code for CharacterCustomizerPlus.
 * **v2.0.0:** - Big rewrite and update to newest RoR2 version.

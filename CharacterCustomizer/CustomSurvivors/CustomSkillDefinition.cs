@@ -89,7 +89,7 @@ namespace CharacterCustomizer.CustomSurvivors
                 "dontAllowPastMaxStocks");
 
 
-            foreach (var fieldChanger in _fieldChangers)
+            foreach (var fieldChanger in _fieldChangers.Values)
             {
                 fieldChanger.AddFieldChangedListener(InternalFieldChanged);
             }

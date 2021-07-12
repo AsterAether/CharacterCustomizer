@@ -121,7 +121,7 @@ namespace CharacterCustomizer.CustomSurvivors
                 "The armor per level your survivor gets",
                 "levelArmor");
 
-            foreach (var fieldChanger in _fieldChangers)
+            foreach (var fieldChanger in _fieldChangers.Values)
             {
                 fieldChanger.AddFieldChangedListener(InternalFieldChanged);
             }
